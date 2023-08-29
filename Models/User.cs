@@ -1,4 +1,4 @@
-namespace Gsds.Models.Auth{
+namespace MinAuth.Models{
     public class UserModel{
         
         // properties
@@ -8,5 +8,5 @@ namespace Gsds.Models.Auth{
         public string Role {get;set;}
         public string FirstName {get;set;}
         public string LastName {get;set;}
-    }
+}
 }
