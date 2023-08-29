@@ -1,4 +1,4 @@
-namespace MinAuth.Models{
+namespace GsdsAuth.Models{
     public class UserModel{
         
         // properties

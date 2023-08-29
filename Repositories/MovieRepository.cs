@@ -1,6 +1,6 @@
-using MinAuth.Models;
+using GsdsAuth.Models;
 
-namespace MinAuth.Repository{
+namespace GsdsAuth.Repository{
     public class MovieRepository{
         public static List<Movie> movies = new()
         {

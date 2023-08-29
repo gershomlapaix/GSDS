@@ -1,6 +1,6 @@
-using MinAuth.Models;
+using GsdsAuth.Models;
 
-namespace MinAuth.Services{
+namespace GsdsAuth.Services{
     public interface IUserService{
         public UserModel GetUser(UserLogin userLogin);
     }

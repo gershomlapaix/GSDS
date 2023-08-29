@@ -1,7 +1,7 @@
-using MinAuth.Models;
-using MinAuth.Repository;
+using GsdsAuth.Models;
+using GsdsAuth.Repository;
 
-namespace MinAuth.Services{
+namespace GsdsAuth.Services{
     public class MovieService: IMovieService{
 
         // make a new movie

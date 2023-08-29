@@ -3,22 +3,21 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using MinAuth.Models;
-using MinAuth.Services;
+using GsdsAuth.Models;
+using GsdsAuth.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// swagger service
+// swagger service configuration
 builder.Services.AddSwaggerGen(options => {
     options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme{
         Scheme = "Bearer",
         BearerFormat="JWT",
         In = ParameterLocation.Header,
         Name = "Authorization",
-        Description = "Bearer Authentication with JWT token",
+        Description = "APIs for GSDS system",
         Type = SecuritySchemeType.Http
     });
 
@@ -74,13 +73,18 @@ app.UseAuthorization();
 app.UseAuthentication();
 
 // Auth endpoints
-app.MapPost("/login", (UserLogin user, IUserService service)=> Login(user, service));
+app.MapPost("/login", (UserLogin user, IUserService service)=> Login(user, service))
+.Accepts<UserLogin>("application/json")
+.Produces<string>();
 
 
 // Movie endpoints
 app.MapPost("/", 
 [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles ="Administrator")]
-(Movie movie, IMovieService service) => CreateMovie(movie, service));
+(Movie movie, IMovieService service) => CreateMovie(movie, service))
+.Accepts<Movie>("/application/json")
+.Produces<Movie>(statusCode:201, contentType: "application/json");
+
 app.MapGet("/",
 [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles ="Administrator, User")]
 (IMovieService service)=> GetAllMovies(service));

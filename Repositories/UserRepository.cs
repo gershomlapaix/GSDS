@@ -1,6 +1,6 @@
-using MinAuth.Models;
+using GsdsAuth.Models;
 
-namespace MinAuth.Repository{
+namespace GsdsAuth.Repository{
     public class UserRepository{
         public static List<UserModel> Users = new List<UserModel>(){
             new UserModel(){Username = "jason_admin", Email="jason.admin@gmail.com", Password="mypass_!!word", FirstName="Jason", LastName="Kobe", Role="Administrator"},

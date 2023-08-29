@@ -1,7 +1,7 @@
-using MinAuth.Models;
-using MinAuth.Repository;
+using GsdsAuth.Models;
+using GsdsAuth.Repository;
 
-namespace MinAuth.Services{
+namespace GsdsAuth.Services{
     public class UserService: IUserService{
         public UserModel GetUser(UserLogin userLogin){
             UserModel user = UserRepository.Users.FirstOrDefault(o => o.Username.Equals(userLogin.Username, StringComparison.OrdinalIgnoreCase)

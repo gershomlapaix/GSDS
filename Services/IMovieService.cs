@@ -1,6 +1,6 @@
-using MinAuth.Models;
+using GsdsAuth.Models;
 
-namespace MinAuth.Services{
+namespace GsdsAuth.Services{
     public interface IMovieService{
         // methods to be performed
         public Movie Create(Movie movie);
