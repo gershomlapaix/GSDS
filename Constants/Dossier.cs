@@ -13,7 +13,7 @@ namespace Gsds.Constants.Dossier{
     }
 
 // This is like a category in which the accuser is identified
-    public enum DossierRegistrer{
+    public enum Category{
         OWNER,
         GOVERNMENTAL_INSTITUTION,
         INDEPENDENT_INSTITUTION,
