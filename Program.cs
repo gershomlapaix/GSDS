@@ -7,6 +7,8 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using GsdsAuth.Models;
 using GsdsAuth.Services;
+using Gsds.Data;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -35,7 +37,6 @@ builder.Services.AddSwaggerGen(options => {
     });
 });
 
-Console.WriteLine(builder.Configuration["Jwt:SecretKey"]);
 try
 {
     // for authentication
@@ -56,6 +57,10 @@ catch (Exception ex)
 {
    Console.WriteLine(ex);
 }
+
+// Configure the database
+builder.Services.AddDbContext<GsdsContext>(options =>
+options.UseSqlServer(builder.Configuration.GetConnectionString("GsdsDBConnection")));
 
 builder.Services.AddAuthorization();
 
