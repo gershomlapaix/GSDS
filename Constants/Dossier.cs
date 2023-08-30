@@ -2,29 +2,38 @@ namespace Gsds.Constants.Dossier{
 
     // Gender
     public enum Gender{
-        Male,
-        Female,
+        MALE,
+        FEMALE,
     }
 
 // whether the accuser is the
     public enum DossierOwner{
-        Yes,
-        No
+        YES,
+        NO
     }
 
 // This is like a category in which the accuser is identified
     public enum DossierRegistrer{
-        Owner,
-        Governmental_Institution,
-        Independent_Institution,
-        Other
+        OWNER,
+        GOVERNMENTAL_INSTITUTION,
+        INDEPENDENT_INSTITUTION,
+        OTHER
     }
 
 // Identification
      public enum Identifier{
-        National_Id,
-        Passport,
-        Other,
-        Do_Not_have
+        NATIONAL_ID,
+        PASSPORT,
+        OTHER,
+        DO_NOT_HAVE
      }
+
+    //  Irangamimerere
+    public enum MaritalStatus{
+        MARRIED,
+        DEVORCED,
+        NOT_MARRIED,
+        WIDOW,
+        WIDOWER
+    }
 }
