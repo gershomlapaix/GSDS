@@ -14,5 +14,10 @@ namespace Gsds.Models.Dossier{
      public string? Email;
      public DateTime DateOfBirth;
 
+    //  location
+    public string? Province;
+    public string? District;
+    public string? Sector;
+    public string? Cell;
     }
 }
