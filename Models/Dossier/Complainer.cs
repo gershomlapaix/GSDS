@@ -1,5 +1,6 @@
 // This class contains the details about the complainer
 using Gsds.Constants.Dossier;
+using GsdsAuth.Models;
 
 namespace Gsds.Models.Dossier{
     public class Complainer{
@@ -17,5 +18,9 @@ namespace Gsds.Models.Dossier{
 
         public string? Phone;
         public string? Email;
+
+        // Foreign key
+        public int userId;
+        public UserModel User;      // navigation property
     }
 }

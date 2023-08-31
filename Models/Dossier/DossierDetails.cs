@@ -15,12 +15,11 @@ namespace Gsds.Models.Dossier{
         public string? Sector;
         public string? Cell;
 
-        // 
+        // problem content
         [NotNull]
-        public string Title;
+        public string Subject;
         public IFormFile[] Attachments;
-        public string[] InstitutionsOnThisDossier;
+        public string[] PreviousInstitutions;
         public string Description;
-        
     }
 }

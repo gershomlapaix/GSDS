@@ -9,6 +9,7 @@ using GsdsAuth.Models;
 using GsdsAuth.Services;
 using Gsds.Data;
 using Microsoft.EntityFrameworkCore;
+using Gsds.Controllers.Auth;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -78,7 +79,7 @@ app.UseAuthorization();
 app.UseAuthentication();
 
 // Auth endpoints
-app.MapPost("/login", (UserLogin user, IUserService service)=> Login(user, service))
+app.MapPost("/login", (UserLogin user, IUserService service)=> LoginController.Login(builder,user, service))
 .Accepts<UserLogin>("application/json")
 .Produces<string>();
 
@@ -99,6 +100,7 @@ app.MapPatch("/:id",
 (int id, IMovieService service, Movie newMovie)=> UpdateMovie(id, service,newMovie));
 
 
+/*
 // Auth methods definition
 IResult Login(UserLogin user, IUserService service){
     if(!string.IsNullOrEmpty(user.Username) && !string.IsNullOrEmpty(user.Password)){
@@ -138,6 +140,7 @@ IResult Login(UserLogin user, IUserService service){
         return Results.BadRequest("Enter the data");
     }
 }
+*/
 
 // ---------------------
 
