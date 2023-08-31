@@ -1,6 +1,7 @@
 // create a database context
 using Microsoft.EntityFrameworkCore;
 using GsdsAuth.Models;
+using Gsds.Models.Dossier;
 
 namespace Gsds.Data{
 
@@ -10,5 +11,6 @@ namespace Gsds.Data{
         public GsdsDb(DbContextOptions options): base(options){}
 
         public DbSet<User> Users {get; set;}
+        public DbSet<Complainer> Complainers {get; set;}
     }
 }

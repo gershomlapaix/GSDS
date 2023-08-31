@@ -8,6 +8,9 @@ using GsdsAuth.Services;
 using Gsds.Data;
 using Microsoft.EntityFrameworkCore;
 using Gsds.Controllers.Auth;
+using Gsds.Controllers.Dossier;
+using Gsds.Models.Dossier;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -69,6 +72,15 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 
 builder.Services.AddControllers().AddNewtonsoftJson();
+builder.Services.AddControllers().AddJsonOptions(x =>
+    {
+        // serialize enums as strings in api responses (e.g. Role)
+        x.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+
+        // ignore omitted parameters on models to enable optional params (e.g. User update)
+        x.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+    });
+
 
 builder.Services.AddAuthorization();
 
@@ -79,11 +91,19 @@ builder.Services.AddSingleton<IUserService, UserService>();
 
 var app = builder.Build();
 
+// Initialize the database
+{
+    using var scope = app.Services.CreateScope();
+    var context = scope.ServiceProvider.GetRequiredService<GsdsDb>();
+    DbInitializer.Initialize(context);
+}
+
 app.UseSwagger();    // use swagger
 
 // authenticate and authorization
 app.UseAuthorization();
 app.UseAuthentication();
+
 
 // Auth endpoints
 app.MapPost("/login", (UserLogin user, IUserService service)=> LoginController.Login(builder,user, service));
@@ -96,6 +116,8 @@ app.MapPost("/register", async(User user, GsdsDb db)=>{
 })
 .Accepts<UserLogin>("application/json")
 .Produces<string>();
+
+app.MapPost("/complainer",(Complainer complainer, GsdsDb db)=> ComplainerController.RegisterComplainer(complainer, db));
 
 
 // Movie endpoints
