@@ -1,5 +1,5 @@
 namespace GsdsAuth.Models{
-    public class UserModel{
+    public class User{
         
         // properties
         public int Id {get; set;}

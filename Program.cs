@@ -1,5 +1,3 @@
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -59,9 +57,18 @@ catch (Exception ex)
    Console.WriteLine(ex);
 }
 
+/*
 // Configure the database
-builder.Services.AddDbContext<GsdsContext>(options =>
+builder.Services.AddDbContext<GsdsDb>(options => 
 options.UseSqlServer(builder.Configuration.GetConnectionString("GsdsDBConnection")));
+builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+*/
+
+builder.Services.AddDbContext<GsdsDb>(opt => opt.UseInMemoryDatabase("GsdsDB"));
+builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+
+
+builder.Services.AddControllers().AddNewtonsoftJson();
 
 builder.Services.AddAuthorization();
 
@@ -79,7 +86,14 @@ app.UseAuthorization();
 app.UseAuthentication();
 
 // Auth endpoints
-app.MapPost("/login", (UserLogin user, IUserService service)=> LoginController.Login(builder,user, service))
+app.MapPost("/login", (UserLogin user, IUserService service)=> LoginController.Login(builder,user, service));
+// app.MapPost("/register", () => UserController.UserRegister)
+app.MapPost("/register", async(User user, GsdsDb db)=>{
+     db.Users.Add(user);
+            await db.SaveChangesAsync();
+
+            return TypedResults.Created($"/api/users/{user.Email}", user);
+})
 .Accepts<UserLogin>("application/json")
 .Produces<string>();
 
@@ -94,53 +108,12 @@ app.MapPost("/",
 app.MapGet("/",
 [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles ="Administrator, User")]
 (IMovieService service)=> GetAllMovies(service));
+
 app.MapGet("/:id", (int id, IMovieService service) => GetOne(id, service));
+
 app.MapPatch("/:id",
 [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles ="Administrator")]
 (int id, IMovieService service, Movie newMovie)=> UpdateMovie(id, service,newMovie));
-
-
-/*
-// Auth methods definition
-IResult Login(UserLogin user, IUserService service){
-    if(!string.IsNullOrEmpty(user.Username) && !string.IsNullOrEmpty(user.Password)){
-        var loggerInUser = service.GetUser(user);
-
-        if(loggerInUser is null) {
-            return Results.NotFound("User not found");
-        }
-
-        // else
-
-        var claims = new[]{
-            new Claim(ClaimTypes.NameIdentifier, loggerInUser.Username),
-            new Claim(ClaimTypes.Email, loggerInUser.Email),
-            new Claim(ClaimTypes.GivenName, loggerInUser.FirstName),
-            new Claim(ClaimTypes.Surname, loggerInUser.LastName),
-            new Claim(ClaimTypes.Role, loggerInUser.Role)
-        };
-
-        // var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:SecretKey"]));
-        // var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-
-        var token = new JwtSecurityToken(
-        issuer: builder.Configuration["Jwt:Issuer"],
-        audience: builder.Configuration["Jwt:Audience"],
-        claims: claims,
-        expires: DateTime.Now.AddMinutes(15),
-        notBefore:DateTime.UtcNow,
-        signingCredentials: new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:SecretKey"])),
-        SecurityAlgorithms.HmacSha256)
-        );
-
-        var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
-        return Results.Ok(tokenString);
-    }
-    else{
-        return Results.BadRequest("Enter the data");
-    }
-}
-*/
 
 // ---------------------
 

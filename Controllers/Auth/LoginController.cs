@@ -1,3 +1,5 @@
+// This class contains the asynchronous login method which returns a token
+
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -8,13 +10,15 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace Gsds.Controllers.Auth{
     public class LoginController : ControllerBase{
-        // Auth methods definition
+
+
+        // Login method
         public static async Task<IResult> Login(WebApplicationBuilder builder, UserLogin user, IUserService service){
             if(!string.IsNullOrEmpty(user.Username) && !string.IsNullOrEmpty(user.Password)){
                 var loggerInUser = service.GetUser(user);
 
                 if(loggerInUser is null) {
-                    return Results.NotFound("User not found");
+                    return TypedResults.NotFound("User not found");
                 }
 
                 // else
@@ -41,10 +45,10 @@ namespace Gsds.Controllers.Auth{
                 );
 
                 var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
-                return Results.Ok(tokenString);
+                return TypedResults.Ok(tokenString);
             }
             else{
-                return Results.BadRequest("Enter the data");
+                return TypedResults.BadRequest("Enter the data");
             }
         }
     }

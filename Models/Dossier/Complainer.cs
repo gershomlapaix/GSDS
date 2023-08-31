@@ -21,6 +21,6 @@ namespace Gsds.Models.Dossier{
 
         // Foreign key
         public int userId;
-        public UserModel User;      // navigation property
+        public User User;      // navigation property
     }
 }
