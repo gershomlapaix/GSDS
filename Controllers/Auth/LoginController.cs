@@ -16,6 +16,8 @@ namespace Gsds.Controllers.Auth{
         public static async Task<IResult> Login(WebApplicationBuilder builder, UserLogin user, IUserService service){
             if(!string.IsNullOrEmpty(user.Username) && !string.IsNullOrEmpty(user.Password)){
                 var loggerInUser = service.GetUser(user);
+                // var loggerInUser = await db.Users.FindAsync(user.Username);
+
 
                 if(loggerInUser is null) {
                     return TypedResults.NotFound("User not found");

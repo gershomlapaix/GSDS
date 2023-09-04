@@ -9,9 +9,11 @@ namespace Gsds.Controllers.Auth{
         // UserRegister method
         public static async Task<IResult> UserRegister(User user, GsdsDb db){
             db.Users.Add(user);
-            await db.SaveChangesAsync();
+                    await db.SaveChangesAsync();
 
-            return TypedResults.Created($"/api/users/{user.Email}", user);
+                    return TypedResults.Created($"/api/users/{user.Email}", user);
         }
+        // .Accepts<UserLogin>("application/json")
+        // .Produces<string>();
     }
 }
