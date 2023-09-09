@@ -11,11 +11,17 @@ namespace Gsds.Controllers.Auth{
         public static async Task<IResult> UserRegister(UserDto userDto, GsdsDb db){
             var newUser = new User()
             {
-                Username =userDto.Username,
+                Username = userDto.Username,
                 Password = System.Text.Encoding.UTF8.GetBytes(userDto.Password),
                 email = userDto.email,
                 FullName = userDto.FullName,
-                Phone = userDto.Phone
+                Phone = userDto.Phone,
+                // default properties
+                status = 1,
+                GroupId = 2,
+                ID_ROLE = "43",
+                DEPARTMENT_ID = 1,
+                EMPID = "0"
             };
 
             db.Users.Add(newUser);

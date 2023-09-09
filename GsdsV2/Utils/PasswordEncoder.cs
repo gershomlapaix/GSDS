@@ -25,5 +25,14 @@
             string decodedString = System.Text.Encoding.UTF8.GetString(stringBytes);
             return decodedString;
         }
+
+
+        public static byte[] StringToByteArray(string hex)
+        {
+            return Enumerable.Range(2, hex.Length - 2)
+                .Where(x => x % 2 == 0)
+                .Select(x => Convert.ToByte(hex.Substring(x, 2), 16))
+                .ToArray();
+        }
     }
 }

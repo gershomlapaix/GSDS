@@ -110,7 +110,7 @@ public class Program
         appRoutes.MapPost("/auth/signup", UserController.UserRegister);
         //.Accepts<UserDto>("application/json");
 
-        appRoutes.MapPost("/auth/login", (UserLogin user, IUserService service) => LoginController.Login(builder, user, service));
+        appRoutes.MapPost("/auth/login", (UserLogin user, GsdsDb db) => LoginController.Login(builder, user, db));
 
         appRoutes.MapGet("/test", async Task<IResult>(GsdsDb db) =>
         {

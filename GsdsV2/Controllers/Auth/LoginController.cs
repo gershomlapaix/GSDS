@@ -6,6 +6,7 @@ using System.Text;
 using Gsds.Data;
 using GsdsAuth.Models;
 using GsdsAuth.Services;
+using GsdsV2.Utils;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -17,41 +18,48 @@ namespace Gsds.Controllers.Auth
 
 
         // Login method
-        public static async Task<IResult> Login(WebApplicationBuilder builder, UserLogin user, IUserService service){
-            if(!string.IsNullOrEmpty(user.Username) && !string.IsNullOrEmpty(user.Password)){
-                var loggerInUser = service.GetUser(user);
-                // var loggerInUser = await db.Users.FindAsync(user.Username);
+        public static async Task<IResult> Login(WebApplicationBuilder builder, UserLogin userLogin, GsdsDb db){
+            if (!string.IsNullOrEmpty(userLogin.Username) && !string.IsNullOrEmpty(userLogin.Password)) {
 
-
-                if(loggerInUser is null) {
+                var foundUser = await db.Users.Where(u => u.Username== userLogin.Username).ToListAsync();
+                if (!foundUser.Any())
+                {
                     return TypedResults.NotFound("User not found");
                 }
 
-                // else
+                else
+                {
+                    // check for the passwords
 
-                var claims = new[]{
-                    new Claim(ClaimTypes.NameIdentifier, loggerInUser.Username),
-                    //new Claim(ClaimTypes.Email, loggerInUser.Email),
-                    //new Claim(ClaimTypes.GivenName, loggerInUser.FirstName),
-                    //new Claim(ClaimTypes.Surname, loggerInUser.LastName),
-                    //new Claim(ClaimTypes.Role, loggerInUser.Role)
-                };
+                    //var formattedPassword = PasswordEncoder.passwordEncrypt(foundUser.Password);
+                    //if(userLogin.Password.Equals(PasswordEncoder.passwordDecrypt(foundUser.Password)))
 
-                // var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:SecretKey"]));
-                // var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+                    //var fskf = foundUser[0].Password +" && "+ PasswordEncoder.StringToByteArray(userLogin.Password);
+                    return TypedResults.Ok(foundUser[0]);
 
-                var token = new JwtSecurityToken(
-                issuer: builder.Configuration["Jwt:Issuer"],
-                audience: builder.Configuration["Jwt:Audience"],
-                claims: claims,
-                expires: DateTime.Now.AddMinutes(15),
-                notBefore:DateTime.UtcNow,
-                signingCredentials: new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:SecretKey"])),
-                SecurityAlgorithms.HmacSha256)
-                );
+                    //var claims = new[]{
+                    //    new Claim(ClaimTypes.NameIdentifier, foundUser.Username),
+                    //    new Claim(ClaimTypes.Email, foundUser.email),
+                    //    new Claim(ClaimTypes.GivenName, foundUser.FullName),
+                    //    new Claim(ClaimTypes.Role, foundUser.ID_ROLE)
+                    //};
 
-                var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
-                return TypedResults.Ok(tokenString);
+                    //// var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:SecretKey"]));
+                    //// var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+
+                    //var token = new JwtSecurityToken(
+                    //issuer: builder.Configuration["Jwt:Issuer"],
+                    //audience: builder.Configuration["Jwt:Audience"],
+                    //claims: claims,
+                    //expires: DateTime.Now.AddMinutes(15),
+                    //notBefore: DateTime.UtcNow,
+                    //signingCredentials: new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:SecretKey"])),
+                    //SecurityAlgorithms.HmacSha256)
+                    //);
+
+                    //var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
+                    //return TypedResults.Ok(tokenString);
+                }
             }
             else{
                 return TypedResults.BadRequest("Enter the data");
