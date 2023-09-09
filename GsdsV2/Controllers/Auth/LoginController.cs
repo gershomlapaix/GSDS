@@ -29,36 +29,34 @@ namespace Gsds.Controllers.Auth
 
                 else
                 {
-                    // check for the passwords
+                    if (userLogin.Password == System.Text.Encoding.UTF8.GetString(foundUser[0].Password))
+                    {
+                        var claims = new[]{
+                            new Claim(ClaimTypes.NameIdentifier, foundUser[0].Username),
+                            new Claim(ClaimTypes.Email, foundUser[0].email),
+                            new Claim(ClaimTypes.GivenName, foundUser[0].FullName),
+                            new Claim(ClaimTypes.Role, foundUser[0].ID_ROLE)
+                        };
 
-                    //var formattedPassword = PasswordEncoder.passwordEncrypt(foundUser.Password);
-                    //if(userLogin.Password.Equals(PasswordEncoder.passwordDecrypt(foundUser.Password)))
+                        // var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:SecretKey"]));
+                        // var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
-                    //var fskf = foundUser[0].Password +" && "+ PasswordEncoder.StringToByteArray(userLogin.Password);
-                    return TypedResults.Ok(foundUser[0]);
+                        var token = new JwtSecurityToken(
+                        issuer: builder.Configuration["Jwt:Issuer"],
+                        audience: builder.Configuration["Jwt:Audience"],
+                        claims: claims,
+                        expires: DateTime.Now.AddMinutes(15),
+                        notBefore: DateTime.UtcNow,
+                        signingCredentials: new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:SecretKey"])),
+                        SecurityAlgorithms.HmacSha256)
+                        );
 
-                    //var claims = new[]{
-                    //    new Claim(ClaimTypes.NameIdentifier, foundUser.Username),
-                    //    new Claim(ClaimTypes.Email, foundUser.email),
-                    //    new Claim(ClaimTypes.GivenName, foundUser.FullName),
-                    //    new Claim(ClaimTypes.Role, foundUser.ID_ROLE)
-                    //};
+                        var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
+                        return TypedResults.Ok(tokenString);
+                    }
+                    return TypedResults.Ok("Incorrect username or password");
 
-                    //// var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:SecretKey"]));
-                    //// var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-
-                    //var token = new JwtSecurityToken(
-                    //issuer: builder.Configuration["Jwt:Issuer"],
-                    //audience: builder.Configuration["Jwt:Audience"],
-                    //claims: claims,
-                    //expires: DateTime.Now.AddMinutes(15),
-                    //notBefore: DateTime.UtcNow,
-                    //signingCredentials: new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:SecretKey"])),
-                    //SecurityAlgorithms.HmacSha256)
-                    //);
-
-                    //var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
-                    //return TypedResults.Ok(tokenString);
+                    
                 }
             }
             else{
