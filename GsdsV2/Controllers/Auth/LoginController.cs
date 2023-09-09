@@ -3,12 +3,16 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Gsds.Data;
 using GsdsAuth.Models;
 using GsdsAuth.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Writers;
 
-namespace Gsds.Controllers.Auth{
+namespace Gsds.Controllers.Auth
+{
     public class LoginController : ControllerBase{
 
 
@@ -27,10 +31,10 @@ namespace Gsds.Controllers.Auth{
 
                 var claims = new[]{
                     new Claim(ClaimTypes.NameIdentifier, loggerInUser.Username),
-                    new Claim(ClaimTypes.Email, loggerInUser.Email),
-                    new Claim(ClaimTypes.GivenName, loggerInUser.FirstName),
-                    new Claim(ClaimTypes.Surname, loggerInUser.LastName),
-                    new Claim(ClaimTypes.Role, loggerInUser.Role)
+                    //new Claim(ClaimTypes.Email, loggerInUser.Email),
+                    //new Claim(ClaimTypes.GivenName, loggerInUser.FirstName),
+                    //new Claim(ClaimTypes.Surname, loggerInUser.LastName),
+                    //new Claim(ClaimTypes.Role, loggerInUser.Role)
                 };
 
                 // var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:SecretKey"]));

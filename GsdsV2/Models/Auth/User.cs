@@ -2,12 +2,12 @@ namespace GsdsAuth.Models{
     public class User{
         
         // properties
-        public int Id {get; set;}
+        public int UserId {get; set;}
         public string Username {get;set;}
-        public string Password {get;set;}
-        public string Email {get;set;}
-        public string Role {get;set;}
-        public string FirstName {get;set;}
-        public string LastName {get;set;}
+        public byte[] Password {get;set;}
+        public string email {get;set;}
+        public string ID_ROLE  {get;set;}
+        public string FullName { get;set;}
+        public string Phone { get;set;}
 }
 }

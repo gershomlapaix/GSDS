@@ -5,22 +5,22 @@ namespace Gsds.Data{
         
         // initializer method
         public static async void Initialize(GsdsDb db){
-            db.Database.EnsureCreated();
+            //db.Database.EnsureCreated();
 
             if(db.Users.Any()){
                 return;
             }
 
-            var users = new User[]{
-                  new User(){Username = "jason_admin", Email="jason.admin@gmail.com", Password="mypass_!!word", FirstName="Jason", LastName="Kobe", Role="Administrator"},
-            new User(){Username = "kareemMario", Email="kareem@gmail.com", Password="mypass_!!word", FirstName="Kareem", LastName="mario", Role="User"}
-            };
+            //var users = new User[]{
+            //   new User(){Username = "jason_admin", email="jason.admin@gmail.com", Password="mypass_!!word", FullName="Jason Kobe", ID_ROLE="001"},
+            //new User(){Username = "kareemMario", email="kareem@gmail.com", Password="mypass_!!word", FullName="Kareem Mario", ID_ROLE="003"}
+            //};
 
-            foreach(User user in users){
-                db.Users.Add(user);
-            }
+            //foreach(User user in users){
+            //    db.Users.Add(user);
+            //}
 
-            await db.SaveChangesAsync();
+            //await db.SaveChangesAsync();
         }
     }
 }
