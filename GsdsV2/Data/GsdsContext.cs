@@ -13,10 +13,21 @@ namespace Gsds.Data
         public GsdsDb(DbContextOptions options): base(options){}
 
         public DbSet<User> Users {get; set;}
+        public DbSet<Complainer> Complainers { get; set; }
 
+
+
+        // FROM HELPER MODELS
         public DbSet<PersonType>   PersonTypes { get; set;}
-
         public DbSet<Gender> Gender { get; set;}
-        public DbSet<Complainer> Complainers {get; set;}
+        public DbSet<IdentifierType> IdentifierTypes { get; set; }
+        public DbSet<MaritalStatus> MaritalStatuses { get; set; }
+
+           // LOCATIONS
+        public DbSet<Province> Provinces { get; set; }
+        public DbSet<District> Districts { get; set; }
+        public DbSet<Sector> Sectors { get; set; }
+        public DbSet<Cell> Cells { get; set; }
+
     }
 }
