@@ -14,6 +14,7 @@ using System.Security.Claims;
 using GsdsV2.Utils;
 using Microsoft.AspNetCore.Mvc;
 using GsdsV2.DTO;
+using GsdsV2.DTO.Dossier;
 
 public class Program
 {
@@ -119,8 +120,8 @@ public class Program
 
         // ------------- COMPLAINER ROUTES
         appRoutes.MapGet("/complainer", ComplainerController.GetAllComplainers);
-        //appRoutes.MapPost("/complainer", (Complainer complainer, ClaimsPrincipal cp, GsdsDb db) => ComplainerController.RegisterComplainer(complainer, db));
-        
+        appRoutes.MapPost("/complainer", ComplainerController.RegisterComplainer);
+
 
         // provide swagger ui
         app.UseSwaggerUI();

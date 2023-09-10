@@ -3,21 +3,23 @@ using System.ComponentModel.DataAnnotations.Schema;
 using Gsds.Constants.Dossier;
 using GsdsAuth.Models;
 
-namespace Gsds.Models.Dossier{
+namespace Gsds.Models.Dossier
+{
     [Table("PLAINTIFF", Schema = "ADMIN")]
-    public class Complainer {
+    public class Complainer
+    {
 
         [Column("ID_NUMBER")]
         public string? Id { get; set; }
 
         [Column("ID_PERSON_TYPE")]
-        public char? PeronTypeId { get; set; }
+        public string? PeronTypeId { get; set; }
 
         [Column("SEX")]
-        public char? GenderId { get; set; }
+        public string? GenderId { get; set; }
 
         [Column("ID_TYPE")]
-        public char? IdType { get; set; }
+        public string? IdType { get; set; }
 
         [Column("ID_DETAILS")]
         public string? IdDetails { get; set; }
@@ -32,7 +34,7 @@ namespace Gsds.Models.Dossier{
         public string? CreatedBy { get; set; }
 
         [Column("ID_MARITAL_STATUS")]
-        public char? MaritalStatusId { get; set; } = '\0';
+        public string? MaritalStatusId { get; set; }
 
         [Column("TELEPHONE")]
         public string? Phone { get; set; } = string.Empty;
@@ -45,16 +47,16 @@ namespace Gsds.Models.Dossier{
 
         // LOCATION
         [Column("PROVINCE_ID")]
-        public char? ProvinceId { get; set; } = '\0';
+        public string? ProvinceId { get; set; }
 
         [Column("DISTRICT_ID")]
-        public char? DistrictId { get; set; } = '\0';
+        public string? DistrictId { get; set; }
 
         [Column("SECTOR_ID")]
-        public char? SectorId { get; set; } = '\0';
+        public string? SectorId { get; set; }
 
         [Column("CELL_ID")]
-        public char? CellId { get; set; } = '\0';
+        public string? CellId { get; set; }
 
         [Column("ADRESS")]
         public string? Address { get; set; } = string.Empty;
@@ -93,6 +95,6 @@ namespace Gsds.Models.Dossier{
         public decimal? DeputyYesNo { get; set; } = decimal.Zero;
 
         [Column("NAMES")]
-        public string? Names { get; set;}
+        public string? Names { get; set; }
     }
 }
