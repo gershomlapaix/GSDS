@@ -55,8 +55,6 @@ namespace Gsds.Controllers.Auth
                         return TypedResults.Ok(tokenString);
                     }
                     return TypedResults.Ok("Incorrect username or password");
-
-                    
                 }
             }
             else{

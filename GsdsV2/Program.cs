@@ -118,6 +118,10 @@ public class Program
         });
 
         // ------------- COMPLAINER ROUTES
+        appRoutes.MapGet("/ids", async Task<IResult> (GsdsDb db) =>
+        {
+            return TypedResults.Ok(await db.Gender.ToArrayAsync());
+        });
         appRoutes.MapPost("/complainer", (Complainer complainer, ClaimsPrincipal cp, GsdsDb db) => ComplainerController.RegisterComplainer(complainer, db));
         appRoutes.MapGet("/complainer", (GsdsDb db) => ComplainerController.GetAllComplainers(db));
 
