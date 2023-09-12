@@ -8,6 +8,7 @@
         public string IdType { get; set; }
 
         public string IdNumber { get; set; }
+        public string? Names { get; set; }
 
         public string GenderId { get; set; }
 
@@ -29,5 +30,6 @@
 
 
         public string PoBox { get; set; }
+        public string complainerId { get; set; }
     }
 }

@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using GsdsAuth.Models;
 using Gsds.Models.Dossier;
 using GsdsV2.Models.HelperModels;
+using GsdsV2.Models.Dossier;
 
 namespace Gsds.Data
 {
@@ -15,6 +16,7 @@ namespace Gsds.Data
         public DbSet<User> Users {get; set;}
         public DbSet<Complainer> Complainers { get; set; }
         public DbSet<Accused> Accuseds { get; set; }
+        public DbSet<Complaint> Complaints { get; set; }
 
 
 

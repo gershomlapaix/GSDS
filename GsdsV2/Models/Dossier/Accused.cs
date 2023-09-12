@@ -24,7 +24,7 @@ namespace Gsds.Models.Dossier{
         public string? IdType { get; set; }
 
         [Column("ID_NUMBER")]
-        public string? Id { get; set; }
+        public string? IdNumber { get; set; }
 
         [Column("ID_DETAILS")]
         public string? IdDetails { get; set; }
@@ -64,6 +64,6 @@ namespace Gsds.Models.Dossier{
         public string? CellId { get; set; }
 
         [Column("IDPLANTIFF")]
-        public string? complainerId { get; set; }
+        public string complainerId { get; set; }
     }
 }
