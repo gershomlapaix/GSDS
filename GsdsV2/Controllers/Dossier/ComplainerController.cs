@@ -33,7 +33,8 @@ namespace Gsds.Controllers.Dossier
                 Email = user.FindFirst(ClaimTypes.Email).Value,
                 Username = user.FindFirst(ClaimTypes.NameIdentifier).Value,
                 FirstName = user.FindFirst(ClaimTypes.GivenName).Value.Split(' ')[0],
-                LastName = user.FindFirst(ClaimTypes.GivenName).Value.Split(' ')[1]
+                LastName = user.FindFirst(ClaimTypes.GivenName).Value.Split(' ')[1],
+                RegistrationDate = DateTime.Now
             };
 
             db.Complainers.Add(newComplainer);

@@ -38,9 +38,6 @@ namespace Gsds.Controllers.Auth
                             new Claim(ClaimTypes.Role, foundUser[0].ID_ROLE)
                         };
 
-                        // var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:SecretKey"]));
-                        // var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-
                         var token = new JwtSecurityToken(
                         issuer: builder.Configuration["Jwt:Issuer"],
                         audience: builder.Configuration["Jwt:Audience"],
