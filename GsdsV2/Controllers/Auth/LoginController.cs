@@ -36,6 +36,7 @@ namespace Gsds.Controllers.Auth
                             new Claim(ClaimTypes.Email, foundUser[0].email),
                             new Claim(ClaimTypes.GivenName, foundUser[0].FullName),
                             new Claim(ClaimTypes.Role, foundUser[0].ID_ROLE)
+                            //new Claim(ClaimTypes.Sid, foundUser[0].)
                         };
 
                         var token = new JwtSecurityToken(

@@ -117,30 +117,37 @@ public class Program
 
         appRoutes.MapGet("/test", async Task<IResult>(GsdsDb db) =>
         {
-            return TypedResults.Ok(await db.Users.ToArrayAsync());
+            return TypedResults.Ok(await db.ComplaintTypes.ToArrayAsync());
         });
 
 
         // ------------- COMPLAINER ROUTES
         appRoutes.MapGet("/complainer", 
-           [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")] 
-           (GsdsDb db) => ComplainerController.GetAllComplainers(db));
+               [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")] 
+               (GsdsDb db) => ComplainerController.GetAllComplainers(db));
         
         appRoutes.MapPost("/complainer",
-            [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
-            (ComplainerDto complainerDto, ClaimsPrincipal user, GsdsDb db) => ComplainerController.RegisterComplainer(complainerDto, user, db));
+                [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
+                (ComplainerDto complainerDto, ClaimsPrincipal user, GsdsDb db) => ComplainerController.RegisterComplainer(complainerDto, user, db));
 
         
         // ------------- ACCUSED ROUTES
         appRoutes.MapPost("/accused",
-        (AccusedDto accusedDto, GsdsDb db) => AccusedController.RegisterAccused(accusedDto, db));
+               [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
+               (AccusedDto accusedDto, GsdsDb db) => AccusedController.RegisterAccused(accusedDto, db));
 
         appRoutes.MapGet("/accused",
-            [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
-        (GsdsDb db) => AccusedController.getAllAccuseds(db));
+              [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
+              (GsdsDb db) => AccusedController.getAllAccuseds(db));
 
         // ------------ COMPLAINT
-        appRoutes.MapGet("/complaint", ComplaintController.getAllComplaints);
+        appRoutes.MapGet("/complaint",
+             [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
+             (GsdsDb db) => ComplaintController.getAllComplaints(db));
+
+        appRoutes.MapPost("/complaint",
+            [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
+            (ComplaintDto complaint, GsdsDb db) => ComplaintController.createComplaint(complaint, db));
         // provide swagger ui
         app.UseSwaggerUI();
         app.Run();  

@@ -25,12 +25,24 @@ namespace Gsds.Data
         public DbSet<Gender> Gender { get; set;}
         public DbSet<IdentifierType> IdentifierTypes { get; set; }
         public DbSet<MaritalStatus> MaritalStatuses { get; set; }
+        public DbSet<ComplaintCategory> complaintCategories { get; set; }
+        public DbSet<ComplaintType> ComplaintTypes { get; set; }
 
            // LOCATIONS
         public DbSet<Province> Provinces { get; set; }
         public DbSet<District> Districts { get; set; }
         public DbSet<Sector> Sectors { get; set; }
         public DbSet<Cell> Cells { get; set; }
+
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Complaint>()
+                .HasOne(e => e.Accused)
+                .WithOne(e => e.Complaint)
+                .HasForeignKey<Accused>(e => e.complaintCode)
+                .IsRequired();
+        }
 
     }
 }

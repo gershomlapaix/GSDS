@@ -1,4 +1,6 @@
-﻿using Microsoft.VisualBasic;
+﻿using Gsds.Models.Dossier;
+using GsdsV2.Models.HelperModels;
+using Microsoft.VisualBasic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -12,43 +14,35 @@ namespace GsdsV2.Models.Dossier
         public string ComplaintCode { get; set; }
 
         [Column("TRANS_DATE")]
-        public DateTime TransferDate { get; set;}
+        public DateTime? TransferDate { get; set;} = DateTime.Now;
 
-        [Column("CMPLNR_ID_NUMBER")]
-        public string? ComplainerId { get; set; }
-
-        [Column("ACCUSED_ID_NUMBER")]
-        public string? AccusedIdNumber { get; set; }
 
         [Column("SUBJECT")]
         public string? Subject { get; set; }
 
         [Column("COMPLAINT_DETAILOLD")]
-        public string? ComplaintDetail { get; set; }
+        public string? Supplements { get; set; }
 
         [Column("RAA_PAY_REF")]
-        public string? RaaPayRef { get; set; }
+        public string? RaaPayRef { get; set; } = string.Empty;
 
         [Column("COMPLAINT_PLACE")]
         public string? ComplaintPlace { get; set; }
 
         [Column("ACCUSED_COMMENT")]
-        public string? AccusedComment { get; set; }
+        public string? AccusedComment { get; set; } = string.Empty;
 
         [Column("DUE_DATE")]
         public DateTime? DueDate { get; set; }
 
         [Column("ATTACHMENT")]
-        public string? Attachments { get; set;}
-
-        [Column("ID_CATEGORY")]
-        public string? CategoryId { get; set; }
+        public string? Attachments { get; set; } = string.Empty;
 
         [Column("ID_PRIORITY")]
-        public string? PriorityId { get; set; }
+        public string? PriorityId { get; set; } = "0003";
 
         [Column("STATUS_CODE")]
-        public string? StatusCode { get; set; }
+        public string? StatusCode { get; set; } = "00004";
 
         [Column("ID_ROLE")]
         public string? RoleId { get; set; }
@@ -86,5 +80,19 @@ namespace GsdsV2.Models.Dossier
 
 
         // NAVIGATION PROPERTIES
+        [Column("ID_CATEGORY")]
+        public string? ComplaintCategoryId { get; set; }
+        public ComplaintCategory? ComplaintCategory { get; set; }
+
+
+
+        [Column("CMPLNR_ID_NUMBER")]
+        public string? ComplainerId { get; set; }
+        public Complainer? Complainer { get; set; }
+
+
+        [Column("ACCUSED_ID_NUMBER")]
+        public string? AccusedIdNumber { get; set; }
+        public Accused? Accused { get; set; }
     }
 }

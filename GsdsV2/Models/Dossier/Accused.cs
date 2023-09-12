@@ -1,5 +1,6 @@
 // Accused model
 using Gsds.Constants.Dossier;
+using GsdsV2.Models.Dossier;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -65,5 +66,9 @@ namespace Gsds.Models.Dossier{
 
         [Column("IDPLANTIFF")]
         public string complainerId { get; set; }
+
+
+        // NAVIGATION PROPERTIES
+        public Complaint Complaint { get; set; }
     }
 }
