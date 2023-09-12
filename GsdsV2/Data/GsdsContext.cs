@@ -14,6 +14,7 @@ namespace Gsds.Data
 
         public DbSet<User> Users {get; set;}
         public DbSet<Complainer> Complainers { get; set; }
+        public DbSet<Accused> Accuseds { get; set; }
 
 
 

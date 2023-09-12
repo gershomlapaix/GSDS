@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Mvc;
 using GsdsV2.DTO;
 using GsdsV2.DTO.Dossier;
 using System.Data;
+using GsdsV2.Controllers.Dossier;
 
 public class Program
 {
@@ -127,7 +128,10 @@ public class Program
             [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
             (ComplainerDto complainerDto, ClaimsPrincipal user, GsdsDb db) => ComplainerController.RegisterComplainer(complainerDto, user, db));
 
-
+        // ------------- ACCUSED ROUTES
+        appRoutes.MapGet("/accused",
+            [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
+        (GsdsDb db) => AccusedController.getAllAccuseds(db));
         // provide swagger ui
         app.UseSwaggerUI();
         app.Run();  
