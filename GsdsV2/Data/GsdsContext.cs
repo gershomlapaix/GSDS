@@ -4,6 +4,7 @@ using GsdsAuth.Models;
 using Gsds.Models.Dossier;
 using GsdsV2.Models.HelperModels;
 using GsdsV2.Models.Dossier;
+using System.Diagnostics.Metrics;
 
 namespace Gsds.Data
 {
@@ -34,14 +35,17 @@ namespace Gsds.Data
         public DbSet<Sector> Sectors { get; set; }
         public DbSet<Cell> Cells { get; set; }
 
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Complaint>()
-                .HasOne(e => e.Accused)
-                .WithOne(e => e.Complaint)
-                .HasForeignKey<Accused>(e => e.complaintCode)
-                .IsRequired();
+            //modelBuilder.Entity<Complaint>()
+            //.HasOne(_ => _.Complainer)
+            //.WithMany(a => a.Complaints)
+            //.HasForeignKey(p => p.ComplainerId);
+
+            modelBuilder.Entity<Province>()
+            .HasMany(_ => _.Complaints)
+            .WithOne(a => a.Province)
+            .HasForeignKey(p => p.ProvinceId);
         }
 
     }

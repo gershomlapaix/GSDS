@@ -6,7 +6,7 @@ namespace GsdsV2.Models.HelperModels
     public class IdentifierType
     {
         [Column("ID_TYPE")]
-        public char Id { get; set; }
+        public string Id { get; set; }
 
         [Column("TYPE_NAME")]
         public string TypeName { get; set; }

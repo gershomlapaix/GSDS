@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using Gsds.Constants.Dossier;
 using GsdsAuth.Models;
+using GsdsV2.Models.Dossier;
 
 namespace Gsds.Models.Dossier
 {
@@ -96,5 +97,8 @@ namespace Gsds.Models.Dossier
 
         [Column("NAMES")]
         public string? Names { get; set; }
+
+        // navigation properties
+        //public List<Complaint> Complaints { get; set; }
     }
 }

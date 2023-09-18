@@ -6,10 +6,10 @@ namespace GsdsV2.Models.HelperModels
     public class Sector
     {
         [Column("SECTOR_ID")]
-        public char Id { get; set; }
+        public string Id { get; set; }
 
         [Column("DISTRICT_ID")]
-        public char DistrictId { get; set; }
+        public string DistrictId { get; set; }
 
         [Column("SECTOR_NAME")]
         public string SectorName { get; set;}

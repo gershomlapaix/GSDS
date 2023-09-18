@@ -69,6 +69,6 @@ namespace Gsds.Models.Dossier{
 
 
         // NAVIGATION PROPERTIES
-        public Complaint Complaint { get; set; }
+        //public Complaint Complaint { get; set; }
     }
 }

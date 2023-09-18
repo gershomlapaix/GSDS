@@ -66,6 +66,7 @@ namespace GsdsV2.Models.Dossier
         [Column("PROVINCE_ID")]
         public string? ProvinceId { get; set; }
 
+
         [Column("DISTRICT_ID")]
         public string? DistrictId { get; set; }
 
@@ -82,17 +83,17 @@ namespace GsdsV2.Models.Dossier
         // NAVIGATION PROPERTIES
         [Column("ID_CATEGORY")]
         public string? ComplaintCategoryId { get; set; }
-        public ComplaintCategory? ComplaintCategory { get; set; }
-
-
+        //public ComplaintCategory? ComplaintCategory { get; set; }
 
         [Column("CMPLNR_ID_NUMBER")]
         public string? ComplainerId { get; set; }
-        public Complainer? Complainer { get; set; }
+        //public Complainer Complainer { get; set; }
 
 
         [Column("ACCUSED_ID_NUMBER")]
         public string? AccusedIdNumber { get; set; }
-        public Accused? Accused { get; set; }
+        //public virtual Accused? Accused { get; set; }
+
+        public Province Province { get; set; }
     }
 }

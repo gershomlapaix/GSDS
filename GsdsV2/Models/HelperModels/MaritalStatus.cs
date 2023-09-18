@@ -6,7 +6,7 @@ namespace GsdsV2.Models.HelperModels
     public class MaritalStatus
     {
         [Column("ID_MARITAL_STATUS")]
-        public char Id { get; set; }
+        public string Id { get; set; }
 
         [Column("MARITAL_STATUS")]
         public string MaritalStatusName { get; set; }

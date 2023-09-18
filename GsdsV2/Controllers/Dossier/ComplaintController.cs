@@ -1,5 +1,6 @@
 ﻿using Gsds.Data;
 using Gsds.Models.Dossier;
+using GsdsAuth.Models;
 using GsdsV2.DTO.Dossier;
 using GsdsV2.Models.Dossier;
 using Microsoft.AspNetCore.Mvc;
@@ -7,14 +8,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GsdsV2.Controllers.Dossier
 {
-    public class ComplaintController : Controller
+    public class ComplaintController : ControllerBase
     {
-       // Get all complaints
-       public static async Task<IResult> getAllComplaints(GsdsDb db)
-        {
-            return TypedResults.Ok(await db.Complaints.ToArrayAsync());
-        }
-
         // Make a new complaint
         public static async Task<IResult> createComplaint(ComplaintDto complaint, GsdsDb db)
         {
@@ -65,6 +60,27 @@ namespace GsdsV2.Controllers.Dossier
             await db.SaveChangesAsync();
 
             return TypedResults.Created($"/complainer/{complaint.ComplaintCode}", complaint);
+        }
+
+
+        //Get all complaints
+        public static async Task<IResult> getAllComplaints(GsdsDb db)
+        {
+            return TypedResults.Ok(await db.Complaints.Include(c=> c.Province).ToArrayAsync());
+        }
+
+        //Get One complaints
+        public static async Task<IResult> getOneComplaint(string complaintCode, GsdsDb db)
+        {
+            // return await db.Complaints.Where(c => c.ComplaintCode == complaintCode).ToListAsync()
+            //    is List< Complaint> theComplaint
+            //? TypedResults.Ok(theComplaint[0])
+            //: TypedResults.NotFound();
+
+            //var complaints = await db.Complaints.Where(c => c.ComplaintCode == complaintCode).ToListAsync();
+            //var complainer = complaints[0].Complainer;
+            return TypedResults.Ok(await db.Complaints.Where(c => c.ComplaintCode == complaintCode).Include(c => c.Province).ToListAsync());
+
         }
     }
 }

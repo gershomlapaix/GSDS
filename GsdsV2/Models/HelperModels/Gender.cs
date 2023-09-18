@@ -6,7 +6,7 @@ namespace GsdsV2.Models.HelperModels
     public class Gender
     {
         [Column("ID_GENDER")]
-        public char Id { get; set; }
+        public string Id { get; set; }
 
         [Column("GENDER")]
         public string Name { get; set; }

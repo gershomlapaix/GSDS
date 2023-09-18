@@ -6,7 +6,7 @@ namespace GsdsV2.Models.HelperModels
     public class PersonType
     {
         [Column("ID_PERSON_TYPE")]
-        public char Id { get; set; }
+        public string Id { get; set; }
 
         [Column("PERSON_TYPE")]
         public string PersonTypeName { get; set; }

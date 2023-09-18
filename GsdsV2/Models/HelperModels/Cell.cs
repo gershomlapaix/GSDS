@@ -7,10 +7,10 @@ namespace GsdsV2.Models.HelperModels
     {
 
         [Column("CELL_ID")]
-        public char Id { get; set; }
+        public string Id { get; set; }
 
         [Column("SECTOR_ID")]
-        public char SectorId { get; set; }
+        public string SectorId { get; set; }
 
         [Column("CELL_NAME")]
         public string CellName { get; set;}

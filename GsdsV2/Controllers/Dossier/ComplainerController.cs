@@ -2,6 +2,7 @@ using System.Security.Claims;
 using Gsds.Data;
 using Gsds.Models.Dossier;
 using GsdsV2.DTO.Dossier;
+using GsdsV2.Models.Dossier;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,6 +10,12 @@ namespace Gsds.Controllers.Dossier
 {
     public class ComplainerController : ControllerBase
     {
+        //private readonly GsdsDb dbContext;
+
+        //public ComplainerController(GsdsDb _gsdsContext)
+        //{
+        //    dbContext = _gsdsContext;
+        //}
 
         // register a complainer method
 
@@ -43,9 +50,24 @@ namespace Gsds.Controllers.Dossier
             return TypedResults.Created($"/complainer/{complainerDto.IdNumber}", complainerDto);
         }
 
+        // get all complaints
         public static async Task<IResult> GetAllComplainers(GsdsDb db)
         {
-            return TypedResults.Ok(await db.Complainers.ToArrayAsync());
+            //var complainers = await db.Complainers
+            //    .Include(_ => _.Complaints).ToListAsync();
+            var complainers = await db.Complainers.ToListAsync();
+            return TypedResults.Ok(complainers);
+        }
+
+        //Get One complainer
+        public static async Task<IResult> getSingleComplainer(string complainerNId, GsdsDb db)
+        {
+            //return await db.Complainers.Where(c => c.Id == complainerNId).Include(_ => _.Complaints).ToListAsync()
+            return await db.Complainers.Where(c => c.Id == complainerNId).ToListAsync()
+               is List<Complainer> theComplainer
+           ? TypedResults.Ok(theComplainer[0])
+           : TypedResults.NotFound();
+
         }
     }
 }

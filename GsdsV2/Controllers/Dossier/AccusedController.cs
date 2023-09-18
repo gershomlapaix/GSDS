@@ -7,7 +7,7 @@ using System.Security.Claims;
 
 namespace GsdsV2.Controllers.Dossier
 {
-    public class AccusedController : Controller
+    public class AccusedController : ControllerBase
     {
 
         //Register a new accused person
