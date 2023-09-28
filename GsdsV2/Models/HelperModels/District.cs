@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using Gsds.Models.Dossier;
+using GsdsV2.Models.Dossier;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
 namespace GsdsV2.Models.HelperModels
@@ -16,5 +18,12 @@ namespace GsdsV2.Models.HelperModels
 
         [Column("DISTRICT_NAME")]
         public string DistrictName { get; set; }
+
+
+        // Navigation properties
+        public List<Sector> Sectors { get; set; }
+        public List<Complaint>? Complaints { get; set; }
+        public List<Complainer>? Complainers { get; set; }
+        public List<Accused> Accused { get; set; }
     }
 }

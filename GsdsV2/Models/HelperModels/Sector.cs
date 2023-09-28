@@ -13,5 +13,7 @@ namespace GsdsV2.Models.HelperModels
 
         [Column("SECTOR_NAME")]
         public string SectorName { get; set;}
+
+        public District District { get; set; }
     }
 }

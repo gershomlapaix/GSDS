@@ -31,7 +31,7 @@ namespace GsdsV2.Controllers.Dossier.HelperControllers
         }
 
         // Get the accuseds
-        public static async Task<IResult> getAccusedyProvince(string provinceId, GsdsDb db)
+        public static async Task<IResult> getAccusedByProvince(string provinceId, GsdsDb db)
         {
             var complaints = await db.Provinces.Where(p => p.Id == provinceId).Include(c => c.Complainers).ToListAsync();
 

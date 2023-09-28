@@ -131,51 +131,53 @@ public class Program
 
         appRoutes.MapGet("/", () => "Gsds Apis");
 
-        appRoutes.MapPost("/auth/signup", UserController.UserRegister);
+        appRoutes.MapPost("/auth/signup", UserController.UserRegister).WithTags("Auth");
         //.Accepts<UserDto>("application/json");
 
-        appRoutes.MapPost("/auth/login", (UserLogin user, GsdsDb db) => LoginController.Login(builder, user, db));
+        appRoutes.MapPost("/auth/login", (UserLogin user, GsdsDb db) => LoginController.Login(builder, user, db)).WithTags("Auth");
 
         appRoutes.MapGet("/test", async Task<IResult> (GsdsDb db) =>
         {
             return TypedResults.Ok(await db.Provinces.Include(p=> p.Complaints).ToArrayAsync());
-        });
+        }).WithTags("Test");
 
 
         // ------------- COMPLAINER ROUTES
         appRoutes.MapGet("/complainer",
                [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
-        (GsdsDb db) => ComplainerController.GetAllComplainers(db));
+        (GsdsDb db) => ComplainerController.GetAllComplainers(db)).WithTags("Complainer");
 
         appRoutes.MapPost("/complainer",
                 [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
-        (ComplainerDto complainerDto, ClaimsPrincipal user, GsdsDb db) => ComplainerController.RegisterComplainer(complainerDto, user, db));
+        (ComplainerDto complainerDto, ClaimsPrincipal user, GsdsDb db) => ComplainerController.RegisterComplainer(complainerDto, user, db)).WithTags("Complainer");
 
 
         // ------------- ACCUSED ROUTES
         appRoutes.MapPost("/accused",
                [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
-        (AccusedDto accusedDto, GsdsDb db) => AccusedController.RegisterAccused(accusedDto, db));
+        (AccusedDto accusedDto, GsdsDb db) => AccusedController.RegisterAccused(accusedDto, db)).WithTags("Accused");
 
         appRoutes.MapGet("/accused",
               [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
-        (GsdsDb db) => AccusedController.getAllAccuseds(db));
+        (GsdsDb db) => AccusedController.getAllAccuseds(db)).WithTags("Accused");
 
         // ------------ COMPLAINT
         appRoutes.MapGet("/complaint",
              [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
-        (GsdsDb db) => ComplaintController.getAllComplaints(db));
+        (GsdsDb db) => ComplaintController.getAllComplaints(db)).WithTags("Accused");
 
         appRoutes.MapGet("/complaint/{complaintCode}",
              [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
-        (string complaintCode, GsdsDb db) => ComplaintController.getOneComplaint(complaintCode, db));
+        (string complaintCode, GsdsDb db) => ComplaintController.getOneComplaint(complaintCode, db)).WithTags("Complaint");
 
         appRoutes.MapPost("/complaint",
             [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
-        (ComplaintDto complaint, GsdsDb db) => ComplaintController.createComplaint(complaint, db));
+        (ComplaintDto complaint, GsdsDb db) => ComplaintController.createComplaint(complaint, db)).WithTags("Complaint");
 
 
         // Provinces
+
+
         appRoutes.MapGet("/province/{provinceId}/districts",
             //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
         (string provinceId, GsdsDb db) => ProvinceController.getDistrictsByProvince(provinceId, db)
@@ -193,8 +195,30 @@ public class Program
 
         appRoutes.MapGet("/province/{provinceId}/accuseds",
         //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
-        (string provinceId, GsdsDb db) => ProvinceController.getAccusedyProvince(provinceId, db)
+        (string provinceId, GsdsDb db) => ProvinceController.getAccusedByProvince(provinceId, db)
             ).WithTags("Province");
+
+
+        // For districts
+        appRoutes.MapGet("/district/{districtId}/districts",
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
+        (string districtId, GsdsDb db) => DistrictController.getSectorByDistrict(districtId, db)
+            ).WithTags("District");
+
+        appRoutes.MapGet("/district/{districtId}/complaints",
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
+        (string districtId, GsdsDb db) => DistrictController.getComplaintsByDistrict(districtId, db)
+            ).WithTags("District");
+
+        appRoutes.MapGet("/district/{districtId}/complainers",
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
+        (string districtId, GsdsDb db) => DistrictController.getComplainersByDistrict(districtId, db)
+            ).WithTags("District");
+
+        appRoutes.MapGet("/district/{districtId}/accuseds",
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
+        (string districtId, GsdsDb db) => DistrictController.getAccusedByDistrict(districtId, db)
+            ).WithTags("District");
 
         // provide swagger ui
         app.UseSwaggerUI();
