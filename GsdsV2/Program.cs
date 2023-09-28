@@ -273,6 +273,25 @@ public class Program
         (string cellId, GsdsDb db) => CellController.getAccusedByCell(cellId, db)
             ).WithTags("Cell");
 
+
+        // ------------ For roles
+        appRoutes.MapGet("/roles",
+       [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00001, 43")]
+        (GsdsDb db) => ManagerRolesController.getAllRoles(db)
+           ).WithTags("ManagerRoles");
+
+        appRoutes.MapGet("/roles/{roleId}/complaints",
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
+        (string roleId, GsdsDb db) => ManagerRolesController.getRoleComplaints(roleId, db)
+            ).WithTags("ManagerRoles");
+
+
+        // ---------- For Institutions
+        appRoutes.MapGet("/institution",
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
+        (GsdsDb db) => InstitutionController.getInstitutions(db)
+            ).WithTags("Institution");
+
         // provide swagger ui
         app.UseSwaggerUI();
         app.Run();
