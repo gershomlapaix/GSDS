@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace GsdsV2.Models.HelperModels
 {
@@ -10,6 +11,8 @@ namespace GsdsV2.Models.HelperModels
 
         [Column("POVINCE_ID")]
         public string ProvinceId { get; set; }
+        [JsonIgnore]
+        public Province Province { get; set; }
 
         [Column("DISTRICT_NAME")]
         public string DistrictName { get; set; }

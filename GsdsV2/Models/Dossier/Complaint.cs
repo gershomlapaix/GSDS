@@ -3,6 +3,7 @@ using GsdsV2.Models.HelperModels;
 using Microsoft.VisualBasic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace GsdsV2.Models.Dossier
 {
@@ -87,13 +88,17 @@ namespace GsdsV2.Models.Dossier
 
         [Column("CMPLNR_ID_NUMBER")]
         public string? ComplainerId { get; set; }
-        //public Complainer Complainer { get; set; }
-
+        [JsonIgnore]
+        public Complainer? Complainer { get; set; }
 
         [Column("ACCUSED_ID_NUMBER")]
         public string? AccusedIdNumber { get; set; }
-        //public virtual Accused? Accused { get; set; }
+        [JsonIgnore]
+        public ICollection<Accused>? Accuseds { get; set; }
 
-        public Province Province { get; set; }
+        [JsonIgnore]
+        public Province? Province { get; set; }
+
+
     }
 }

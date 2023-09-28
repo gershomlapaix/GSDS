@@ -1,6 +1,7 @@
 // Accused model
 using Gsds.Constants.Dossier;
 using GsdsV2.Models.Dossier;
+using GsdsV2.Models.HelperModels;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -54,21 +55,26 @@ namespace Gsds.Models.Dossier{
         // LOCATION
         [Column("PROVINCE_ID")]
         public string? ProvinceId { get; set; }
+        public Province? Province { get; set; }
+
 
         [Column("DISTRICT_ID")]
         public string? DistrictId { get; set; }
+        public District? District { get; set; }
 
         [Column("SECTOR_ID")]
         public string? SectorId { get; set; }
+        public Sector? Sector { get; set;}
 
         [Column("CELL_ID")]
         public string? CellId { get; set; }
+        public Cell? Cell { get; set; }
 
         [Column("IDPLANTIFF")]
-        public string complainerId { get; set; }
+        public string? complainerId { get; set; }
 
 
         // NAVIGATION PROPERTIES
-        //public Complaint Complaint { get; set; }
+        public Complaint? Complaint { get; set; }
     }
 }

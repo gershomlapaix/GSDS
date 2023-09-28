@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using Gsds.Constants.Dossier;
 using GsdsAuth.Models;
 using GsdsV2.Models.Dossier;
+using GsdsV2.Models.HelperModels;
 
 namespace Gsds.Models.Dossier
 {
@@ -49,6 +50,7 @@ namespace Gsds.Models.Dossier
         // LOCATION
         [Column("PROVINCE_ID")]
         public string? ProvinceId { get; set; }
+        public Province Province { get; set; }
 
         [Column("DISTRICT_ID")]
         public string? DistrictId { get; set; }

@@ -31,29 +31,7 @@ namespace GsdsV2.Controllers.Dossier
                 StartOffice = complaint.StartOffice,
                 ComplaintCategoryId = complaint.ComplaintCategoryId,
                 PriorityId = "00003"
-                //Accused = newACcused
             };
-
-            //var newACcused = new Accused()
-            //{
-            //    complaintCode = newComplaint.ComplaintCode,
-            //    PeronTypeId = accusedDto.personTypeId,
-            //    IdNumber = accusedDto.IdNumber,
-            //    IdType = accusedDto.IdType,
-            //    GenderId = accusedDto.GenderId,
-            //    IdDetails = accusedDto.IdDetails,
-            //    Names = accusedDto.Names,
-            //    birthDate = accusedDto.birthDate,
-            //    MaritalStatusId = accusedDto.MaritalStatusId,
-            //    ProvinceId = accusedDto.ProvinceId,
-            //    DistrictId = accusedDto.DistrictId,
-            //    SectorId = accusedDto.SectorId,
-            //    CellId = accusedDto.CellId,
-            //    Phone = accusedDto.Phone,
-            //    RegistrationDate = DateTime.Now,
-            //    complainerId = accusedDto.complainerId,
-            //};
-
 
             db.Complaints.Add(newComplaint);
 
@@ -66,20 +44,16 @@ namespace GsdsV2.Controllers.Dossier
         //Get all complaints
         public static async Task<IResult> getAllComplaints(GsdsDb db)
         {
-            return TypedResults.Ok(await db.Complaints.Include(c=> c.Province).ToArrayAsync());
+            return TypedResults.Ok(await db.Complaints.ToArrayAsync());
         }
 
         //Get One complaints
         public static async Task<IResult> getOneComplaint(string complaintCode, GsdsDb db)
         {
-            // return await db.Complaints.Where(c => c.ComplaintCode == complaintCode).ToListAsync()
-            //    is List< Complaint> theComplaint
-            //? TypedResults.Ok(theComplaint[0])
-            //: TypedResults.NotFound();
-
-            //var complaints = await db.Complaints.Where(c => c.ComplaintCode == complaintCode).ToListAsync();
-            //var complainer = complaints[0].Complainer;
-            return TypedResults.Ok(await db.Complaints.Where(c => c.ComplaintCode == complaintCode).Include(c => c.Province).ToListAsync());
+            return TypedResults.Ok(await db.Complaints
+                .Where(c => c.ComplaintCode == complaintCode)
+                .Include(c => c.Province)
+                .ToListAsync());
 
         }
     }

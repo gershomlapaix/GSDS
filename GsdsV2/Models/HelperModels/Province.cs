@@ -1,5 +1,7 @@
-﻿using GsdsV2.Models.Dossier;
+﻿using Gsds.Models.Dossier;
+using GsdsV2.Models.Dossier;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace GsdsV2.Models.HelperModels
 {
@@ -15,6 +17,13 @@ namespace GsdsV2.Models.HelperModels
         [Column("PROVINCEENGLISH")]
         public string ProvinceEnglish { get; set; }
 
-        public List<Complaint> Complaints { get; set; }
+        //[JsonIgnore]
+        public List<Complaint>? Complaints { get; set; }    // complaints
+
+        //[JsonIgnore]
+        public List<District>? Districts { get; set; }   // corresponding districts
+
+        public List<Complainer>? Complainers { get; set; }      // complainers
+        public List<Accused>? Accuseds { get; set; }        // accuseds
     }
 }

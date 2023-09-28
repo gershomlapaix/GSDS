@@ -10,17 +10,9 @@ namespace Gsds.Controllers.Dossier
 {
     public class ComplainerController : ControllerBase
     {
-        //private readonly GsdsDb dbContext;
-
-        //public ComplainerController(GsdsDb _gsdsContext)
-        //{
-        //    dbContext = _gsdsContext;
-        //}
-
-        // register a complainer method
-
         public static async Task<IResult> RegisterComplainer(ComplainerDto complainerDto, ClaimsPrincipal user, GsdsDb db)
         {
+            Console.WriteLine("the user" + user.FindFirstValue(ClaimTypes.Email));
 
             var newComplainer = new Complainer()
             {

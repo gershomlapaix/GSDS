@@ -37,10 +37,10 @@ namespace Gsds.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //modelBuilder.Entity<Complaint>()
-            //.HasOne(_ => _.Complainer)
-            //.WithMany(a => a.Complaints)
-            //.HasForeignKey(p => p.ComplainerId);
+            modelBuilder.Entity<Complaint>()
+            .HasMany(_ => _.Accuseds)
+            .WithOne(a => a.Complaint)
+            .HasForeignKey(p => p.complaintCode);
 
             modelBuilder.Entity<Province>()
             .HasMany(_ => _.Complaints)

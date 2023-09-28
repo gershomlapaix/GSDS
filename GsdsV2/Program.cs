@@ -18,6 +18,8 @@ using GsdsV2.DTO.Dossier;
 using System.Data;
 using GsdsV2.Controllers.Dossier;
 using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Authentication.Certificate;
+using GsdsV2.Controllers.Dossier.HelperControllers;
 
 public class Program
 {
@@ -76,6 +78,10 @@ public class Program
 
         try
         {
+            builder.Services.AddAuthentication(
+                CertificateAuthenticationDefaults.AuthenticationScheme)
+            .AddCertificate();
+
             // for authentication
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                         .AddJwtBearer(options => {
@@ -123,6 +129,8 @@ public class Program
         // ------------- AUTH ROUTES
         RouteGroupBuilder appRoutes = app.MapGroup("/api");
 
+        appRoutes.MapGet("/", () => "Gsds Apis");
+
         appRoutes.MapPost("/auth/signup", UserController.UserRegister);
         //.Accepts<UserDto>("application/json");
 
@@ -165,6 +173,29 @@ public class Program
         appRoutes.MapPost("/complaint",
             [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
         (ComplaintDto complaint, GsdsDb db) => ComplaintController.createComplaint(complaint, db));
+
+
+        // Provinces
+        appRoutes.MapGet("/province/{provinceId}/districts",
+            //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
+        (string provinceId, GsdsDb db) => ProvinceController.getDistrictsByProvince(provinceId, db)
+            ).WithTags("Province");
+
+        appRoutes.MapGet("/province/{provinceId}/complaints",
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
+        (string provinceId, GsdsDb db) => ProvinceController.getComplaintsByProvince(provinceId, db)
+            ).WithTags("Province");
+
+        appRoutes.MapGet("/province/{provinceId}/complainers",
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
+        (string provinceId, GsdsDb db) => ProvinceController.getComplainersByProvince(provinceId, db)
+            ).WithTags("Province");
+
+        appRoutes.MapGet("/province/{provinceId}/accuseds",
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
+        (string provinceId, GsdsDb db) => ProvinceController.getAccusedyProvince(provinceId, db)
+            ).WithTags("Province");
+
         // provide swagger ui
         app.UseSwaggerUI();
         app.Run();
