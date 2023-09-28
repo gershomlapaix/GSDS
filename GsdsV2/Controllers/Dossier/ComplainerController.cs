@@ -12,8 +12,6 @@ namespace Gsds.Controllers.Dossier
     {
         public static async Task<IResult> RegisterComplainer(ComplainerDto complainerDto, ClaimsPrincipal user, GsdsDb db)
         {
-            Console.WriteLine("the user" + user.FindFirstValue(ClaimTypes.Email));
-
             var newComplainer = new Complainer()
             {
                 PeronTypeId = complainerDto.personTypeId,

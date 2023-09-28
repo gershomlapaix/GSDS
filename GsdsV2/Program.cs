@@ -176,6 +176,22 @@ public class Program
         (ComplaintDto complaint, GsdsDb db) => ComplaintController.createComplaint(complaint, db)).WithTags("Complaint");
 
 
+        // ---------- For country
+
+        appRoutes.MapGet("/country",
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
+            (GsdsDb db)=> CountryController.getAllCountries(db)
+            ).WithTags("Country");
+
+        appRoutes.MapGet("/country/{countryId}",
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
+            (string countryId, GsdsDb db) => CountryController.getSingleCountry(countryId, db)).WithTags("Country");
+
+        appRoutes.MapGet("/country/countryName/{countryName}",
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
+            (string countryName, GsdsDb db) => CountryController.getCountryByName(countryName, db)).WithTags("Country");
+
+
         // ---------- For Provinces
 
         appRoutes.MapGet("/province/{provinceId}/districts",

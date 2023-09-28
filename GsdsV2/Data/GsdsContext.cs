@@ -22,6 +22,7 @@ namespace Gsds.Data
 
 
         // FROM HELPER MODELS
+        public DbSet<Country> Countrys { get; set; }
         public DbSet<PersonType>   PersonTypes { get; set;}
         public DbSet<Gender> Gender { get; set;}
         public DbSet<IdentifierType> IdentifierTypes { get; set; }
