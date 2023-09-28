@@ -24,6 +24,6 @@ namespace GsdsV2.Models.HelperModels
         public List<Sector> Sectors { get; set; }
         public List<Complaint>? Complaints { get; set; }
         public List<Complainer>? Complainers { get; set; }
-        public List<Accused> Accused { get; set; }
+        public List<Accused>? Accused { get; set; }
     }
 }

@@ -20,6 +20,7 @@ using GsdsV2.Controllers.Dossier;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Authentication.Certificate;
 using GsdsV2.Controllers.Dossier.HelperControllers;
+using GsdsV2.Models.HelperModels;
 
 public class Program
 {
@@ -175,8 +176,7 @@ public class Program
         (ComplaintDto complaint, GsdsDb db) => ComplaintController.createComplaint(complaint, db)).WithTags("Complaint");
 
 
-        // Provinces
-
+        // ---------- For Provinces
 
         appRoutes.MapGet("/province/{provinceId}/districts",
             //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
@@ -199,7 +199,7 @@ public class Program
             ).WithTags("Province");
 
 
-        // For districts
+        // ---------- For districts
         appRoutes.MapGet("/district/{districtId}/districts",
         //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
         (string districtId, GsdsDb db) => DistrictController.getSectorByDistrict(districtId, db)
@@ -219,6 +219,43 @@ public class Program
         //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
         (string districtId, GsdsDb db) => DistrictController.getAccusedByDistrict(districtId, db)
             ).WithTags("District");
+
+        // ---------- For sectors
+        appRoutes.MapGet("/sector/{sectorId}/cells",
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
+        (string sectorId, GsdsDb db) => SectorController.getCellBySector(sectorId, db)
+            ).WithTags("Sector");
+
+        appRoutes.MapGet("/sector/{sectorId}/complaints",
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
+        (string sectorId, GsdsDb db) => SectorController.getComplaintsBySector(sectorId, db)
+            ).WithTags("Sector");
+
+        appRoutes.MapGet("/sector/{sectorId}/complainers",
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
+        (string sectorId, GsdsDb db) => SectorController.getComplainersBySector(sectorId, db)
+            ).WithTags("Sector");
+
+        appRoutes.MapGet("/sector/{sectorId}/accuseds",
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
+        (string sectorId, GsdsDb db) => SectorController.getAccusedBySector(sectorId, db)
+            ).WithTags("Sector");
+
+        // ---------- For Cellls
+        appRoutes.MapGet("/cell/{cellId}/complaints",
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
+        (string cellId, GsdsDb db) => CellController.getComplaintsByCell(cellId, db)
+            ).WithTags("Cell");
+
+        appRoutes.MapGet("/cell/{cellId}/complainers",
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
+        (string cellId, GsdsDb db) => CellController.getComplainersByCell(cellId, db)
+            ).WithTags("Cell");
+
+        appRoutes.MapGet("/cell/{cellId}/accuseds",
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
+        (string cellId, GsdsDb db) => CellController.getAccusedByCell(cellId, db)
+            ).WithTags("Cell");
 
         // provide swagger ui
         app.UseSwaggerUI();

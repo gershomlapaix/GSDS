@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using Gsds.Models.Dossier;
+using GsdsV2.Models.Dossier;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GsdsV2.Models.HelperModels
 {
@@ -14,5 +16,10 @@ namespace GsdsV2.Models.HelperModels
 
         [Column("CELL_NAME")]
         public string CellName { get; set;}
+
+        public Sector Sector { get; set; }
+        public List<Complaint>? Complaints { get; set; }
+        public List<Complainer>? Complainers { get; set; }
+        public List<Accused>? Accuseds { get; set; }
     }
 }
