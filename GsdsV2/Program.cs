@@ -132,8 +132,7 @@ public class Program
 
         appRoutes.MapGet("/", () => "Gsds Apis");
 
-        appRoutes.MapPost("/auth/signup", UserController.UserRegister).WithTags("Auth");
-        //.Accepts<UserDto>("application/json");
+        appRoutes.MapPost("/auth/signup", UserController.UserRegister).WithTags("User");
 
         appRoutes.MapPost("/auth/login", (UserLogin user, GsdsDb db) => LoginController.Login(builder, user, db)).WithTags("Auth");
 
@@ -141,6 +140,12 @@ public class Program
         {
             return TypedResults.Ok(await db.Provinces.Include(p=> p.Complaints).ToArrayAsync());
         }).WithTags("Test");
+
+        // -------- For Users
+        appRoutes.MapPost("/users/complaints",
+                [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43,00049")]
+        (ClaimsPrincipal user, GsdsDb db) => UserController.getMyRoleComplaints(user, db)).WithTags("User");
+
 
 
         // ------------- COMPLAINER ROUTES
