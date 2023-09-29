@@ -21,6 +21,8 @@ using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Authentication.Certificate;
 using GsdsV2.Controllers.Dossier.HelperControllers;
 using GsdsV2.Models.HelperModels;
+using GsdsV2.Services;
+using GsdsV2.Controllers;
 
 public class Program
 {
@@ -110,10 +112,9 @@ public class Program
         builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
         builder.Services.AddAuthorization();
-
-        // register the services
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSingleton<IUserService, UserService>();
+        builder.Services.AddScoped<IEmailService, EmailService>();
 
         var app = builder.Build();
 
@@ -146,7 +147,7 @@ public class Program
                 [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43,00049")]
         (ClaimsPrincipal user, GsdsDb db) => UserController.getMyRoleComplaints(user, db)).WithTags("UserActions");
 
-        appRoutes.MapPost("/users/loggedin",
+        appRoutes.MapGet("/users/loggedin",
                [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43,00049")]
         (ClaimsPrincipal user, GsdsDb db) => UserController.getLoggedInUser(user, db)).WithTags("UserActions");
 
@@ -337,6 +338,11 @@ public class Program
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
         (GsdsDb db) => InstitutionController.getInstitutions(db)
             ).WithTags("Institution");
+
+        appRoutes.MapPost("/email", (EmailDto request, IEmailService emailService) =>
+        {
+            EmailController.sendEmail(request, emailService);
+        }).WithTags("Email");
 
         // provide swagger ui
         app.UseSwaggerUI();
