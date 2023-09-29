@@ -34,6 +34,18 @@ namespace Gsds.Controllers.Auth{
             return TypedResults.Created($"/api/auth/{userDto.email}", userDto);
         }
 
+        // get logged in user
+        public static async Task<IResult> getLoggedInUser(ClaimsPrincipal user, GsdsDb db)
+        {
+            var newUser = new User();
+            newUser.Username = user.FindFirstValue(ClaimTypes.NameIdentifier);
+            newUser.email = user.FindFirstValue(ClaimTypes.Email);
+            newUser.FullName = user.FindFirstValue(ClaimTypes.GivenName);
+            newUser.ID_ROLE = user.FindFirstValue(ClaimTypes.Role);
+
+            return TypedResults.Ok(newUser);
+        }
+
         // get complaints by the role id
         public static async Task<IResult> getMyRoleComplaints(ClaimsPrincipal user, GsdsDb db)
         {

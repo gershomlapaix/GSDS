@@ -37,6 +37,7 @@ namespace Gsds.Data
 
         public DbSet<ManagerRoles> ManagerRoles { get; set; }
         public DbSet<Institution> Institutions { get; set; }
+        public DbSet<ComplaintAttachment> Attachments { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -45,6 +46,11 @@ namespace Gsds.Data
             .HasMany(_ => _.Accuseds)
             .WithOne(a => a.Complaint)
             .HasForeignKey(p => p.complaintCode);
+
+            modelBuilder.Entity<Complaint>()
+            .HasMany(_ => _.ComplaintAttachments)
+            .WithOne(a => a.Complaint)
+            .HasForeignKey(a => a.ComplaintCode);
 
             modelBuilder.Entity<Complaint>()
             .HasOne(_ => _.Roles)

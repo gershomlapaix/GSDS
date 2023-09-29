@@ -16,7 +16,6 @@ namespace Gsds.Controllers.Auth
 {
     public class LoginController : ControllerBase{
 
-
         // Login method
         public static async Task<IResult> Login(WebApplicationBuilder builder, UserLogin userLogin, GsdsDb db){
             if (!string.IsNullOrEmpty(userLogin.Username) && !string.IsNullOrEmpty(userLogin.Password)) {

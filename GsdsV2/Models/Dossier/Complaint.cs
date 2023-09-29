@@ -102,7 +102,8 @@ namespace GsdsV2.Models.Dossier
         [JsonIgnore]
         public ManagerRoles? Roles { get; set; }
 
-
+        //[JsonIgnore]
+        public List<ComplaintAttachment>? ComplaintAttachments { get; set;}
 
     }
 }

@@ -54,7 +54,15 @@ namespace GsdsV2.Controllers.Dossier
                 .Where(c => c.ComplaintCode == complaintCode)
                 .Include(c => c.Province)
                 .ToListAsync());
+        }
 
+        // Get the files
+        public static async Task<IResult> getComplaintFiles(string complaintCode, GsdsDb db)
+        {
+            return TypedResults.Ok(await db.Complaints
+                 .Where(c => c.ComplaintCode == complaintCode)
+                 .Include(c => c.ComplaintAttachments)
+                 .ToListAsync());
         }
     }
 }
