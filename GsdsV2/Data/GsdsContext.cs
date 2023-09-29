@@ -20,7 +20,6 @@ namespace Gsds.Data
         public DbSet<Complaint> Complaints { get; set; }
 
 
-
         // FROM HELPER MODELS
         public DbSet<Country> Countrys { get; set; }
         public DbSet<PersonType>   PersonTypes { get; set;}
@@ -36,12 +35,21 @@ namespace Gsds.Data
         public DbSet<Sector> Sectors { get; set; }
         public DbSet<Cell> Cells { get; set; }
 
+        public DbSet<ManagerRoles> ManagerRoles { get; set; }
+        public DbSet<Institution> Institutions { get; set; }
+
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Complaint>()
             .HasMany(_ => _.Accuseds)
             .WithOne(a => a.Complaint)
             .HasForeignKey(p => p.complaintCode);
+
+            modelBuilder.Entity<Complaint>()
+            .HasOne(_ => _.Roles)
+            .WithMany(a => a.Complaints)
+            .HasForeignKey(p => p.RoleId);
 
             modelBuilder.Entity<Province>()
             .HasMany(_ => _.Complaints)

@@ -132,8 +132,7 @@ public class Program
 
         appRoutes.MapGet("/", () => "Gsds Apis");
 
-        appRoutes.MapPost("/auth/signup", UserController.UserRegister).WithTags("Auth");
-        //.Accepts<UserDto>("application/json");
+        appRoutes.MapPost("/auth/signup", UserController.UserRegister).WithTags("User");
 
         appRoutes.MapPost("/auth/login", (UserLogin user, GsdsDb db) => LoginController.Login(builder, user, db)).WithTags("Auth");
 
@@ -141,6 +140,12 @@ public class Program
         {
             return TypedResults.Ok(await db.Provinces.Include(p=> p.Complaints).ToArrayAsync());
         }).WithTags("Test");
+
+        // -------- For Users
+        appRoutes.MapPost("/users/complaints",
+                [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43,00049")]
+        (ClaimsPrincipal user, GsdsDb db) => UserController.getMyRoleComplaints(user, db)).WithTags("User");
+
 
 
         // ------------- COMPLAINER ROUTES
@@ -293,6 +298,24 @@ public class Program
         //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
         (GsdsDb db) => IdentifierTypeController.getAllIdentifierTypes(db)
             ).WithTags("IdentifierType");
+
+        // ------------ For roles
+        appRoutes.MapGet("/roles",
+       [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00001, 43")]
+        (GsdsDb db) => ManagerRolesController.getAllRoles(db)
+           ).WithTags("ManagerRoles");
+
+        appRoutes.MapGet("/roles/{roleId}/complaints",
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
+        (string roleId, GsdsDb db) => ManagerRolesController.getRoleComplaints(roleId, db)
+            ).WithTags("ManagerRoles");
+
+
+        // ---------- For Institutions
+        appRoutes.MapGet("/institution",
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
+        (GsdsDb db) => InstitutionController.getInstitutions(db)
+            ).WithTags("Institution");
 
         // provide swagger ui
         app.UseSwaggerUI();

@@ -99,6 +99,10 @@ namespace GsdsV2.Models.Dossier
         [JsonIgnore]
         public Province? Province { get; set; }
 
+        [JsonIgnore]
+        public ManagerRoles? Roles { get; set; }
+
+
 
     }
 }
