@@ -165,7 +165,7 @@ public class Program
         // ------------ COMPLAINT
         appRoutes.MapGet("/complaint",
              [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
-        (GsdsDb db) => ComplaintController.getAllComplaints(db)).WithTags("Accused");
+        (GsdsDb db) => ComplaintController.getAllComplaints(db)).WithTags("Complaint");
 
         appRoutes.MapGet("/complaint/{complaintCode}",
              [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
@@ -216,7 +216,7 @@ public class Program
 
 
         // ---------- For districts
-        appRoutes.MapGet("/district/{districtId}/districts",
+        appRoutes.MapGet("/district/{districtId}/sectors",
         //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
         (string districtId, GsdsDb db) => DistrictController.getSectorByDistrict(districtId, db)
             ).WithTags("District");
@@ -272,6 +272,27 @@ public class Program
         //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
         (string cellId, GsdsDb db) => CellController.getAccusedByCell(cellId, db)
             ).WithTags("Cell");
+
+        // --------- OTHER HELPERS
+        appRoutes.MapGet("/marital-status",
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
+        (GsdsDb db) => MaritalStatusController.getallMaritalStatus(db)
+            ).WithTags("MaritalStatus");
+
+        appRoutes.MapGet("/marital-status/{id}",
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
+            (string id, GsdsDb db) => MaritalStatusController.getMaritalStatusById(id, db)).WithTags("MaritalStatus");
+
+
+        appRoutes.MapGet("/person-type",
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
+        (GsdsDb db) => PersonTypeController.getPersonTypes(db)
+            ).WithTags("PersonType");
+
+        appRoutes.MapGet("/identifier-type",
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
+        (GsdsDb db) => IdentifierTypeController.getAllIdentifierTypes(db)
+            ).WithTags("IdentifierType");
 
         // provide swagger ui
         app.UseSwaggerUI();
