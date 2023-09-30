@@ -84,7 +84,7 @@ namespace GsdsV2.Models.Dossier
         // NAVIGATION PROPERTIES
         [Column("ID_CATEGORY")]
         public string? ComplaintCategoryId { get; set; }
-        public ComplaintCategory? ComplaintCategory { get; set; }
+        public Category? ComplaintCategory { get; set; }
 
         [Column("CMPLNR_ID_NUMBER")]
         public string? ComplainerId { get; set; }
@@ -93,17 +93,18 @@ namespace GsdsV2.Models.Dossier
 
         [Column("ACCUSED_ID_NUMBER")]
         public string? AccusedIdNumber { get; set; }
+
+        // Navigation properties
+
+
         [JsonIgnore]
         public ICollection<Accused>? Accuseds { get; set; }
 
-        [JsonIgnore]
         public Province? Province { get; set; }
-
-        [JsonIgnore]
-        public ManagerRoles? Roles { get; set; }
-
-        //[JsonIgnore]
         public List<ComplaintAttachment>? ComplaintAttachments { get; set;}
+        public List<ManagerRoles>? ManagerRoles { get; set; }
+        public List<ComplaintRoles> Roles { get; set; }
+
 
     }
 }

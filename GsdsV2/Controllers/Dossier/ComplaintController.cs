@@ -4,6 +4,7 @@ using GsdsAuth.Models;
 using GsdsV2.DTO;
 using GsdsV2.DTO.Dossier;
 using GsdsV2.Models.Dossier;
+using GsdsV2.Models.HelperModels;
 using GsdsV2.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -33,21 +34,25 @@ namespace GsdsV2.Controllers.Dossier
                 CellId = complaint.CellId,
                 StartOffice = complaint.StartOffice,
                 ComplaintCategoryId = complaint.ComplaintCategoryId,
-                PriorityId = "00003"
+                PriorityId = "00003",
+                RoleId = complaint.RoleId
             };
 
+            var newComplaintRole = new ComplaintRoles();
+            newComplaintRole.ComplaintCode = complaint.ComplaintCode;
+            newComplaintRole.RoleId = complaint.RoleId;
+
             db.Complaints.Add(newComplaint);
+            if (await db.SaveChangesAsync() > 0)
+            {
+                db.ComplaintRoles.Add(newComplaintRole);
+                await db.SaveChangesAsync();
+            }
 
-            await db.SaveChangesAsync();
-
-            TimeSpan start = new TimeSpan(24, 0, 0); //10 o'clock
+            TimeSpan start = new TimeSpan(24, 0, 0);
             TimeSpan end = new TimeSpan(12, 0, 0); //12 o'clock
             TimeSpan now = DateTime.Now.TimeOfDay;
 
-            if ((now > start) && (now < end))
-            {
-                //match found
-            }
 
             var emailRequest = new EmailDto();
             emailRequest.From = "admin@omb.com";
@@ -94,6 +99,29 @@ namespace GsdsV2.Controllers.Dossier
             return TypedResults.Ok(await db.Complaints
                  .Where(c => c.ComplaintCode == complaintCode)
                  .Include(c => c.ComplaintAttachments)
+                 .ToListAsync());
+        }
+
+        // Get current user complaints
+        public static async Task<IResult> getLoggedInUserComplaints(ClaimsPrincipal user, GsdsDb db)
+        {
+            var complainer = await db.Complainers.Where(_ => _.Username == user.FindFirstValue(ClaimTypes.NameIdentifier)).ToListAsync();
+            if(complainer.Count() > 0)
+            {
+                return TypedResults.Ok(await db.Complaints
+                 .Where(c => c.ComplainerId == complainer[0].Id)
+                 .ToListAsync());
+            }
+            return TypedResults.NotFound("Either the user has not fully registered or is not found.");
+        }
+
+
+        // Get the roles
+        public static async Task<IResult> getComplaintRoles(string complaintCode, GsdsDb db)
+        {
+            return TypedResults.Ok(await db.Complaints
+                 .Where(c => c.ComplaintCode == complaintCode)
+                 .Include(c => c.Roles)
                  .ToListAsync());
         }
     }

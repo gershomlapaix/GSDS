@@ -143,7 +143,7 @@ public class Program
         appRoutes.MapPost("/auth/login", (UserLogin user, GsdsDb db) => LoginController.Login(builder, user, db)).WithTags("Auth");
 
         // -------- For Users actions
-        appRoutes.MapPost("/users/complaints",
+        appRoutes.MapPost("/department/complaints",
                 [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00001,43,00049")]
         (ClaimsPrincipal user, GsdsDb db) => UserController.getMyRoleComplaints(user, db)).WithTags("UserActions");
 
@@ -191,10 +191,24 @@ public class Program
              [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00001,43,00049")]
         (string complaintCode, GsdsDb db) => ComplaintController.getComplaintFiles(complaintCode, db)).WithTags("Complaint");
 
+        appRoutes.MapGet("/complaint/roles/{complaintCode}",
+             [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00001,43,00049")]
+        (string complaintCode, GsdsDb db) => ComplaintController.getComplaintRoles(complaintCode, db)).WithTags("Complaint");
+
+        appRoutes.MapGet("/complaint/loggedin",
+             [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00001,43,00049")]
+        (ClaimsPrincipal user, GsdsDb db) => ComplaintController.getLoggedInUserComplaints(user, db)).WithTags("Complaint");
+
         appRoutes.MapPost("/complaint",
             [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43,00049")]
         (ComplaintDto complaint, ClaimsPrincipal user, IEmailService emailService, GsdsDb db) => ComplaintController.createComplaint(complaint, user, emailService, db)).WithTags("Complaint");
 
+
+        // -------------- FOR COMPLAINT MANAGEMENT
+        appRoutes.MapPost("/complaint-management/{complaintCode}",
+            [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00001, 43,00049")]
+        (string complaintCode, ComplaintManagementDto cmpltMngDto, ClaimsPrincipal user, IEmailService emailService, GsdsDb db) => 
+            ComplaintManagementController.forwardingComplaint(complaintCode, cmpltMngDto, user, emailService, db)).WithTags("ComplaintManagement");
 
         // ------------- For files
         appRoutes.MapPost("/file/upload",

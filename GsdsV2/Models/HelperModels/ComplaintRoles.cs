@@ -1,30 +1,27 @@
 ﻿using GsdsV2.Models.Dossier;
+using Microsoft.Identity.Client.Extensions.Msal;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Data;
 
 namespace GsdsV2.Models.HelperModels
 {
-    [Table("ATTACHMENT", Schema ="ADMIN")]
-    public class ComplaintAttachment
+    [Table("COMPLAINT_ROLES", Schema ="ADMIN")]
+    public class ComplaintRoles
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column("ID")]
-        public int Id { get; set; }
+        public int ID { get; set; }
 
         [Column("COMPLAINT_CODE")]
-        [ForeignKey("COMPLAINT_CODE")]
         public string? ComplaintCode { get; set; }
 
-        [Column("ATTACHMENT")]
-        public byte[]? File { get; set; }
+        [Column("ID_ROLE")]
+        public string? RoleId { get; set; }
 
-        [Column("FILENAME")]
-        public string? FileName { get; set; }
-
-        //[Column("DESCRIPTION")]
-        //public string? Description { get; set; }
-
+        // Navigation properties
         public Complaint? Complaint { get; set; }
+        public ManagerRoles? ManagerRoles { get; set; }
     }
 }

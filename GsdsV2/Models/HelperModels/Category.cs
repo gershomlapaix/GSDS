@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace GsdsV2.Models.HelperModels
 {
     [Table("COMPLAINT_CATEGORY", Schema = "ADMIN")]
-    public class ComplaintCategory
+    public class Category
     {
         [Key]
         [Column("ID_CATEGORY")]

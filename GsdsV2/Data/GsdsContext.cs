@@ -5,6 +5,7 @@ using Gsds.Models.Dossier;
 using GsdsV2.Models.HelperModels;
 using GsdsV2.Models.Dossier;
 using System.Diagnostics.Metrics;
+using Microsoft.Extensions.Hosting;
 
 namespace Gsds.Data
 {
@@ -18,6 +19,7 @@ namespace Gsds.Data
         public DbSet<Complainer> Complainers { get; set; }
         public DbSet<Accused> Accuseds { get; set; }
         public DbSet<Complaint> Complaints { get; set; }
+        public DbSet<ComplaintManagement> ComplaintManagements { get; set; }
 
 
         // FROM HELPER MODELS
@@ -26,7 +28,7 @@ namespace Gsds.Data
         public DbSet<Gender> Gender { get; set;}
         public DbSet<IdentifierType> IdentifierTypes { get; set; }
         public DbSet<MaritalStatus> MaritalStatuses { get; set; }
-        public DbSet<ComplaintCategory> complaintCategories { get; set; }
+        public DbSet<Category> complaintCategories { get; set; }
         public DbSet<ComplaintType> ComplaintTypes { get; set; }
 
            // LOCATIONS
@@ -39,6 +41,8 @@ namespace Gsds.Data
         public DbSet<Institution> Institutions { get; set; }
         public DbSet<ComplaintAttachment> Attachments { get; set; }
 
+        // many to many relational tables
+        public DbSet<ComplaintRoles> ComplaintRoles { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -49,25 +53,43 @@ namespace Gsds.Data
             .WithOne(a => a.Complaint)
             .HasForeignKey(p => p.complaintCode);
 
+            // complaint and files
             modelBuilder.Entity<Complaint>()
             .HasMany(_ => _.ComplaintAttachments)
             .WithOne(a => a.Complaint)
             .HasForeignKey(a => a.ComplaintCode);
 
+            // many to many of complaints and roles
             modelBuilder.Entity<Complaint>()
-            .HasOne(_ => _.Roles)
-            .WithMany(a => a.Complaints)
-            .HasForeignKey(p => p.RoleId);
+            .HasMany(e => e.ManagerRoles)
+            .WithMany(e => e.Complaints)
+            .UsingEntity<ComplaintRoles>();
 
+            // complaint and category
             modelBuilder.Entity<Complaint>()
             .HasOne(_ => _.ComplaintCategory)
             .WithMany(a => a.Complaints)
             .HasForeignKey(c => c.ComplaintCategoryId);
 
+            // province and complaints
             modelBuilder.Entity<Province>()
             .HasMany(_ => _.Complaints)
             .WithOne(a => a.Province)
             .HasForeignKey(p => p.ProvinceId);
+
+
+            modelBuilder.Entity<ComplaintRoles>().HasKey(cr => new { cr.ComplaintCode, cr.RoleId });
+
+            modelBuilder.Entity<ComplaintRoles>()
+                .HasOne<Complaint>(cr => cr.Complaint)
+                .WithMany(c => c.Roles)
+                .HasForeignKey(cr => cr.ComplaintCode);
+
+
+            modelBuilder.Entity<ComplaintRoles>()
+                .HasOne<ManagerRoles>(cr => cr.ManagerRoles)
+                .WithMany(r => r.Roles)
+                .HasForeignKey(sc => sc.RoleId);
         }
 
     }
