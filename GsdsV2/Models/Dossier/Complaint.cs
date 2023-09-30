@@ -84,7 +84,7 @@ namespace GsdsV2.Models.Dossier
         // NAVIGATION PROPERTIES
         [Column("ID_CATEGORY")]
         public string? ComplaintCategoryId { get; set; }
-        //public ComplaintCategory? ComplaintCategory { get; set; }
+        public ComplaintCategory? ComplaintCategory { get; set; }
 
         [Column("CMPLNR_ID_NUMBER")]
         public string? ComplainerId { get; set; }

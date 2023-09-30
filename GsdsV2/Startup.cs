@@ -148,11 +148,6 @@ public class Startup{
 
         appRoutes.MapGet("/complaint/{complaintCode}", ComplaintController.getOneComplaint);
 
-        appRoutes.MapPost("/complaint",
-            //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
-            (ComplaintDto complaint, GsdsDb db) => ComplaintController.createComplaint(complaint, db));
-
-
         app.Run();
     }
 }

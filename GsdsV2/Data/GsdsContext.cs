@@ -42,6 +42,8 @@ namespace Gsds.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
+            // Complaint
             modelBuilder.Entity<Complaint>()
             .HasMany(_ => _.Accuseds)
             .WithOne(a => a.Complaint)
@@ -56,6 +58,11 @@ namespace Gsds.Data
             .HasOne(_ => _.Roles)
             .WithMany(a => a.Complaints)
             .HasForeignKey(p => p.RoleId);
+
+            modelBuilder.Entity<Complaint>()
+            .HasOne(_ => _.ComplaintCategory)
+            .WithMany(a => a.Complaints)
+            .HasForeignKey(c => c.ComplaintCategoryId);
 
             modelBuilder.Entity<Province>()
             .HasMany(_ => _.Complaints)

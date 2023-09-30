@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using GsdsV2.Models.Dossier;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GsdsV2.Models.HelperModels
@@ -20,5 +21,8 @@ namespace GsdsV2.Models.HelperModels
 
         [Column("ID_COMPLAINT_TYPE")]
         public string ComplaintTypeId { get; set; }
+
+        // NAVIGATION PROPERTIES
+        public List<Complaint>? Complaints { get; set; }
     }
 }

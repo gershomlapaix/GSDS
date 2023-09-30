@@ -6,6 +6,14 @@ namespace GsdsV2.Controllers.Dossier.HelperControllers
 {
     public class ProvinceController : ControllerBase
     {
+        // Get all the provinces
+        public static async Task<IResult> getProvinces( GsdsDb db)
+        {
+            var provinces = await db.Provinces.ToListAsync();
+
+            return TypedResults.Ok(provinces);
+        }
+
         // Get the corresponding districts'
         public static async Task<IResult> getDistrictsByProvince(string provinceId, GsdsDb db)
         {

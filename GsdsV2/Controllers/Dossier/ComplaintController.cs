@@ -1,17 +1,20 @@
 ﻿using Gsds.Data;
 using Gsds.Models.Dossier;
 using GsdsAuth.Models;
+using GsdsV2.DTO;
 using GsdsV2.DTO.Dossier;
 using GsdsV2.Models.Dossier;
+using GsdsV2.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace GsdsV2.Controllers.Dossier
 {
     public class ComplaintController : ControllerBase
     {
         // Make a new complaint
-        public static async Task<IResult> createComplaint(ComplaintDto complaint, GsdsDb db)
+        public static async Task<IResult> createComplaint(ComplaintDto complaint, ClaimsPrincipal user, IEmailService emailService, GsdsDb db)
         {
             var newComplaint = new Complaint()
             {
@@ -37,6 +40,26 @@ namespace GsdsV2.Controllers.Dossier
 
             await db.SaveChangesAsync();
 
+            TimeSpan start = new TimeSpan(24, 0, 0); //10 o'clock
+            TimeSpan end = new TimeSpan(12, 0, 0); //12 o'clock
+            TimeSpan now = DateTime.Now.TimeOfDay;
+
+            if ((now > start) && (now < end))
+            {
+                //match found
+            }
+
+            var emailRequest = new EmailDto();
+            emailRequest.From = "admin@omb.com";
+            emailRequest.To = user.FindFirstValue(ClaimTypes.Email);
+            emailRequest.Subject = "Kumenyesha";
+            emailRequest.Body = $"{((now > start) && (now < end) ? "Mwaramutse" : "Mwiriwe")}, \n Ikirego cyawe kirakiriwe. " +
+                $"Turagusaba kuguma gukoresha iyi System kugira ngo umenye aho kigeze gikorwaho.\n" +
+                $"Mugihe waba ufite andi makuru yakunganira ikirego cyawe, turagusaba ko wajya uhita uyashyira muri system.\n" +
+                $"Murakoze,";
+
+            emailService.SendEmailAsync(emailRequest);
+
             return TypedResults.Created($"/complainer/{complaint.ComplaintCode}", complaint);
         }
 
@@ -55,6 +78,15 @@ namespace GsdsV2.Controllers.Dossier
                 .Include(c => c.Province)
                 .ToListAsync());
         }
+
+        //Get complaint by categoru
+        public static async Task<IResult> getComplaintByCategory(string cmpltCategory, GsdsDb db)
+        {
+            return TypedResults.Ok(await db.Complaints
+                .Where(c => c.ComplaintCategoryId == cmpltCategory)
+                .ToListAsync());
+        }
+
 
         // Get the files
         public static async Task<IResult> getComplaintFiles(string complaintCode, GsdsDb db)

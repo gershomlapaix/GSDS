@@ -15,6 +15,6 @@ namespace GsdsV2.Models.HelperModels
         public string Description { get; set; }
 
         [Column("ID_PERSON_TYPE")]
-        public string IdPersonType { get; set; }
+        public string? IdPersonType { get; set; }
     }
 }

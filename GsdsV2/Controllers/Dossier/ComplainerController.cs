@@ -59,5 +59,20 @@ namespace Gsds.Controllers.Dossier
            : TypedResults.NotFound();
 
         }
+
+        // get complaints by the username
+        public static async Task<IResult> getMyDetailsByUsername(ClaimsPrincipal user, GsdsDb db)
+        {
+            var complainer = await db.Complainers.Where(c => c.Username == user.FindFirstValue(ClaimTypes.NameIdentifier)).ToListAsync();
+
+            if(complainer.Count() != 0) {
+                return TypedResults.Ok(complainer[0]);
+            }
+            else
+            {              
+                return TypedResults.NotFound(new { requiredUpdate = true });
+            }
+
+        }
     }
 }
