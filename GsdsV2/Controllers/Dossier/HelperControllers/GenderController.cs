@@ -11,5 +11,12 @@ namespace GsdsV2.Controllers.Dossier.HelperControllers
         {
             return TypedResults.Ok(await db.Gender.ToArrayAsync());
         }
+
+        // get one gender
+        public static async Task<IResult> getGenderById(string genderId, GsdsDb db)
+        {
+            var gender = await db.Gender.Where(_ => _.Id == genderId).ToListAsync();
+            return TypedResults.Ok(gender[0]);
+        }
     }
 }

@@ -32,7 +32,7 @@ namespace GsdsV2.Controllers.Dossier
                 DistrictId = complaint.DistrictId,
                 SectorId = complaint.SectorId,
                 CellId = complaint.CellId,
-                StartOffice = complaint.StartOffice,
+                StartOffice = "Reception",
                 ComplaintCategoryId = complaint.ComplaintCategoryId,
                 PriorityId = "00003",
                 RoleId = complaint.RoleId
@@ -72,7 +72,16 @@ namespace GsdsV2.Controllers.Dossier
         //Get all complaints
         public static async Task<IResult> getAllComplaints(GsdsDb db)
         {
-            return TypedResults.Ok(await db.Complaints.ToArrayAsync());
+            //return TypedResults.Ok(
+            //    await db.Complaints
+            //    .Include(a => a.Accused)
+            //    .ToArrayAsync());
+
+            return TypedResults.Ok(
+                await db.Complaints
+                //.Include(a => a.Accused)
+                .Select(x => new ComplaintDto(x))
+                .ToListAsync());
         }
 
         //Get One complaints
@@ -110,6 +119,7 @@ namespace GsdsV2.Controllers.Dossier
             {
                 return TypedResults.Ok(await db.Complaints
                  .Where(c => c.ComplainerId == complainer[0].Id)
+                 .Include(a => a.Accused)
                  .ToListAsync());
             }
             return TypedResults.NotFound("Either the user has not fully registered or is not found.");

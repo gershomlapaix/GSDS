@@ -1,9 +1,12 @@
-﻿namespace GsdsV2.DTO.Dossier
+﻿using Gsds.Models.Dossier;
+using GsdsV2.Models.Dossier;
+using GsdsV2.Models.HelperModels;
+
+namespace GsdsV2.DTO.Dossier
 {
     public class ComplaintDto
     {
         public string ComplaintCode { get; set; }
-        public DateTime TransferDate { get; set; }
         public string? ComplainerId { get; set; }
         public string? AccusedIdNumber { get; set; }
         public string? Subject { get; set; }
@@ -15,9 +18,17 @@
         public string? DistrictId { get; set; }
         public string? SectorId { get; set; }
         public string? CellId { get; set; }
-        public string? StartOffice { get; set; }
         public string? ComplaintCategoryId { get; set; } 
         public string? RoleId { get; set; }
+        public Accused? Accused { get; set; }
+        public Province? Province { get; set; }
 
+        public ComplaintDto() { }
+        public ComplaintDto(Complaint complaint) =>
+            (ComplaintCode,ComplainerId, AccusedIdNumber, Subject, AccusedComment, previousInstitutions, ComplaintOwner,
+            ProvinceId, DistrictId, SectorId, CellId, ComplaintCategoryId, RoleId, Accused, Province) = 
+            (complaint.ComplaintCode, complaint.ComplainerId, complaint.AccusedIdNumber, complaint.Subject, complaint.AccusedComment,
+            complaint.previousInstitutions, complaint.ComplaintOwner, complaint.ProvinceId, complaint.DistrictId, complaint.SectorId, complaint.CellId, 
+            complaint.ComplaintCategoryId, complaint.RoleId, Accused, Province);
     }
 }

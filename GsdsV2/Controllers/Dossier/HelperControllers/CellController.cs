@@ -14,6 +14,14 @@ namespace GsdsV2.Controllers.Dossier.HelperControllers
             return TypedResults.Ok(complaints);
         }
 
+        //get one cell
+        public static async Task<IResult> getCellById(string cellId, GsdsDb db)
+        {
+            var cells = await db.Cells.Where(_ => _.Id == cellId).ToListAsync();
+
+            return TypedResults.Ok(cells[0]);
+        }
+
         // Get the complainers
         public static async Task<IResult> getComplainersByCell(string cellId, GsdsDb db)
         {

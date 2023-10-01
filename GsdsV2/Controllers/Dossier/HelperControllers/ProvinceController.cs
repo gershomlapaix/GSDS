@@ -14,6 +14,16 @@ namespace GsdsV2.Controllers.Dossier.HelperControllers
             return TypedResults.Ok(provinces);
         }
 
+        // Get one the provinces
+        public static async Task<IResult> getProvinceById(string provinceId,GsdsDb db)
+        {
+            var province = await db.Provinces
+                .Where(_ => _.Id == provinceId)
+                .ToListAsync();
+
+            return TypedResults.Ok(province[0]);
+        }
+
         // Get the corresponding districts'
         public static async Task<IResult> getDistrictsByProvince(string provinceId, GsdsDb db)
         {

@@ -10,6 +10,7 @@ namespace Gsds.Models.Dossier{
     [Table("ACCUSED_TEMP", Schema ="ADMIN")]
     public class Accused{
         [Key]
+        [ForeignKey("ComplaintCode")]
         [Column("COMPLAINT_CODE")]
         public string complaintCode { get; set; }
 
@@ -76,5 +77,11 @@ namespace Gsds.Models.Dossier{
 
         // NAVIGATION PROPERTIES
         public Complaint? Complaint { get; set; }
+
+        public Accused() { }
+        public Accused(string Names)
+        {
+            this.Names = Names;
+        }
     }
 }

@@ -48,10 +48,10 @@ namespace Gsds.Data
         {
 
             // Complaint
-            modelBuilder.Entity<Complaint>()
-            .HasMany(_ => _.Accuseds)
-            .WithOne(a => a.Complaint)
-            .HasForeignKey(p => p.complaintCode);
+            modelBuilder.Entity<Accused>()
+            .HasOne(_ => _.Complaint)
+            .WithOne(a => a.Accused)
+            .HasForeignKey<Accused>(p => p.complaintCode);
 
             // complaint and files
             modelBuilder.Entity<Complaint>()

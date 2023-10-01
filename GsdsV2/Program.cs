@@ -174,6 +174,10 @@ public class Program
               [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00001,43,00049")]
         (GsdsDb db) => AccusedController.getAllAccuseds(db)).WithTags("Accused");
 
+        appRoutes.MapGet("/accused/{complaintCode}",
+              [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00001,43,00049")]
+        (string complaintCode, GsdsDb db) => AccusedController.getAccusedByComplaintCode(complaintCode,db)).WithTags("Accused");
+
         // ------------ COMPLAINT
         appRoutes.MapGet("/complaint",
              [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00001,43, 00049")]
@@ -247,6 +251,11 @@ public class Program
        (GsdsDb db) => ProvinceController.getProvinces(db)
            ).WithTags("Province");
 
+        appRoutes.MapGet("/province/{provinceId}",
+      //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
+      (string provinceId, GsdsDb db) => ProvinceController.getProvinceById(provinceId, db)
+          ).WithTags("Province");
+
         appRoutes.MapGet("/province/{provinceId}/districts",
             //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
         (string provinceId, GsdsDb db) => ProvinceController.getDistrictsByProvince(provinceId, db)
@@ -269,6 +278,11 @@ public class Program
 
 
         // ---------- For districts
+        appRoutes.MapGet("/district/{districtId}",
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
+        (string districtId, GsdsDb db) => DistrictController.getDistrictById(districtId, db)
+            ).WithTags("District");
+
         appRoutes.MapGet("/district/{districtId}/sectors",
         //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
         (string districtId, GsdsDb db) => DistrictController.getSectorByDistrict(districtId, db)
@@ -290,6 +304,11 @@ public class Program
             ).WithTags("District");
 
         // ---------- For sectors
+        appRoutes.MapGet("/sector/{sectorId}",
+       //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
+       (string sectorId, GsdsDb db) => SectorController.getSectorById(sectorId, db)
+           ).WithTags("Sector");
+
         appRoutes.MapGet("/sector/{sectorId}/cells",
         //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
         (string sectorId, GsdsDb db) => SectorController.getCellBySector(sectorId, db)
@@ -311,6 +330,11 @@ public class Program
             ).WithTags("Sector");
 
         // ---------- For Cellls
+        appRoutes.MapGet("/cell/{cellId}",
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
+        (string cellId, GsdsDb db) => CellController.getCellById(cellId, db)
+            ).WithTags("Cell");
+
         appRoutes.MapGet("/cell/{cellId}/complaints",
         //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
         (string cellId, GsdsDb db) => CellController.getComplaintsByCell(cellId, db)
@@ -329,6 +353,11 @@ public class Program
         appRoutes.MapGet("/person-type",
         //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
         (GsdsDb db) => PersonTypeController.getPersonTypes(db)
+            ).WithTags("PersonType");
+
+        appRoutes.MapGet("/person-type/{personTypeId}",
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
+        (string personTypeId, GsdsDb db) => PersonTypeController.getPersonTypeById(personTypeId, db)
             ).WithTags("PersonType");
 
         appRoutes.MapGet("/identifier-type",
@@ -380,6 +409,10 @@ public class Program
         appRoutes.MapGet("/gender", 
             (GsdsDb db) =>GenderController.getGenders(db)
         ).WithTags("Gender");
+
+        appRoutes.MapGet("/gender/{genderId}",
+           (string genderId, GsdsDb db) => GenderController.getGenderById(genderId, db)
+       ).WithTags("Gender");
 
         // provide swagger ui
         app.UseSwaggerUI();

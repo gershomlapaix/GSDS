@@ -15,6 +15,14 @@ namespace GsdsV2.Controllers.Dossier.HelperControllers
             return TypedResults.Ok(cells);
         }
 
+        // Get one sector
+        public static async Task<IResult> getSectorById(string sectorId, GsdsDb db)
+        {
+            var sectors = await db.Sectors.Where(_ => _.Id == sectorId).ToListAsync();
+
+            return TypedResults.Ok(sectors[0]);
+        }
+
         // Get the complaints by the province
         public static async Task<IResult> getComplaintsBySector(string sectorId, GsdsDb db)
         {

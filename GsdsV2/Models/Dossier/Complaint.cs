@@ -97,8 +97,8 @@ namespace GsdsV2.Models.Dossier
         // Navigation properties
 
 
-        [JsonIgnore]
-        public ICollection<Accused>? Accuseds { get; set; }
+        //[JsonIgnore]
+        public Accused? Accused { get; set; }
 
         public Province? Province { get; set; }
         public List<ComplaintAttachment>? ComplaintAttachments { get; set;}

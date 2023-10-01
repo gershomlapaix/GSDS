@@ -12,7 +12,7 @@ namespace GsdsV2.Controllers.Dossier.HelperControllers
             return TypedResults.Ok(await db.PersonTypes.ToArrayAsync());
         }
 
-        public static async Task<IResult> getPersonTypeController(string id, GsdsDb db)
+        public static async Task<IResult> getPersonTypeById(string id, GsdsDb db)
         {
             return await db.PersonTypes.Where(c => c.Id == id).ToListAsync()
                is List<PersonType> personTypes
