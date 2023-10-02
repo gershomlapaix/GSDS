@@ -20,6 +20,7 @@ namespace Gsds.Data
         public DbSet<Accused> Accuseds { get; set; }
         public DbSet<Complaint> Complaints { get; set; }
         public DbSet<ComplaintManagement> ComplaintManagements { get; set; }
+        public DbSet<ComplaintAdditionalData> ComplaintAdditionalData { get; set; }
 
 
         // FROM HELPER MODELS
@@ -58,6 +59,13 @@ namespace Gsds.Data
             .HasMany(_ => _.ComplaintAttachments)
             .WithOne(a => a.Complaint)
             .HasForeignKey(a => a.ComplaintCode);
+
+            // complaint and additional data
+            modelBuilder.Entity<Complaint>()
+             .HasMany(_ => _.ComplaintAdditionalData)
+             .WithOne(a => a.Complaint)
+             .HasForeignKey(a => a.ComplaintCode);
+
 
             // many to many of complaints and roles
             modelBuilder.Entity<Complaint>()

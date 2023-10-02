@@ -60,7 +60,6 @@ namespace GsdsV2.Controllers.Dossier
             else
             {
                 return TypedResults.BadRequest("There have been a problem.");
-
             }
         }
     }

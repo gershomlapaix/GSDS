@@ -144,236 +144,261 @@ public class Program
 
         // -------- For Users actions
         appRoutes.MapPost("/department/complaints",
-                [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00001,43,00049")]
+                [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00001,00043,00049")]
         (ClaimsPrincipal user, GsdsDb db) => UserController.getMyRoleComplaints(user, db)).WithTags("UserActions");
 
         appRoutes.MapGet("/users/loggedin",
-               [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00001,43,00049")]
+               [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00001,00043,00049")]
         (ClaimsPrincipal user, GsdsDb db) => UserController.getLoggedInUser(user, db)).WithTags("UserActions");
 
         // ------------- COMPLAINER ROUTES
         appRoutes.MapGet("/complainer",
-               [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00001,43, 00049")]
+               [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00001,00043, 00049")]
         (GsdsDb db) => ComplainerController.GetAllComplainers(db)).WithTags("Complainer");
 
         appRoutes.MapGet("/complainer/mydetails",
-               [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00001,43, 00049")]
+               [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00001,00043, 00049")]
         (ClaimsPrincipal user, GsdsDb db) => ComplainerController.getMyDetailsByUsername(user, db)).WithTags("Complainer");
 
         appRoutes.MapPost("/complainer",
-                [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00001,43, 00049")]
+                [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00001,00043, 00049")]
         (ComplainerDto complainerDto, ClaimsPrincipal user, GsdsDb db) => ComplainerController.RegisterComplainer(complainerDto, user, db)).WithTags("Complainer");
 
 
         // ------------- ACCUSED ROUTES
         appRoutes.MapPost("/accused",
-               [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00001,43, 00049")]
+               [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00001,00043, 00049")]
         (AccusedDto accusedDto, GsdsDb db) => AccusedController.RegisterAccused(accusedDto, db)).WithTags("Accused");
 
         appRoutes.MapGet("/accused",
-              [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00001,43,00049")]
+              [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00001,00043,00049")]
         (GsdsDb db) => AccusedController.getAllAccuseds(db)).WithTags("Accused");
 
         appRoutes.MapGet("/accused/{complaintCode}",
-              [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00001,43,00049")]
-        (string complaintCode, GsdsDb db) => AccusedController.getAccusedByComplaintCode(complaintCode,db)).WithTags("Accused");
+              [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00001,00043,00049")]
+        (string complaintCode, GsdsDb db) => AccusedController.getAccusedByComplaintCode(complaintCode, db)).WithTags("Accused");
 
         // ------------ COMPLAINT
         appRoutes.MapGet("/complaint",
-             [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00001,43, 00049")]
+             [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00001,00043, 00049")]
         (GsdsDb db) => ComplaintController.getAllComplaints(db)).WithTags("Complaint");
 
         appRoutes.MapGet("/complaint/{complaintCode}",
-             [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00001,43, 00049")]
+             [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00001,00043, 00049")]
         (string complaintCode, GsdsDb db) => ComplaintController.getOneComplaint(complaintCode, db)).WithTags("Complaint");
 
         appRoutes.MapGet("/complaint/category/{cmpltCategory}",
-             [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00001,43, 00049")]
+             [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00001,00043, 00049")]
         (string cmpltCategory, GsdsDb db) => ComplaintController.getComplaintByCategory(cmpltCategory, db)).WithTags("Complaint");
 
         appRoutes.MapGet("/complaint/files/{complaintCode}",
-             [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00001,43,00049")]
+             [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00001,00043,00049")]
         (string complaintCode, GsdsDb db) => ComplaintController.getComplaintFiles(complaintCode, db)).WithTags("Complaint");
 
         appRoutes.MapGet("/complaint/roles/{complaintCode}",
-             [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00001,43,00049")]
+             [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00001,00043,00049")]
         (string complaintCode, GsdsDb db) => ComplaintController.getComplaintRoles(complaintCode, db)).WithTags("Complaint");
 
         appRoutes.MapGet("/complaint/loggedin",
-             [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00001,43,00049")]
+             [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00001,00043,00049")]
         (ClaimsPrincipal user, GsdsDb db) => ComplaintController.getLoggedInUserComplaints(user, db)).WithTags("Complaint");
 
         appRoutes.MapPost("/complaint",
-            [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43,00049")]
+            [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00043,00049")]
         (ComplaintDto complaint, ClaimsPrincipal user, IEmailService emailService, GsdsDb db) => ComplaintController.createComplaint(complaint, user, emailService, db)).WithTags("Complaint");
 
 
         // -------------- FOR COMPLAINT MANAGEMENT
         appRoutes.MapPost("/complaint-management/{complaintCode}",
-            [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00001, 43,00049")]
-        (string complaintCode, ComplaintManagementDto cmpltMngDto, ClaimsPrincipal user, IEmailService emailService, GsdsDb db) => 
+            [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00001, 00043,00049")]
+        (string complaintCode, ComplaintManagementDto cmpltMngDto, ClaimsPrincipal user, IEmailService emailService, GsdsDb db) =>
             ComplaintManagementController.forwardingComplaint(complaintCode, cmpltMngDto, user, emailService, db)).WithTags("ComplaintManagement");
+
+        // -------------- FOR COMPLAINT ADDITIONAL DATA
+        appRoutes.MapPost("/complaint-additional-data",
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00001, 00043,00049")]
+        (ComplaintAdditionalDataDto additionaldataDto, GsdsDb db) =>
+           ComplaintAdditionalDataController.CreateComplaintAdditionalData(additionaldataDto, db)).WithTags("ComplaintAdditionalData");
+
+        appRoutes.MapGet("/complaint-additional-data/{complaintCode}",
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00001, 00043,00049")]
+        (string complaintCode, GsdsDb db) =>
+           ComplaintAdditionalDataController.GetComplaintAdditionalData(complaintCode, db)).WithTags("ComplaintAdditionalData");
+
 
         // ------------- For files
         appRoutes.MapPost("/file/upload",
-          [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00001,43,00049")]
+          [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00001,00043,00049")]
         (IFormFileCollection files, string complaintCode, GsdsDb db) => FileHandlingController.uploadFiles(files, complaintCode, db)
         ).WithTags("File");
 
         appRoutes.MapGet("/files",
-            [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00001,43,00049")]
+            [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00001,00043,00049")]
         (GsdsDb db) => FileHandlingController.getFiles(db)).WithTags("File");
 
         appRoutes.MapGet("/files/{fileId}",
-            [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00001,43,00049")]
+            [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00001,00043,00049")]
         (int fileId, GsdsDb db) => FileHandlingController.downloadFile(fileId, db)).WithTags("File");
 
 
         // ---------- For country
 
         appRoutes.MapGet("/country",
-        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
-            (GsdsDb db)=> CountryController.getAllCountries(db)
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00043")]
+            (GsdsDb db) => CountryController.getAllCountries(db)
             ).WithTags("Country");
 
         appRoutes.MapGet("/country/{countryId}",
-        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00043")]
             (string countryId, GsdsDb db) => CountryController.getSingleCountry(countryId, db)).WithTags("Country");
 
         appRoutes.MapGet("/country/countryName/{countryName}",
-        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00043")]
             (string countryName, GsdsDb db) => CountryController.getCountryByName(countryName, db)).WithTags("Country");
 
 
         // ---------- For Provinces
         appRoutes.MapGet("/province",
-       //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
+       //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00043")]
        (GsdsDb db) => ProvinceController.getProvinces(db)
            ).WithTags("Province");
 
         appRoutes.MapGet("/province/{provinceId}",
-      //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
+      //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00043")]
       (string provinceId, GsdsDb db) => ProvinceController.getProvinceById(provinceId, db)
           ).WithTags("Province");
 
         appRoutes.MapGet("/province/{provinceId}/districts",
-            //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00043")]
         (string provinceId, GsdsDb db) => ProvinceController.getDistrictsByProvince(provinceId, db)
             ).WithTags("Province");
 
         appRoutes.MapGet("/province/{provinceId}/complaints",
-        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00043")]
         (string provinceId, GsdsDb db) => ProvinceController.getComplaintsByProvince(provinceId, db)
             ).WithTags("Province");
 
         appRoutes.MapGet("/province/{provinceId}/complainers",
-        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00043")]
         (string provinceId, GsdsDb db) => ProvinceController.getComplainersByProvince(provinceId, db)
             ).WithTags("Province");
 
         appRoutes.MapGet("/province/{provinceId}/accuseds",
-        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00043")]
         (string provinceId, GsdsDb db) => ProvinceController.getAccusedByProvince(provinceId, db)
             ).WithTags("Province");
 
 
         // ---------- For districts
         appRoutes.MapGet("/district/{districtId}",
-        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00043")]
         (string districtId, GsdsDb db) => DistrictController.getDistrictById(districtId, db)
             ).WithTags("District");
 
         appRoutes.MapGet("/district/{districtId}/sectors",
-        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00043")]
         (string districtId, GsdsDb db) => DistrictController.getSectorByDistrict(districtId, db)
             ).WithTags("District");
 
         appRoutes.MapGet("/district/{districtId}/complaints",
-        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00043")]
         (string districtId, GsdsDb db) => DistrictController.getComplaintsByDistrict(districtId, db)
             ).WithTags("District");
 
         appRoutes.MapGet("/district/{districtId}/complainers",
-        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00043")]
         (string districtId, GsdsDb db) => DistrictController.getComplainersByDistrict(districtId, db)
             ).WithTags("District");
 
         appRoutes.MapGet("/district/{districtId}/accuseds",
-        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00043")]
         (string districtId, GsdsDb db) => DistrictController.getAccusedByDistrict(districtId, db)
             ).WithTags("District");
 
         // ---------- For sectors
         appRoutes.MapGet("/sector/{sectorId}",
-       //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
+       //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00043")]
        (string sectorId, GsdsDb db) => SectorController.getSectorById(sectorId, db)
            ).WithTags("Sector");
 
         appRoutes.MapGet("/sector/{sectorId}/cells",
-        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00043")]
         (string sectorId, GsdsDb db) => SectorController.getCellBySector(sectorId, db)
             ).WithTags("Sector");
 
         appRoutes.MapGet("/sector/{sectorId}/complaints",
-        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00043")]
         (string sectorId, GsdsDb db) => SectorController.getComplaintsBySector(sectorId, db)
             ).WithTags("Sector");
 
         appRoutes.MapGet("/sector/{sectorId}/complainers",
-        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00043")]
         (string sectorId, GsdsDb db) => SectorController.getComplainersBySector(sectorId, db)
             ).WithTags("Sector");
 
         appRoutes.MapGet("/sector/{sectorId}/accuseds",
-        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00043")]
         (string sectorId, GsdsDb db) => SectorController.getAccusedBySector(sectorId, db)
             ).WithTags("Sector");
 
         // ---------- For Cellls
         appRoutes.MapGet("/cell/{cellId}",
-        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00043")]
         (string cellId, GsdsDb db) => CellController.getCellById(cellId, db)
             ).WithTags("Cell");
 
         appRoutes.MapGet("/cell/{cellId}/complaints",
-        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00043")]
         (string cellId, GsdsDb db) => CellController.getComplaintsByCell(cellId, db)
             ).WithTags("Cell");
 
         appRoutes.MapGet("/cell/{cellId}/complainers",
-        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00043")]
         (string cellId, GsdsDb db) => CellController.getComplainersByCell(cellId, db)
             ).WithTags("Cell");
 
         appRoutes.MapGet("/cell/{cellId}/accuseds",
-        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00043")]
         (string cellId, GsdsDb db) => CellController.getAccusedByCell(cellId, db)
             ).WithTags("Cell");
 
         appRoutes.MapGet("/person-type",
-        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00043")]
         (GsdsDb db) => PersonTypeController.getPersonTypes(db)
             ).WithTags("PersonType");
 
         appRoutes.MapGet("/person-type/{personTypeId}",
-        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00043")]
         (string personTypeId, GsdsDb db) => PersonTypeController.getPersonTypeById(personTypeId, db)
             ).WithTags("PersonType");
 
+
+        // ------------- For identifier type
+
         appRoutes.MapGet("/identifier-type",
-        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00043")]
         (GsdsDb db) => IdentifierTypeController.getAllIdentifierTypes(db)
+            ).WithTags("IdentifierType");
+
+        appRoutes.MapGet("/identifier-type/{id}",
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00043")]
+        (string id, GsdsDb db) => IdentifierTypeController.getIdentifierTypeById(id, db)
             ).WithTags("IdentifierType");
 
         // ------------ For roles
         appRoutes.MapGet("/roles",
-       [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00001, 43, 00049")]
-        (GsdsDb db) => ManagerRolesController.getAllRoles(db)
+           [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00001, 00043, 00049")]
+        (GsdsDb db) => ManagerRolesController.GetAllRoles(db)
+           ).WithTags("ManagerRoles");
+
+        appRoutes.MapGet("/roles/{roleId}",
+           [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00001, 00043, 00049")]
+        (string roleId, GsdsDb db) => ManagerRolesController.GetRoleById(roleId, db)
            ).WithTags("ManagerRoles");
 
         appRoutes.MapGet("/roles/{roleId}/complaints",
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00001, 43, 00049")]
-        (string roleId, GsdsDb db) => ManagerRolesController.getRoleComplaints(roleId, db)
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00001, 00043, 00049")]
+        (string roleId, GsdsDb db) => ManagerRolesController.GetRoleComplaints(roleId, db)
             ).WithTags("ManagerRoles");
 
         // ------------- For complaint category controller
@@ -385,8 +410,13 @@ public class Program
 
         // ---------- For Institutions
         appRoutes.MapGet("/institution",
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00001, 43, 00049")]
-        (GsdsDb db) => InstitutionController.getInstitutions(db)
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00001, 00043, 00049")]
+        (GsdsDb db) => InstitutionController.GetInstitutions(db)
+            ).WithTags("Institution");
+
+        appRoutes.MapGet("/institution/{institutionId}",
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00001, 00043, 00049")]
+        (Double institutionId, GsdsDb db) => InstitutionController.GetInstitutionById(institutionId, db)
             ).WithTags("Institution");
 
         appRoutes.MapPost("/email", (EmailDto request, IEmailService emailService) =>
@@ -397,17 +427,17 @@ public class Program
 
         // --------- OTHER HELPERS
         appRoutes.MapGet("/marital-status",
-        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00043")]
         (GsdsDb db) => MaritalStatusController.getallMaritalStatus(db)
             ).WithTags("MaritalStatus");
 
         appRoutes.MapGet("/marital-status/{id}",
-        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00043")]
             (string id, GsdsDb db) => MaritalStatusController.getMaritalStatusById(id, db)).WithTags("MaritalStatus");
 
         // ----------- For Gender
-        appRoutes.MapGet("/gender", 
-            (GsdsDb db) =>GenderController.getGenders(db)
+        appRoutes.MapGet("/gender",
+            (GsdsDb db) => GenderController.getGenders(db)
         ).WithTags("Gender");
 
         appRoutes.MapGet("/gender/{genderId}",

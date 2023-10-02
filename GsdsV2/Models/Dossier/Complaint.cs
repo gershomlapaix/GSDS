@@ -102,6 +102,7 @@ namespace GsdsV2.Models.Dossier
 
         public Province? Province { get; set; }
         public List<ComplaintAttachment>? ComplaintAttachments { get; set;}
+        public List<ComplaintAdditionalData>? ComplaintAdditionalData { get; set; }
         public List<ManagerRoles>? ManagerRoles { get; set; }
         public List<ComplaintRoles> Roles { get; set; }
 

@@ -1,4 +1,5 @@
 ﻿using Gsds.Data;
+using GsdsV2.Models.HelperModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,7 +20,14 @@ namespace GsdsV2.Controllers.Dossier.HelperControllers
         {
             var cells = await db.Cells.Where(_ => _.Id == cellId).ToListAsync();
 
-            return TypedResults.Ok(cells[0]);
+            if (cells.Count() > 0)
+            {
+                return TypedResults.Ok(cells[0]);
+            }
+            else
+            {
+                return TypedResults.NotFound("Cell not found");
+            }
         }
 
         // Get the complainers

@@ -20,15 +20,13 @@ namespace GsdsV2.DTO.Dossier
         public string? CellId { get; set; }
         public string? ComplaintCategoryId { get; set; } 
         public string? RoleId { get; set; }
-        public Accused? Accused { get; set; }
-        public Province? Province { get; set; }
 
         public ComplaintDto() { }
         public ComplaintDto(Complaint complaint) =>
             (ComplaintCode,ComplainerId, AccusedIdNumber, Subject, AccusedComment, previousInstitutions, ComplaintOwner,
-            ProvinceId, DistrictId, SectorId, CellId, ComplaintCategoryId, RoleId, Accused, Province) = 
+            ProvinceId, DistrictId, SectorId, CellId, ComplaintCategoryId, RoleId) = 
             (complaint.ComplaintCode, complaint.ComplainerId, complaint.AccusedIdNumber, complaint.Subject, complaint.AccusedComment,
             complaint.previousInstitutions, complaint.ComplaintOwner, complaint.ProvinceId, complaint.DistrictId, complaint.SectorId, complaint.CellId, 
-            complaint.ComplaintCategoryId, complaint.RoleId, Accused, Province);
+            complaint.ComplaintCategoryId, complaint.RoleId);
     }
 }

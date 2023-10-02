@@ -1,4 +1,5 @@
 ﻿using Gsds.Data;
+using GsdsV2.Models.HelperModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,9 +20,16 @@ namespace GsdsV2.Controllers.Dossier.HelperControllers
         {
             var province = await db.Provinces
                 .Where(_ => _.Id == provinceId)
-                .ToListAsync();
+            .ToListAsync();
 
-            return TypedResults.Ok(province[0]);
+            if (province.Count() > 0)
+            {
+                return TypedResults.Ok(province[0]);
+            }
+            else
+            {
+                return TypedResults.NotFound(" province Not found");
+            }
         }
 
         // Get the corresponding districts'
