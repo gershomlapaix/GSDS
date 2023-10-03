@@ -13,7 +13,7 @@ namespace GsdsV2.Controllers.Dossier
     public class ComplaintManagementController : ControllerBase
     {
         // Forwarding a complaint
-        public static async Task<IResult> forwardingComplaint(string complaintCode, ComplaintManagementDto cmpltMngDto, ClaimsPrincipal user, IEmailService emailService, GsdsDb db)
+        public static async Task<IResult> ForwardingComplaint(string complaintCode, ComplaintManagementDto cmpltMngDto, ClaimsPrincipal user, IEmailService emailService, GsdsDb db)
         {
 
             var allData = await db.ComplaintManagements.ToArrayAsync();
@@ -64,6 +64,27 @@ namespace GsdsV2.Controllers.Dossier
             {
                 return TypedResults.BadRequest("There have been a problem.");
             }
+        }
+
+        // forwarded complaints
+        public static async Task<IResult> GetAllForwarded(GsdsDb db)
+        {
+            return TypedResults.Ok(
+                await db.ComplaintManagements
+                .Select(cm => new { 
+                   cm.SeqNumber,
+                   cm.ComplaintCode,
+                   cm.Username,
+                   cm.LevelFrom,
+                   cm.LevelTo,
+                   cm.InstitutionId,
+                   cm.TransDate,
+                   cm.DueDate,
+                   cm.InternalComment,
+                   cm.ExternalComment,
+                   cm.Cc
+                })
+                .ToArrayAsync());
         }
     }
 }

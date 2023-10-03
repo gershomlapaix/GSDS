@@ -51,7 +51,7 @@ namespace GsdsV2.Models.Dossier
         public string? ExternalComment { get; set; } = null;
 
         [Column("STATUSFIRST")]
-        public string? StatusFirst { get; set; } = "0";
+        public decimal? StatusFirst { get; set; } = 0;
 
         [Column ("CC")]
         public string? Cc { get; set; }

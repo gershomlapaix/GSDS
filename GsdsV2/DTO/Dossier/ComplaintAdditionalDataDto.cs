@@ -10,11 +10,13 @@ namespace GsdsV2.DTO.Dossier
         public string? Title { get; set; }
 
         public string? Comment { get; set; }
+        
+        public DateTime TransferDate { get; set; }
 
         public ComplaintAdditionalDataDto() { }
         public ComplaintAdditionalDataDto(ComplaintAdditionalData additionalData)
         {
-            (complaintCode, Title, Comment) = (additionalData.ComplaintCode ,additionalData.Title, additionalData.Comment);
+            (complaintCode, Title, Comment, TransferDate) = (additionalData.ComplaintCode ,additionalData.Title, additionalData.Comment, additionalData.TransferDate);
         }
     }
 }

@@ -189,7 +189,7 @@ public class Program
 
         // ------------ COMPLAINT
         appRoutes.MapGet("/complaint",
-             //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00001,00043, 00049")]
+             [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00001,00043, 00049")]
         (GsdsDb db) => ComplaintController.getAllComplaints(db)).WithTags("Complaint");
 
         appRoutes.MapGet("/complaint/{complaintCode}",
@@ -221,7 +221,12 @@ public class Program
         appRoutes.MapPost("/complaint-management/{complaintCode}",
             [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00001, 00043,00049")]
         (string complaintCode, ComplaintManagementDto cmpltMngDto, ClaimsPrincipal user, IEmailService emailService, GsdsDb db) =>
-            ComplaintManagementController.forwardingComplaint(complaintCode, cmpltMngDto, user, emailService, db)).WithTags("ComplaintManagement");
+            ComplaintManagementController.ForwardingComplaint(complaintCode, cmpltMngDto, user, emailService, db)).WithTags("ComplaintManagement");
+
+        appRoutes.MapGet("/complaint-management/forwarded",
+           //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00001, 00043,00049")]
+        (GsdsDb db) =>
+           ComplaintManagementController.GetAllForwarded( db)).WithTags("ComplaintManagement");
 
         // -------------- FOR COMPLAINT ADDITIONAL DATA
         appRoutes.MapPost("/complaint-additional-data",
