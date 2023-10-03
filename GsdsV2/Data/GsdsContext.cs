@@ -66,7 +66,6 @@ namespace Gsds.Data
              .WithOne(a => a.Complaint)
              .HasForeignKey(a => a.ComplaintCode);
 
-
             // many to many of complaints and roles
             modelBuilder.Entity<Complaint>()
             .HasMany(e => e.ManagerRoles)
@@ -85,6 +84,22 @@ namespace Gsds.Data
             .WithOne(a => a.Province)
             .HasForeignKey(p => p.ProvinceId);
 
+            modelBuilder.Entity<District>()
+            .HasMany(_ => _.Complaints)
+            .WithOne(a => a.District)
+            .HasForeignKey(p => p.DistrictId);
+
+            modelBuilder.Entity<Sector>()
+            .HasMany(_ => _.Complaints)
+            .WithOne(a => a.Sector)
+            .HasForeignKey(p => p.SectorId);
+
+            modelBuilder.Entity<Cell>()
+            .HasMany(_ => _.Complaints)
+            .WithOne(a => a.Cell)
+            .HasForeignKey(p => p.CellId);
+
+            // ------------ For complaint roles
 
             modelBuilder.Entity<ComplaintRoles>().HasKey(cr => new { cr.ComplaintCode, cr.RoleId });
 
@@ -92,7 +107,6 @@ namespace Gsds.Data
                 .HasOne<Complaint>(cr => cr.Complaint)
                 .WithMany(c => c.Roles)
                 .HasForeignKey(cr => cr.ComplaintCode);
-
 
             modelBuilder.Entity<ComplaintRoles>()
                 .HasOne<ManagerRoles>(cr => cr.ManagerRoles)

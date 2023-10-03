@@ -5,6 +5,7 @@ using GsdsV2.Models.Dossier;
 using GsdsV2.Models.HelperModels;
 using GsdsV2.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
 namespace GsdsV2.Controllers.Dossier
@@ -15,8 +16,10 @@ namespace GsdsV2.Controllers.Dossier
         public static async Task<IResult> forwardingComplaint(string complaintCode, ComplaintManagementDto cmpltMngDto, ClaimsPrincipal user, IEmailService emailService, GsdsDb db)
         {
 
+            var allData = await db.ComplaintManagements.ToArrayAsync();
+
             var complaintManagement = new ComplaintManagement();
-            complaintManagement.SeqNumber = cmpltMngDto.SeqNumber;
+            complaintManagement.SeqNumber = allData.Last().SeqNumber + 1;
             complaintManagement.TransDate = DateTime.Now;
             complaintManagement.ComplaintCode = complaintCode;
             complaintManagement.Username = user.FindFirstValue(ClaimTypes.NameIdentifier);

@@ -125,7 +125,7 @@ public class Startup{
 
         appRoutes.MapGet("/complainer/{complainerNId}",
        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
-       (GsdsDb db) => ComplainerController.getSingleComplainer);
+       (GsdsDb db) => ComplainerController.GetComplainerById);
 
         //appRoutes.MapPost("/complainer",
         //        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]

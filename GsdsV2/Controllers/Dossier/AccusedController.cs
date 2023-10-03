@@ -3,7 +3,6 @@ using Gsds.Models.Dossier;
 using GsdsV2.DTO.Dossier;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Security.Claims;
 
 namespace GsdsV2.Controllers.Dossier
 {
@@ -51,7 +50,6 @@ namespace GsdsV2.Controllers.Dossier
         {
             var accused = await db.Accuseds.Where(_ => _.complaintCode == complaintCode).ToListAsync();
             return TypedResults.Ok(accused[0]);
-
         }
     }
 }

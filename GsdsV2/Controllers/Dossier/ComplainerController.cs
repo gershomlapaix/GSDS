@@ -19,7 +19,7 @@ namespace Gsds.Controllers.Dossier
                 IdType = complainerDto.IdType,
                 GenderId = complainerDto.GenderId,
                 IdDetails = complainerDto.IdDetails,
-                Names = user.FindFirst(ClaimTypes.GivenName).Value,
+                TheNames = user.FindFirst(ClaimTypes.GivenName).Value,
                 birthDate = complainerDto.birthDate,
                 MaritalStatusId = complainerDto.MaritalStatusId,
                 ProvinceId = complainerDto.ProvinceId,
@@ -50,7 +50,7 @@ namespace Gsds.Controllers.Dossier
         }
 
         //Get One complainer
-        public static async Task<IResult> getSingleComplainer(string complainerNId, GsdsDb db)
+        public static async Task<IResult> GetComplainerById(string complainerNId, GsdsDb db)
         {
             //return await db.Complainers.Where(c => c.Id == complainerNId).Include(_ => _.Complaints).ToListAsync()
             return await db.Complainers.Where(c => c.Id == complainerNId).ToListAsync()
@@ -61,7 +61,7 @@ namespace Gsds.Controllers.Dossier
         }
 
         // get complaints by the username
-        public static async Task<IResult> getMyDetailsByUsername(ClaimsPrincipal user, GsdsDb db)
+        public static async Task<IResult> GetMyDetailsByUsername(ClaimsPrincipal user, GsdsDb db)
         {
             var complainer = await db.Complainers.Where(c => c.Username == user.FindFirstValue(ClaimTypes.NameIdentifier)).ToListAsync();
 
@@ -72,7 +72,22 @@ namespace Gsds.Controllers.Dossier
             {              
                 return TypedResults.NotFound(new { requiredUpdate = true });
             }
+        }
 
+        // get my uploaded files
+        public static async Task<IResult> GetMyUploadedFiles(ClaimsPrincipal user, GsdsDb db)
+        {
+            var files = await db.Attachments.Where(_ => _.UploadedBy == user.FindFirstValue(ClaimTypes.NameIdentifier)).ToListAsync();
+
+            if (files.Count() > 0)
+            {
+                return TypedResults.Ok(files);
+            }
+
+            else
+            {
+                return TypedResults.NotFound("You do not have files yet.");
+            }
         }
     }
 }

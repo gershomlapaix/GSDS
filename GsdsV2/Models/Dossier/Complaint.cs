@@ -98,14 +98,15 @@ namespace GsdsV2.Models.Dossier
 
 
         //[JsonIgnore]
-        public Accused? Accused { get; set; }
+        public virtual Accused? Accused { get; set; }
 
         public Province? Province { get; set; }
+        public District? District { get; set; }
+        public Sector? Sector { get; set; }
+        public Cell? Cell { get; set; }
         public List<ComplaintAttachment>? ComplaintAttachments { get; set;}
         public List<ComplaintAdditionalData>? ComplaintAdditionalData { get; set; }
         public List<ManagerRoles>? ManagerRoles { get; set; }
         public List<ComplaintRoles> Roles { get; set; }
-
-
     }
 }

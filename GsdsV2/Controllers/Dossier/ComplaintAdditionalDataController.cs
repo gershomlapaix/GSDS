@@ -30,10 +30,10 @@ namespace GsdsV2.Controllers.Dossier
         // Add more data to a complaint
         public static async Task<IResult> CreateComplaintAdditionalData(ComplaintAdditionalDataDto additionalDataDto, GsdsDb db)
         {
-            var lastElement = await db.ComplaintAdditionalData.ToArrayAsync();
+            var allData = await db.ComplaintAdditionalData.ToArrayAsync();
 
             var cmpltAdditionalData = new ComplaintAdditionalData();
-            cmpltAdditionalData.RefCode = lastElement.Last().RefCode + 1;
+            cmpltAdditionalData.RefCode = allData.Last().RefCode + 1;
             cmpltAdditionalData.ComplaintCode = additionalDataDto.complaintCode;
             cmpltAdditionalData.Title = additionalDataDto.Title;
             cmpltAdditionalData.Comment = additionalDataDto.Comment;

@@ -17,7 +17,7 @@ namespace GsdsV2.Models.HelperModels
         [Column("PROVINCEENGLISH")]
         public string ProvinceEnglish { get; set; }
 
-        //[JsonIgnore]
+        [JsonIgnore]
         public List<Complaint>? Complaints { get; set; }    // complaints
 
         //[JsonIgnore]

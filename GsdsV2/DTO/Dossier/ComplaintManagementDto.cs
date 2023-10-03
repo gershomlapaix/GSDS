@@ -5,7 +5,6 @@ namespace GsdsV2.DTO.Dossier
 {
     public class ComplaintManagementDto
     {
-        public Double SeqNumber { get; set; }
         public DateTime TransDate { get; set; }
 
         //public string? ComplaintCode { get; set; }

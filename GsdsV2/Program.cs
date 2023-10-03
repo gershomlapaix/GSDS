@@ -114,6 +114,7 @@ public class Program
         builder.Services.AddAuthorization();
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSingleton<IUserService, UserService>();
+        builder.Services.AddScoped<IPathProvider, PathProvider>();
         builder.Services.AddScoped<IEmailService, EmailService>();
 
         var app = builder.Build();
@@ -156,9 +157,17 @@ public class Program
                [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00001,00043, 00049")]
         (GsdsDb db) => ComplainerController.GetAllComplainers(db)).WithTags("Complainer");
 
+        appRoutes.MapGet("/complainer/{complainerId}",
+              [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00001,00043, 00049")]
+        (string complainerId, GsdsDb db) => ComplainerController.GetComplainerById(complainerId, db)).WithTags("Complainer");
+
         appRoutes.MapGet("/complainer/mydetails",
                [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00001,00043, 00049")]
-        (ClaimsPrincipal user, GsdsDb db) => ComplainerController.getMyDetailsByUsername(user, db)).WithTags("Complainer");
+        (ClaimsPrincipal user, GsdsDb db) => ComplainerController.GetMyDetailsByUsername(user, db)).WithTags("Complainer");
+
+        appRoutes.MapGet("/complainer/my-files",
+              [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00001,00043, 00049")]
+        (ClaimsPrincipal user, GsdsDb db) => ComplainerController.GetMyUploadedFiles(user, db)).WithTags("Complainer");
 
         appRoutes.MapPost("/complainer",
                 [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00001,00043, 00049")]
@@ -180,7 +189,7 @@ public class Program
 
         // ------------ COMPLAINT
         appRoutes.MapGet("/complaint",
-             [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00001,00043, 00049")]
+             //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00001,00043, 00049")]
         (GsdsDb db) => ComplaintController.getAllComplaints(db)).WithTags("Complaint");
 
         appRoutes.MapGet("/complaint/{complaintCode}",
@@ -229,7 +238,7 @@ public class Program
         // ------------- For files
         appRoutes.MapPost("/file/upload",
           [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00001,00043,00049")]
-        (IFormFileCollection files, string complaintCode, GsdsDb db) => FileHandlingController.uploadFiles(files, complaintCode, db)
+        (IFormFileCollection files, string complaintCode, ClaimsPrincipal user, GsdsDb db) => FileHandlingController.UploadFiles(files, complaintCode, user, db)
         ).WithTags("File");
 
         appRoutes.MapGet("/files",
@@ -237,8 +246,8 @@ public class Program
         (GsdsDb db) => FileHandlingController.getFiles(db)).WithTags("File");
 
         appRoutes.MapGet("/files/{fileId}",
-            [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00001,00043,00049")]
-        (int fileId, GsdsDb db) => FileHandlingController.downloadFile(fileId, db)).WithTags("File");
+            //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00001,00043,00049")]
+        (IPathProvider pathProvider) => FileHandlingController.downloadFile(pathProvider)).WithTags("File");
 
 
         // ---------- For country

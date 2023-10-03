@@ -98,7 +98,7 @@ namespace Gsds.Models.Dossier
         public decimal? DeputyYesNo { get; set; } = decimal.Zero;
 
         [Column("NAMES")]
-        public string? Names { get; set; }
+        public string? TheNames { get; set; }
 
         // navigation properties
         //public List<Complaint> Complaints { get; set; }
