@@ -50,7 +50,6 @@ namespace Gsds.Models.Dossier
         // LOCATION
         [Column("PROVINCE_ID")]
         public string? ProvinceId { get; set; }
-        public Province Province { get; set; }
 
         [Column("DISTRICT_ID")]
         public string? DistrictId { get; set; }
@@ -101,6 +100,14 @@ namespace Gsds.Models.Dossier
         public string? TheNames { get; set; }
 
         // navigation properties
-        //public List<Complaint> Complaints { get; set; }
+        public List<Complaint> Complaints { get; set; }
+        public Province? Province { get; set; }
+        public District? District { get; set; }
+        public Sector? Sector { get; set; }
+        public Cell? Cell { get; set; }
+        public Gender? Gender { get; set; }
+        public MaritalStatus? MaritalStatus { get; set; }
+        public IdentifierType? IdentifierType { get; set; }
+        public PersonType? PersonType { get; set; }
     }
 }

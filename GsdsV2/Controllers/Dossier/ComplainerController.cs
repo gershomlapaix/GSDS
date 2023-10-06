@@ -43,9 +43,35 @@ namespace Gsds.Controllers.Dossier
         // get all complaints
         public static async Task<IResult> GetAllComplainers(GsdsDb db)
         {
-            //var complainers = await db.Complainers
-            //    .Include(_ => _.Complaints).ToListAsync();
-            var complainers = await db.Complainers.ToListAsync();
+            var complainers = await db.Complainers
+                .Select( c =>
+                new {
+                    c.Id,
+                    c.TheNames,
+                    c.FirstName,
+                    c.LastName,
+                    c.Gender.Name,
+                    c.birthDate,
+                    c.IdDetails,
+                    c.RegistrationDate,
+                    c.Phone,
+                    c.Email,
+                    c.Username,
+                    c.Address,
+                    c.DeputyYesNo,
+                    c.DeputyPhone,
+                    c.DeputyEmail,
+                    c.DeputyNames,
+                    c.MaritalStatus.MaritalStatusName,
+                    c.IdentifierType.TypeName,
+                    c.PersonType.PersonTypeName,
+                    c.Province.ProvinceName,
+                    c.District.DistrictName,
+                    c.Sector.SectorName,
+                    c.Cell.CellName,
+
+                })
+                .ToListAsync();
             return TypedResults.Ok(complainers);
         }
 

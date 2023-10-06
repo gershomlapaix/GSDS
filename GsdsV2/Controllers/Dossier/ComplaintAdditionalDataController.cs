@@ -13,7 +13,13 @@ namespace GsdsV2.Controllers.Dossier
         {
             var additionalData = await db.ComplaintAdditionalData
                 .Where(_ => _.ComplaintCode == complaintCode)
-                .Select((x) => new ComplaintAdditionalDataDto(x))
+                .Select((x) => new { 
+                    x.RefCode,
+                    x.ComplaintCode,
+                    x.Title,
+                    x.Comment,
+                    x.TransferDate
+                })
                 .ToArrayAsync();
 
             if(additionalData.Count() > 0 )
@@ -30,10 +36,10 @@ namespace GsdsV2.Controllers.Dossier
         // Add more data to a complaint
         public static async Task<IResult> CreateComplaintAdditionalData(ComplaintAdditionalDataDto additionalDataDto, GsdsDb db)
         {
-            var allData = await db.ComplaintAdditionalData.ToArrayAsync();
+            var allData = await db.ComplaintAdditionalData.ToListAsync();
 
             var cmpltAdditionalData = new ComplaintAdditionalData();
-            cmpltAdditionalData.RefCode = allData.Last().RefCode + 1;
+            cmpltAdditionalData.RefCode = allData.Count() != 0 ? allData.Last().RefCode + 1 : 1;
             cmpltAdditionalData.ComplaintCode = additionalDataDto.complaintCode;
             cmpltAdditionalData.Title = additionalDataDto.Title;
             cmpltAdditionalData.Comment = additionalDataDto.Comment;

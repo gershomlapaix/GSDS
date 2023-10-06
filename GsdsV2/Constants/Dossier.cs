@@ -1,10 +1,10 @@
 namespace Gsds.Constants.Dossier{
 
     // Gender
-    public enum Gender{
-        MALE,
-        FEMALE,
-    }
+    //public enum Gender{
+    //    MALE,
+    //    FEMALE,
+    //}
 
 // whether the accuser is the
     public enum DossierOwner{
@@ -29,11 +29,11 @@ namespace Gsds.Constants.Dossier{
      }
 
     //  Irangamimerere
-    public enum MaritalStatus{
-        MARRIED,
-        DEVORCED,
-        NOT_MARRIED,
-        WIDOW,
-        WIDOWER
-    }
+    //public enum MaritalStatus{
+    //    MARRIED,
+    //    DEVORCED,
+    //    NOT_MARRIED,
+    //    WIDOW,
+    //    WIDOWER
+    //}
 }

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using Gsds.Models.Dossier;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GsdsV2.Models.HelperModels
 {
@@ -13,5 +14,10 @@ namespace GsdsV2.Models.HelperModels
 
         [Column("DESCRIPTION")]
         public string Description { get; set; }
+
+        // NAVIGATION PROPERTIES
+        public List<Complainer> Complainers { get; set; }
+        public List<Accused> accuseds { get; set; }
+
     }
 }

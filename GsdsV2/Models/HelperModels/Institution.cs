@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using GsdsV2.Models.Dossier;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GsdsV2.Models.HelperModels
 {
@@ -25,5 +26,8 @@ namespace GsdsV2.Models.HelperModels
 
         [Column("EMAIL")]
         public string Email { get; set; }
+
+        // Navigation properties
+        public List<Complaint> Complaints { get; set; }
     }
 }

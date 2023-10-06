@@ -15,7 +15,7 @@ namespace GsdsV2.DTO.Dossier
 
         public string? LevelTo { get; set; }
 
-        public string? InstitutionId { get; set; }
+        public Double? InstitutionId { get; set; }
 
         public int DueDate { get; set; }
         //public string? Responsible { get; set; }

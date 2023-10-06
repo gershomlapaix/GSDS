@@ -18,6 +18,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\202328151154Assignment%282%29.doc" />
+    <None Include="wwwroot\202328151154Assignment.doc" />
+    <None Include="wwwroot\Gershom_Reflective Thinking_2023-09-19.docx" />
+    <None Include="wwwroot\GSDS-EDMS progress.pptx" />
+    <None Include="wwwroot\User Manual Billet de sortie Module.pdf" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="JWT" Version="10.1.0" />
     <PackageReference Include="MailKit" Version="4.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Certificate" Version="7.0.3" />

@@ -30,7 +30,7 @@ namespace GsdsV2.Controllers.Dossier.HelperControllers
         }
 
         // get the complaints corresponding to a certain role
-        public static async Task<IResult> GetRoleComplaints(string roleId, GsdsDb db)
+        public static async Task<IResult> GetComplaintsByRole(string roleId, GsdsDb db)
         {
             var complaints = await db.ManagerRoles.Where(r => r.Id == roleId).Include(_ => _.Complaints).ToListAsync();
             //.Include(_ => _.Complaints).ToListAsync();

@@ -26,6 +26,15 @@ namespace GsdsV2.Models.HelperModels
         [Column("FILENAME")]
         public string? FileName { get; set; }
 
+        [Column("CONTENT_TYPE")]
+        public string? FileType { get; set; }
+
+        [Column("EXTENSION")]
+        public string? Extension { get; set; }
+
+        [Column("CREATED_AT")]
+        public DateTime? CreatedAt { get; set; } = DateTime.Now;
+
         //[Column("DESCRIPTION")]
         //public string? Description { get; set; }
 

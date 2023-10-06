@@ -56,20 +56,15 @@ namespace Gsds.Models.Dossier{
         // LOCATION
         [Column("PROVINCE_ID")]
         public string? ProvinceId { get; set; }
-        public Province? Province { get; set; }
-
 
         [Column("DISTRICT_ID")]
         public string? DistrictId { get; set; }
-        public District? District { get; set; }
 
         [Column("SECTOR_ID")]
         public string? SectorId { get; set; }
-        public Sector? Sector { get; set;}
 
         [Column("CELL_ID")]
         public string? CellId { get; set; }
-        public Cell? Cell { get; set; }
 
         [Column("IDPLANTIFF")]
         public string? complainerId { get; set; }
@@ -77,6 +72,15 @@ namespace Gsds.Models.Dossier{
 
         // NAVIGATION PROPERTIES
         public Complaint? Complaint { get; set; }
+        public Complainer? Complainer { get; set; }
+        public Province? Province { get; set; }
+        public District? District { get; set; }
+        public Sector? Sector { get; set; }
+        public Cell? Cell { get; set; }
+        public Gender? Gender { get; set; }
+        public MaritalStatus? MaritalStatus { get; set; }
+        public IdentifierType? IdentifierType { get; set; }
+        public PersonType? PersonType { get; set; }
 
         public Accused() { }
         public Accused(string Names)

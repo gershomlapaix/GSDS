@@ -25,6 +25,7 @@ namespace GsdsV2.Controllers.Dossier
             complaintManagement.Username = user.FindFirstValue(ClaimTypes.NameIdentifier);
             complaintManagement.LevelFrom = user.FindFirstValue(ClaimTypes.Role);
             complaintManagement.LevelTo = cmpltMngDto.LevelTo;
+            complaintManagement.InstitutionId = cmpltMngDto.InstitutionId;
             complaintManagement.DueDate = DateTime.Now.AddDays(cmpltMngDto.DueDate);
             complaintManagement.InternalComment = cmpltMngDto.InternalComment;
             complaintManagement.ExternalComment = cmpltMngDto.ExternalComment;
@@ -85,6 +86,28 @@ namespace GsdsV2.Controllers.Dossier
                    cm.Cc
                 })
                 .ToArrayAsync());
+        }
+
+        // get forwards for a certain complaint
+        public static async Task<IResult> GetForwardedByComplaintCode(string complaintCode, GsdsDb db)
+        {
+            return TypedResults.Ok(
+                await db.ComplaintManagements
+                .Where(_ => _.ComplaintCode == complaintCode)
+                .Select(cm => new {
+                    cm.SeqNumber,
+                    cm.ComplaintCode,
+                    cm.Username,
+                    cm.LevelFrom,
+                    cm.LevelTo,
+                    cm.InstitutionId,
+                    cm.TransDate,
+                    cm.DueDate,
+                    cm.InternalComment,
+                    cm.ExternalComment,
+                    cm.Cc
+                })
+                .ToListAsync());
         }
     }
 }

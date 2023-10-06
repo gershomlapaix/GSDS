@@ -35,8 +35,8 @@ namespace GsdsV2.Models.Dossier
         [Column("REDIRECTED")]
         public decimal? Redirected { get; set; } = 0;
 
-        [Column("INSTITUTION")]
-        public string? InstitutionId { get; set; }
+        [Column("INSTITUTION_ID")]
+        public Double? InstitutionId { get; set; }
 
         [Column("DUE_DATE")]
         public DateTime DueDate { get; set; }

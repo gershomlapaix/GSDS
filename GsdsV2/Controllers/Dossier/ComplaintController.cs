@@ -81,6 +81,7 @@ namespace GsdsV2.Controllers.Dossier
                     c.Subject,
                     c.complaintDescription,
                     c.ComplaintOwner,
+                    c.TransferDate,
                     c.Accused.Names,
                     c.Complainer.TheNames,
                     c.Province.ProvinceName,

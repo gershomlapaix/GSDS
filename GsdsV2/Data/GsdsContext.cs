@@ -6,6 +6,7 @@ using GsdsV2.Models.HelperModels;
 using GsdsV2.Models.Dossier;
 using System.Diagnostics.Metrics;
 using Microsoft.Extensions.Hosting;
+using GsdsV2.Controllers.Dossier;
 
 namespace Gsds.Data
 {
@@ -21,7 +22,8 @@ namespace Gsds.Data
         public DbSet<Complaint> Complaints { get; set; }
         public DbSet<ComplaintManagement> ComplaintManagements { get; set; }
         public DbSet<ComplaintAdditionalData> ComplaintAdditionalData { get; set; }
-
+        public DbSet<ComplaintAdditionalInfoReply> ComplaintAdditionalInfoReplies { get; set; }
+        public DbSet<ComplaintClose> ComplaintClose { get; set; }
 
         // FROM HELPER MODELS
         public DbSet<Country> Countrys { get; set; }
@@ -112,6 +114,72 @@ namespace Gsds.Data
                 .HasOne<ManagerRoles>(cr => cr.ManagerRoles)
                 .WithMany(r => r.Roles)
                 .HasForeignKey(sc => sc.RoleId);
+
+            // ------- COMPLAINER
+            modelBuilder.Entity<Province>()
+                .HasMany(_ => _.Complainers)
+                .WithOne(c => c.Province)
+                .HasForeignKey(sc => sc.ProvinceId);
+
+            modelBuilder.Entity<District>()
+                .HasMany(_ => _.Complainers)
+                .WithOne(c => c.District)
+                .HasForeignKey(sc => sc.DistrictId);
+
+            modelBuilder.Entity<Sector>()
+                .HasMany(_ => _.Complainers)
+                .WithOne(c => c.Sector)
+                .HasForeignKey(sc => sc.SectorId);
+
+            modelBuilder.Entity<IdentifierType>()
+                .HasMany(_ => _.Complainers)
+                .WithOne(c => c.IdentifierType)
+                .HasForeignKey(sc => sc.IdType);
+
+            modelBuilder.Entity<PersonType>()
+                .HasMany(_ => _.Complainers)
+                .WithOne(c => c.PersonType)
+                .HasForeignKey(sc => sc.PeronTypeId);
+
+            modelBuilder.Entity<Gender>()
+                .HasMany(_ => _.Complainers)
+                .WithOne(c => c.Gender)
+                .HasForeignKey(sc => sc.GenderId);
+
+
+            // ACCUSED
+            modelBuilder.Entity<Province>()
+                .HasMany(_ => _.Accuseds)
+                .WithOne(c => c.Province)
+                .HasForeignKey(sc => sc.ProvinceId);
+
+            modelBuilder.Entity<District>()
+                .HasMany(_ => _.Accuseds)
+                .WithOne(c => c.District)
+                .HasForeignKey(sc => sc.DistrictId);
+
+            modelBuilder.Entity<Sector>()
+                .HasMany(_ => _.Accuseds)
+                .WithOne(c => c.Sector)
+                .HasForeignKey(sc => sc.SectorId);
+
+            modelBuilder.Entity<IdentifierType>()
+                .HasMany(_ => _.Accuseds)
+                .WithOne(c => c.IdentifierType)
+                .HasForeignKey(sc => sc.IdType);
+
+            modelBuilder.Entity<PersonType>()
+                .HasMany(_ => _.Accuseds)
+                .WithOne(c => c.PersonType)
+                .HasForeignKey(sc => sc.PeronTypeId);
+
+            modelBuilder.Entity<Gender>()
+                .HasMany(_ => _.Accuseds)
+                .WithOne(c => c.Gender)
+                .HasForeignKey(sc => sc.GenderId);
+
+            // Complaint close
+
         }
 
     }

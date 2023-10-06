@@ -8,7 +8,6 @@ namespace GsdsV2.Models.Dossier
     {
         [Key]
         [Column("REF_CODE")]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Double RefCode { get; set; } 
 
         [Column("COMPLAINT_CODE")]

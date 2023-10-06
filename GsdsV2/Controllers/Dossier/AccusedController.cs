@@ -41,7 +41,28 @@ namespace GsdsV2.Controllers.Dossier
         // Get all accuseds
         public static async Task<IResult> getAllAccuseds(GsdsDb db)
         {
-            return TypedResults.Ok(await db.Accuseds.ToArrayAsync());
+            return TypedResults.Ok(await db.Accuseds
+                 .Select(c =>
+                new {
+                    c.complaintCode,
+                    c.IdDetails,
+                    c.birthDate,
+                    c.IdNumber,
+                    c.Names,
+                    c.Gender.Name,
+                    c.RegistrationDate,
+                    c.Phone,
+                    c.Email,
+                    c.MaritalStatus.MaritalStatusName,
+                    c.IdentifierType.TypeName,
+                    c.PersonType.PersonTypeName,
+                    c.Province.ProvinceName,
+                    c.District.DistrictName,
+                    c.Sector.SectorName,
+                    c.Cell.CellName,
+
+                })
+                .ToArrayAsync());
 
         }
 
