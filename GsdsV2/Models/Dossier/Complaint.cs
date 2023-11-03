@@ -99,7 +99,6 @@ namespace GsdsV2.Models.Dossier
 
         //[JsonIgnore]
         public virtual Accused? Accused { get; set; }
-
         public Province? Province { get; set; }
         public District? District { get; set; }
         public Sector? Sector { get; set; }

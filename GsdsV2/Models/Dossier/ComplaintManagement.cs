@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using GsdsV2.Models.HelperModels;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GsdsV2.Models.Dossier
@@ -55,5 +56,8 @@ namespace GsdsV2.Models.Dossier
 
         [Column ("CC")]
         public string? Cc { get; set; }
+
+        // navigation properties
+        //public List<ManagerRoles> ManagerRoles { get; set; } 
     }
 }

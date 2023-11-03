@@ -115,7 +115,9 @@ namespace GsdsV2.Controllers.Dossier
         {
             return TypedResults.Ok(await db.Complaints
                  .Where(c => c.ComplaintCode == complaintCode)
-                 .Include(c => c.ComplaintAttachments)
+                 .Select(c => new {
+                     c.ComplaintAttachments
+                 })
                  .ToListAsync());
         }
 

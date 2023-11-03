@@ -178,7 +178,11 @@ namespace Gsds.Data
                 .WithOne(c => c.Gender)
                 .HasForeignKey(sc => sc.GenderId);
 
-            // Complaint close
+            // Complaint management
+            modelBuilder.Entity<ComplaintRoles>()
+                .HasOne<Complaint>(cr => cr.Complaint)
+                .WithMany(c => c.Roles)
+                .HasForeignKey(cr => cr.ComplaintCode);
 
         }
 

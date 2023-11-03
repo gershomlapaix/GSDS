@@ -28,6 +28,6 @@ namespace GsdsV2.Models.HelperModels
         public string Email { get; set; }
 
         // Navigation properties
-        public List<Complaint> Complaints { get; set; }
+        //public List<Complaint> Complaints { get; set; }
     }
 }

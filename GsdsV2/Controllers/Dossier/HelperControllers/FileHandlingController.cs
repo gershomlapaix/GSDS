@@ -24,8 +24,9 @@ namespace GsdsV2.Controllers.Dossier.HelperControllers
         }
 
 
+
         // upload the file
-        public static async Task<string> UploadFiles(IFormFileCollection files, string complaintCode, ClaimsPrincipal user, GsdsDb db)
+        public static async Task<string> UploadFiles(IFormFileCollection files, string complaintCode, ClaimsPrincipal user, IWebHostEnvironment hostEnvironment, GsdsDb db)
         {
            
             try
@@ -34,44 +35,29 @@ namespace GsdsV2.Controllers.Dossier.HelperControllers
                 foreach (var file in files)
                     {
                         string fileName = Path.GetFileName(file.FileName);
-                            path = Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, "wwwroot"));
-                            if (!Directory.Exists(path))
-                            {
-                                Directory.CreateDirectory(path);
-                            }
-                            using (var fileStream = new FileStream(Path.Combine(path, file.FileName), FileMode.Create))
-                            {
-                                await file.CopyToAsync(fileStream);
 
-                                var basePath = Path.Combine(Directory.GetCurrentDirectory() + "\\wwwroot\\");
+                    //var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
+                    var uploadsFolder = Path.Combine(hostEnvironment.ContentRootPath, "wwwroot");
+                    Directory.CreateDirectory(uploadsFolder); // Ensure the directory exists
 
-                                var attachment = new ComplaintAttachment();
-                                        attachment.ComplaintCode = complaintCode;
-                                        attachment.UploadedBy = user.FindFirstValue(ClaimTypes.NameIdentifier);
-                                        attachment.FilePath = Path.Combine(basePath, file.FileName);
-                                        attachment.FileName = fileName;
-                                        attachment.Extension = Path.GetExtension(fileName);
-                                        attachment.FileType = file.ContentType;
+                    var uniqueFileName = Guid.NewGuid().ToString() + "_" + file.FileName;
+                    var filePath = Path.Combine(uploadsFolder, uniqueFileName);
 
-                                db.Attachments.Add(attachment);
-                                await db.SaveChangesAsync();
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await file.CopyToAsync(stream);
 
+                        var attachment = new ComplaintAttachment();
+                        attachment.ComplaintCode = complaintCode;
+                        attachment.UploadedBy = user.FindFirstValue(ClaimTypes.NameIdentifier);
+                        attachment.FilePath = Path.Combine(filePath, file.FileName);
+                        attachment.FileName = uniqueFileName;
+                        attachment.Extension = Path.GetExtension(fileName);
+                        attachment.FileType = file.ContentType;
+
+                        db.Attachments.Add(attachment);
+                        await db.SaveChangesAsync();
                     }
-
-                    //using (MemoryStream ms = new MemoryStream())
-                    //{
-                    //    await file.CopyToAsync(ms);
-
-                    //    var attachment = new ComplaintAttachment();
-                    //    attachment.ComplaintCode = complaintCode;
-                    //    attachment.UploadedBy = user.FindFirstValue(ClaimTypes.NameIdentifier);
-                    //    attachment.FilePath = filePath;
-                    //    attachment.FileName = fileName;
-
-                    //    db.Attachments.Add(attachment);
-                    //    await db.SaveChangesAsync();
-                    //}
-
                 }
                     return "Done";
             }
@@ -112,7 +98,7 @@ namespace GsdsV2.Controllers.Dossier.HelperControllers
             using var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
             await stream.CopyToAsync(context.Response.Body);
 
-            return "Done";
+            return $"http://41.74.167.30/api/files/download/{fileName}";
         }
 
         string GetContentType(string fileName)

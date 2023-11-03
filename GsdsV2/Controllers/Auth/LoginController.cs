@@ -21,7 +21,8 @@ namespace Gsds.Controllers.Auth
             if (!string.IsNullOrEmpty(userLogin.Username) && !string.IsNullOrEmpty(userLogin.Password)) {
 
                 var foundUser = await db.Users.Where(u => u.Username== userLogin.Username).ToListAsync();
-                if (!foundUser.Any())
+                //if (!foundUser.Any())
+                if (foundUser.Count() == 0)
                 {
                     return TypedResults.NotFound("User not found");
                 }
