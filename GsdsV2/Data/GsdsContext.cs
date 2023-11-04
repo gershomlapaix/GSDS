@@ -7,6 +7,7 @@ using GsdsV2.Models.Dossier;
 using System.Diagnostics.Metrics;
 using Microsoft.Extensions.Hosting;
 using GsdsV2.Controllers.Dossier;
+using GsdsV2.Models.Users;
 
 namespace Gsds.Data
 {
@@ -24,6 +25,11 @@ namespace Gsds.Data
         public DbSet<ComplaintAdditionalData> ComplaintAdditionalData { get; set; }
         public DbSet<ComplaintAdditionalInfoReply> ComplaintAdditionalInfoReplies { get; set; }
         public DbSet<ComplaintClose> ComplaintClose { get; set; }
+
+        // FOR USERS
+        public DbSet<UserSection> UserSections { get; set; }
+        public DbSet<UserGroup> UserGroups { get; set; }
+        public DbSet<Department> Departments { get; set; }
 
         // FROM HELPER MODELS
         public DbSet<Country> Countrys { get; set; }
@@ -49,6 +55,16 @@ namespace Gsds.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
+            // users
+            modelBuilder.Entity<User>()
+            .HasOne(_ => _.TheGroup)
+            .WithMany(a => a.Users)
+            .HasForeignKey(p => p.GroupId);
+
+            modelBuilder.Entity<User>()
+           .HasOne(_ => _.Department)
+           .WithMany(d => d.Users);
 
             // Complaint
             modelBuilder.Entity<Accused>()

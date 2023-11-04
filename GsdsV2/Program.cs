@@ -26,6 +26,7 @@ using GsdsV2.Controllers;
 using Microsoft.Extensions.FileProviders;
 using System.Text.Json;
 using Microsoft.Extensions.Hosting;
+using GsdsV2.Controllers.UserRelated;
 
 public class Program
 {
@@ -157,8 +158,14 @@ public class Program
         }).WithTags("Test");
 
         appRoutes.MapPost("/auth/signup", UserController.UserRegister).WithTags("User");
+        appRoutes.MapPost("/auth/signup/admin",
+            [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00001,00043,00049,00012")]
+            (UserRegisterDtoAdmin dto, GsdsDb db) => UserController.UserRegisterByAdmin(dto, db)).WithTags("User");
 
         appRoutes.MapPost("/auth/login", (UserLogin user, GsdsDb db) => LoginController.Login(builder, user, db)).WithTags("Auth");
+
+        // --------- Users
+        appRoutes.MapGet("/users/all", (GsdsDb db) => UserController.GetAllUsers(db)).WithTags("UserController");
 
         // -------- For Users actions
         appRoutes.MapPost("/department/complaints",
@@ -168,6 +175,14 @@ public class Program
         appRoutes.MapGet("/users/loggedin",
                [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00001,00043,00049,00012")]
         (ClaimsPrincipal user, GsdsDb db) => UserController.getLoggedInUser(user, db)).WithTags("UserActions");
+
+        //   ----------- USER GROUPS
+        appRoutes.MapGet("/users/groups", (GsdsDb db) => GroupsController.GetAllGroups(db)).WithTags("UserGroups");
+        appRoutes.MapGet("/users/groups/{groupId}", (string groupId, GsdsDb db) => GroupsController.GetgroupById(groupId, db)).WithTags("UserGroups");
+
+        // ----------- USER DEPARTMENTS
+        appRoutes.MapGet("/users/departments", (GsdsDb db) => DepartmentController.GetAllDepartments(db)).WithTags("UserDepartments");
+        appRoutes.MapGet("/users/departments/{departmentId}", (string departmentId, GsdsDb db) => DepartmentController.GetDepartmentById(departmentId, db)).WithTags("UserDepartments");
 
         // ------------- COMPLAINER ROUTES
         appRoutes.MapGet("/complainer",

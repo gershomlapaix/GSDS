@@ -1,3 +1,6 @@
+using GsdsV2.Models.Users;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace GsdsAuth.Models{
     public class User{
         
@@ -12,9 +15,15 @@ namespace GsdsAuth.Models{
 
         // Default properties
         public int status { get;set;}
+
+        
         public int GroupId { get;set;}
-        public int DEPARTMENT_ID { get;set;}
-        public string EMPID { get;set;}
+        public UserGroup TheGroup { get;set;}      // in case one section considered
+
+        [Column("DEPARTMENT_ID")]
+        public string? DepartmentId { get;set;}
+        public Department? Department { get;set;}       // in case he/she works in one department
+        public string? EMPID { get;set;}
 
     }
 }
