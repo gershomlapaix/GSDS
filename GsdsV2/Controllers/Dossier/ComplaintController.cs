@@ -35,7 +35,7 @@ namespace GsdsV2.Controllers.Dossier
                 StartOffice = "Reception",
                 ComplaintCategoryId = complaint.ComplaintCategoryId,
                 PriorityId = "00003",
-                RoleId = complaint.RoleId
+                RoleId = "00001"
             };
 
             var newComplaintRole = new ComplaintRoles();
@@ -81,6 +81,8 @@ namespace GsdsV2.Controllers.Dossier
                     c.Subject,
                     c.complaintDescription,
                     c.ComplaintOwner,
+                    c.ComplaintStatus.Status,
+                    c.ComplaintStatus.StatusKiny,
                     c.TransferDate,
                     c.Accused.Names,
                     c.Complainer.TheNames,
@@ -92,7 +94,7 @@ namespace GsdsV2.Controllers.Dossier
                 .ToListAsync());
         }
 
-        //Get One complaints
+        //Get One complaint
         public static async Task<IResult> getOneComplaint(string complaintCode, GsdsDb db)
         {
             return TypedResults.Ok(await db.Complaints
@@ -106,6 +108,24 @@ namespace GsdsV2.Controllers.Dossier
         {
             return TypedResults.Ok(await db.Complaints
                 .Where(c => c.ComplaintCategoryId == cmpltCategory)
+                .Select(c => new
+                {
+                    c.ComplaintCode,
+                    c.ComplainerId,
+                    c.AccusedIdNumber,
+                    c.Subject,
+                    c.complaintDescription,
+                    c.ComplaintOwner,
+                    c.ComplaintStatus.Status,
+                    c.ComplaintStatus.StatusKiny,
+                    c.TransferDate,
+                    c.Accused.Names,
+                    c.Complainer.TheNames,
+                    c.Province.ProvinceName,
+                    c.District.DistrictName,
+                    c.Sector.SectorName,
+                    c.Cell.CellName
+                })
                 .ToListAsync());
         }
 
@@ -127,10 +147,32 @@ namespace GsdsV2.Controllers.Dossier
             var complainer = await db.Complainers.Where(_ => _.Username == user.FindFirstValue(ClaimTypes.NameIdentifier)).ToListAsync();
             if(complainer.Count() > 0)
             {
+                //return TypedResults.Ok(await db.Complaints
+                // .Where(c => c.ComplainerId == complainer[0].Id)
+                // .Include(a => a.Accused)
+                // .ToListAsync());
+
                 return TypedResults.Ok(await db.Complaints
                  .Where(c => c.ComplainerId == complainer[0].Id)
-                 .Include(a => a.Accused)
-                 .ToListAsync());
+                 .Select(c => new
+                 {
+                     c.ComplaintCode,
+                     c.ComplainerId,
+                     c.AccusedIdNumber,
+                     c.Subject,
+                     c.complaintDescription,
+                     c.ComplaintOwner,
+                     c.ComplaintStatus.Status,
+                     c.ComplaintStatus.StatusKiny,
+                     c.TransferDate,
+                     c.Accused.Names,
+                     c.Complainer.TheNames,
+                     c.Province.ProvinceName,
+                     c.District.DistrictName,
+                     c.Sector.SectorName,
+                     c.Cell.CellName
+                 })
+                .ToListAsync());
             }
             return TypedResults.NotFound("Either the user has not fully registered or is not found.");
         }

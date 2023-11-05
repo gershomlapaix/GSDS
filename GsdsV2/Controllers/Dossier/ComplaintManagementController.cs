@@ -42,6 +42,15 @@ namespace GsdsV2.Controllers.Dossier
                 db.ComplaintRoles.Add(newComplaintRole);
                 await db.SaveChangesAsync();
 
+                // update the status
+                var complaint = await db.Complaints.Where(c => c.ComplaintCode == complaintCode).FirstOrDefaultAsync();
+
+                if (complaint is null) return TypedResults.NotFound();
+
+                complaint.StatusCode = "00002";
+
+                await db.SaveChangesAsync();
+
                 // sending emails
 
                 TimeSpan start = new TimeSpan(24, 0, 0); //10 o'clock
@@ -63,7 +72,7 @@ namespace GsdsV2.Controllers.Dossier
 
             else
             {
-                return TypedResults.BadRequest("There have been a problem.");
+                return TypedResults.BadRequest("Forwarding a complaint failed");
             }
         }
 

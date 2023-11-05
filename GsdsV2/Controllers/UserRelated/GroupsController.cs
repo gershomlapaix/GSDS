@@ -17,8 +17,7 @@ namespace GsdsV2.Controllers.UserRelated
         //Get One department
         public static async Task<IResult> GetgroupById(string groupId, GsdsDb db)
         {
-            return await db.UserGroups.Where(c => c.GroupID
-            == int.Parse(groupId)).ToListAsync()
+            return await db.UserGroups.Where(c => c.GroupID == int.Parse(groupId)).ToListAsync()
                is List<UserGroup> theGroup
            ? TypedResults.Ok(theGroup[0])
            : TypedResults.NotFound();

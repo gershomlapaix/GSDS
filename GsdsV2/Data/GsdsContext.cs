@@ -25,6 +25,7 @@ namespace Gsds.Data
         public DbSet<ComplaintAdditionalData> ComplaintAdditionalData { get; set; }
         public DbSet<ComplaintAdditionalInfoReply> ComplaintAdditionalInfoReplies { get; set; }
         public DbSet<ComplaintClose> ComplaintClose { get; set; }
+        public DbSet<ComplaintStatus> ComplaintStatuses { get; set; }
 
         // FOR USERS
         public DbSet<UserSection> UserSections { get; set; }
@@ -63,6 +64,11 @@ namespace Gsds.Data
             .HasForeignKey(p => p.GroupId);
 
             modelBuilder.Entity<User>()
+            .HasOne(_ => _.ManagerRoles)
+            .WithMany(a => a.Users)
+            .HasForeignKey(p => p.ID_ROLE);
+
+            modelBuilder.Entity<User>()
            .HasOne(_ => _.Department)
            .WithMany(d => d.Users);
 
@@ -71,6 +77,12 @@ namespace Gsds.Data
             .HasOne(_ => _.Complaint)
             .WithOne(a => a.Accused)
             .HasForeignKey<Accused>(p => p.complaintCode);
+
+            // Complaint and status
+            modelBuilder.Entity<Complaint>()
+           .HasOne(_ => _.ComplaintStatus)
+           .WithMany(c => c.Complaints)
+           .HasForeignKey(c => c.StatusCode);
 
             // complaint and files
             modelBuilder.Entity<Complaint>()

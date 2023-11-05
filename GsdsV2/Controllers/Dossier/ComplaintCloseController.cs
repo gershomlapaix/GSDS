@@ -19,7 +19,23 @@ namespace GsdsV2.Controllers.Dossier
             complaintCloseDto.ClosingReason = complaintCloseDto.ClosingReason;
 
             db.ComplaintClose.Add(complaintClose);
-            await db.SaveChangesAsync();
+            var res = await db.SaveChangesAsync();
+
+            if(res > 0)
+            {
+                var complaint = await db.Complaints.Where(c => c.ComplaintCode == complaintCloseDto.ComplaintCode).FirstOrDefaultAsync();
+
+                if (complaint is null) return TypedResults.NotFound();
+
+                complaint.StatusCode = "00003";
+              
+                await db.SaveChangesAsync();
+            }
+
+            else
+            {
+                return TypedResults.BadRequest("Closing the complaint failed.");
+            }
 
             return TypedResults.Created($"/complaint-close/{complaintClose.ComplaintCloseId}", complaintCloseDto);
 

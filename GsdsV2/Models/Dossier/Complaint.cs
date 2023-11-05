@@ -44,6 +44,7 @@ namespace GsdsV2.Models.Dossier
 
         [Column("STATUS_CODE")]
         public string? StatusCode { get; set; } = "00004";
+        public ComplaintStatus? ComplaintStatus { get; set; }
 
         [Column("ID_ROLE")]
         public string? RoleId { get; set; }

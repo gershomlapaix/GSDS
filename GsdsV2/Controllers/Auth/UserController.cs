@@ -22,7 +22,7 @@ namespace Gsds.Controllers.Auth{
                 // default properties
                 status = 1,
                 GroupId = 2,
-                ID_ROLE = "00049",
+                ID_ROLE = "00052",
                 DepartmentId = "1",
                 EMPID = "0"
             };
@@ -78,7 +78,13 @@ namespace Gsds.Controllers.Auth{
             var users = await db.Users
                 .Select(u =>
                 new {
-                    u.TheGroup.groupName,
+                    u.Username,
+                    u.FullName,
+                    u.ManagerRoles.RoleName,
+                    u.status,
+                    u.email,
+                    u.Phone,
+                   u.TheGroup.groupName,
                    u.Department.DepartmentName
                 })
                 .ToListAsync();
