@@ -33,14 +33,14 @@ namespace GsdsV2.Controllers.Dossier
                 SectorId = complaint.SectorId,
                 CellId = complaint.CellId,
                 StartOffice = "Reception",
-                ComplaintCategoryId = complaint.ComplaintCategoryId,
+                ComplaintCategoryId = "00001",
                 PriorityId = "00003",
                 RoleId = "00001"
             };
 
             var newComplaintRole = new ComplaintRoles();
             newComplaintRole.ComplaintCode = complaint.ComplaintCode;
-            newComplaintRole.RoleId = complaint.RoleId;
+            newComplaintRole.RoleId = "00001";
 
             db.Complaints.Add(newComplaint);
             if (await db.SaveChangesAsync() > 0)

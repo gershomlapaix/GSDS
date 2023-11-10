@@ -129,9 +129,10 @@ namespace Gsds.Data
             .WithOne(a => a.Cell)
             .HasForeignKey(p => p.CellId);
 
-            // ------------ For complaint roles
+            // ------------ For complaint and complainer roles
 
             modelBuilder.Entity<ComplaintRoles>().HasKey(cr => new { cr.ComplaintCode, cr.RoleId });
+            modelBuilder.Entity<ComplainerAssignedToRole>().HasKey(cr => new {  cr.ComplainerId, cr.RoleId });
 
             modelBuilder.Entity<ComplaintRoles>()
                 .HasOne<Complaint>(cr => cr.Complaint)
@@ -141,6 +142,16 @@ namespace Gsds.Data
             modelBuilder.Entity<ComplaintRoles>()
                 .HasOne<ManagerRoles>(cr => cr.ManagerRoles)
                 .WithMany(r => r.Roles)
+                .HasForeignKey(sc => sc.RoleId);
+
+            modelBuilder.Entity<ComplainerAssignedToRole>()
+                .HasOne<Complainer>(cr => cr.Complainer)
+                .WithMany(c => c.AssignedToRoles)
+                .HasForeignKey(cr => cr.ComplainerId);
+
+            modelBuilder.Entity<ComplainerAssignedToRole>()
+                .HasOne<ManagerRoles>(cr => cr.ManagerRoles)
+                .WithMany(r => r.AssignedToRoles)
                 .HasForeignKey(sc => sc.RoleId);
 
             // ------- COMPLAINER
@@ -211,6 +222,10 @@ namespace Gsds.Data
                 .HasOne<Complaint>(cr => cr.Complaint)
                 .WithMany(c => c.Roles)
                 .HasForeignKey(cr => cr.ComplaintCode);
+
+            modelBuilder.Entity<ComplaintManagement>()
+                .HasMany(_ => _.Institutions)
+                .WithMany(c => c.ComplaintsMngt);
 
         }
 

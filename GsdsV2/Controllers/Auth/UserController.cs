@@ -3,6 +3,7 @@ using Gsds.Data;
 using GsdsAuth.Models;
 using GsdsV2.DTO;
 using GsdsV2.Models.Users;
+using GsdsV2.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
@@ -35,7 +36,7 @@ namespace Gsds.Controllers.Auth{
             return TypedResults.Created($"/api/auth/{userDto.email}", userDto);
         }
 
-        public static async Task<IResult> UserRegisterByAdmin(UserRegisterDtoAdmin userDto, GsdsDb db)
+        public static async Task<IResult> UserRegisterByAdmin(UserRegisterDtoAdmin userDto, ClaimsPrincipal loggedInUser, IEmailService emailService, GsdsDb db)
         {
             var newUser = new User()
             {
@@ -55,7 +56,16 @@ namespace Gsds.Controllers.Auth{
             db.Users.Add(newUser);
             await db.SaveChangesAsync();
 
-            UserRegisterDtoAdmin user = new UserRegisterDtoAdmin(newUser);
+            var emailRequest = new EmailDto();
+
+            emailRequest.From = loggedInUser.FindFirstValue(ClaimTypes.Email);
+            emailRequest.To = userDto.email;
+            emailRequest.Subject = "Your credentials";
+            emailRequest.Body = $"<div> Dear {userDto.FullName}, <br> Here are your credentials to use in the system. <t> <br>" +
+                $" username: <b>{userDto.Username}</b> <br> password:<b> {userDto.Password}</b> " +
+                $"<br><br> Please keep them. <br><br> Thank you. </div>";
+
+            emailService.SendEmailAsync(emailRequest);
 
             return TypedResults.Created($"/api/auth/{userDto.email}", userDto);
         }

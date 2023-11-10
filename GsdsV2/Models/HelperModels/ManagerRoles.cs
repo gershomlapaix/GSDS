@@ -1,4 +1,5 @@
-﻿using GsdsAuth.Models;
+﻿using Gsds.Models.Dossier;
+using GsdsAuth.Models;
 using GsdsV2.Models.Dossier;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -21,6 +22,8 @@ namespace GsdsV2.Models.HelperModels
 
         // Navigation properties
         public List<Complaint>? Complaints { get; set; }
+        public List<Complainer>? Complainers { get; set; }
+        public List<ComplainerAssignedToRole>? AssignedToRoles { get; set; }
         public List<ComplaintRoles>? Roles { get; set; }
         public List<User>? Users { get; set; }
     }

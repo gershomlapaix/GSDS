@@ -59,5 +59,6 @@ namespace GsdsV2.Models.Dossier
 
         // navigation properties
         //public List<ManagerRoles> ManagerRoles { get; set; } 
+        public List<Institution>? Institutions { get; set; }
     }
 }

@@ -33,8 +33,13 @@ namespace GsdsV2.Controllers.Dossier.HelperControllers
         public static async Task<IResult> GetComplaintsByRole(string roleId, GsdsDb db)
         {
             var complaints = await db.ManagerRoles.Where(r => r.Id == roleId).Include(_ => _.Complaints).ToListAsync();
-            //.Include(_ => _.Complaints).ToListAsync();
             return TypedResults.Ok(complaints);
+        }
+
+        public static async Task<IResult> GetComplainersByRole(string roleId, GsdsDb db)
+        {
+            var complainers = await db.ManagerRoles.Where(r => r.Id == roleId).Include(_ => _.Complainers).ToListAsync();
+            return TypedResults.Ok(complainers);
         }
     }
 }

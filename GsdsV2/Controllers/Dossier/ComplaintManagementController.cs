@@ -1,4 +1,5 @@
 ﻿using Gsds.Data;
+using GsdsV2.Controllers.Dossier.HelperControllers;
 using GsdsV2.DTO;
 using GsdsV2.DTO.Dossier;
 using GsdsV2.Models.Dossier;
@@ -56,17 +57,19 @@ namespace GsdsV2.Controllers.Dossier
                 TimeSpan start = new TimeSpan(24, 0, 0); //10 o'clock
                 TimeSpan end = new TimeSpan(12, 0, 0); //12 o'clock
                 TimeSpan now = DateTime.Now.TimeOfDay;
-
-
                 var emailRequest = new EmailDto();
+
                 emailRequest.From = user.FindFirstValue(ClaimTypes.Email);
-                emailRequest.To = "department@gmail.com";
+                emailRequest.To = "admin@gmail.com";
                 emailRequest.Subject = "New Assignment";
-                emailRequest.Body = $"{((now > start) && (now < end) ? "Good morning" : "Good Afternoon")}, \n This is a new case assigned to your department. " +
-                    $"Work on it in a given time. In any case you encounter any issue, do not hesitate to ask. \n" +
+                emailRequest.Body = $"Hi, <br>" +
+                    $"This is a new case assigned to your department. " +
+                    $"Work on it in a given time. In any case you encounter any issue, do not hesitate to ask. <br>" +
                     $"Thank you.";
 
                 emailService.SendEmailAsync(emailRequest);
+
+
                 return TypedResults.Ok("Done");
             }
 

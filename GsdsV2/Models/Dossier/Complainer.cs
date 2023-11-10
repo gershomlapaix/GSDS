@@ -77,6 +77,9 @@ namespace Gsds.Models.Dossier
         [Column("FIRSTNME")]
         public string? FirstName { get; set; }
 
+        [Column("ASSIGNED_TO")]
+        public string? RoleIdAssignedTo { get; set;}
+
         // ADDITION FIELDS
         [Column("ZIPCODE")]
         public string? Zipcode { get; set; } = string.Empty;
@@ -109,5 +112,8 @@ namespace Gsds.Models.Dossier
         public MaritalStatus? MaritalStatus { get; set; }
         public IdentifierType? IdentifierType { get; set; }
         public PersonType? PersonType { get; set; }
+        public List<ManagerRoles>? ManagerRoles { get; set; }
+        public List<ComplainerAssignedToRole>? AssignedToRoles { get; set; }
+
     }
 }
