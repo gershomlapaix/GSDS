@@ -35,6 +35,9 @@ namespace GsdsV2.Controllers.Dossier.HelperControllers
             var complaints = await db.Institutions.Where(_ => _.Id == institutionId)
                 .Select(i => new 
                 { 
+                    i.Id,
+                    i.InstitutionName,
+                    i.Email,
                     i.Complaints
                 }).ToListAsync();
 

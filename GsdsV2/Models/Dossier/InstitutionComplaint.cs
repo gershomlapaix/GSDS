@@ -24,6 +24,12 @@ namespace GsdsV2.Models.Dossier
         [Column("FROM_EMAIL")]
         public string? FromEmail { get; set; }
 
+        [Column("Subject")]
+        public string? Subject { get; set; }
+
+        [Column("Description")]
+        public string? Description { get; set; }
+
         // Navigation properties
         public Complaint? Complaint { get; set; }
         public Institution? Institution { get; set; }

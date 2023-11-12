@@ -27,6 +27,7 @@ using Microsoft.Extensions.FileProviders;
 using System.Text.Json;
 using Microsoft.Extensions.Hosting;
 using GsdsV2.Controllers.UserRelated;
+using GsdsV2.DTO.HelperDtos;
 
 public class Program
 {
@@ -273,8 +274,8 @@ public class Program
 
         appRoutes.MapPost("/complaint-management/institution/{institutionId}/complaint/{complaintCode}/external",
             [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00001,00003,00004,00013,00016,00039,00043,00044,00051,00055,00056,00057,00058")]
-        (string institutionId, string complaintCode, ClaimsPrincipal user, IEmailService emailService, GsdsDb db) =>
-            ComplaintManagementController.ForwardToInsitution(institutionId, complaintCode, user, db)).WithTags("ComplaintManagement");
+        (string institutionId, string complaintCode, InstitutionComplDto dto, ClaimsPrincipal user, IEmailService emailService, GsdsDb db) =>
+            ComplaintManagementController.ForwardToInsitution(institutionId, complaintCode,dto, user, db)).WithTags("ComplaintManagement");
 
         appRoutes.MapGet("/complaint-management/forwarded",
            [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00001,00003,00004,00013,00016,00039,00043,00044,00051,00052,00055,00056,00057,00058")]
