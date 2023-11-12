@@ -7,7 +7,7 @@ namespace GsdsV2.Models.HelperModels
     public class Institution
     {
         [Column("INSTITUTION_ID")]
-        public Double Id { get; set; }
+        public double Id { get; set; }
 
         [Column("INSTITUTION_NAME")]
         public string InstitutionName { get; set; }

@@ -54,6 +54,7 @@ namespace Gsds.Data
 
         // many to many relational tables
         public DbSet<ComplaintRoles> ComplaintRoles { get; set; }
+        public DbSet<InstitutionComplaint> InstitutionComplaints { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

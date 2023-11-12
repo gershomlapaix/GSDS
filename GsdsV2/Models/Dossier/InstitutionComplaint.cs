@@ -18,6 +18,12 @@ namespace GsdsV2.Models.Dossier
         [Column("COMPLAINT_CODE")]
         public string? complaintCode { get; set; }
 
+        [Column("FORWARDED_BY")]
+        public string? ForwardedBy { get; set; }
+
+        [Column("FROM_EMAIL")]
+        public string? FromEmail { get; set; }
+
         // Navigation properties
         public Complaint? Complaint { get; set; }
         public Institution? Institution { get; set; }

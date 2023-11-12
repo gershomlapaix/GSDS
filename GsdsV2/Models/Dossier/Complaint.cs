@@ -82,7 +82,7 @@ namespace GsdsV2.Models.Dossier
         public string? StartOffice { get; set; }
 
         [Column("INSTITUTION_ID")]
-        public int? institutionId { get; set;} = 0;
+        public double? InstitutionId { get; set;} = 0;
 
 
         // NAVIGATION PROPERTIES

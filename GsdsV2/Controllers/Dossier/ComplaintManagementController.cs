@@ -79,6 +79,22 @@ namespace GsdsV2.Controllers.Dossier
             }
         }
 
+        // forward to an institution
+        public static async Task<IResult> ForwardToInsitution(string instId, string complaintCode, ClaimsPrincipal user, GsdsDb db)
+        {
+            //var institution = await db.Institutions.
+            var institutionCompl = new InstitutionComplaint();
+            institutionCompl.InstitutionId = (double.Parse(instId));
+            institutionCompl.complaintCode = complaintCode;
+            institutionCompl.ForwardedBy = user.FindFirstValue(ClaimTypes.GivenName);
+            institutionCompl.FromEmail = user.FindFirstValue(ClaimTypes.Email);
+
+            db.InstitutionComplaints.Add(institutionCompl);
+            await db.SaveChangesAsync();
+
+            return TypedResults.Created($"/todoitems/{institutionCompl.Id}", institutionCompl);
+        }
+
         // forwarded complaints
         public static async Task<IResult> GetAllForwarded(GsdsDb db)
         {

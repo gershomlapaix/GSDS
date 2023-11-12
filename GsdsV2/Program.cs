@@ -267,9 +267,14 @@ public class Program
 
         // -------------- FOR COMPLAINT MANAGEMENT
         appRoutes.MapPost("/complaint-management/{complaintCode}",
-            [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00001,00003,00004,00013,00016,00039,00043,00044,00051,00052,00055,00056,00057,00058")]
+            [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00001,00003,00004,00013,00016,00039,00043,00044,00051,00055,00056,00057,00058")]
         (string complaintCode, ComplaintManagementDto cmpltMngDto, ClaimsPrincipal user, IEmailService emailService, GsdsDb db) =>
             ComplaintManagementController.ForwardingComplaint(complaintCode, cmpltMngDto, user, emailService, db)).WithTags("ComplaintManagement");
+
+        appRoutes.MapPost("/complaint-management/institution/{institutionId}/complaint/{complaintCode}/external",
+            [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00001,00003,00004,00013,00016,00039,00043,00044,00051,00055,00056,00057,00058")]
+        (string institutionId, string complaintCode, ClaimsPrincipal user, IEmailService emailService, GsdsDb db) =>
+            ComplaintManagementController.ForwardToInsitution(institutionId, complaintCode, user, db)).WithTags("ComplaintManagement");
 
         appRoutes.MapGet("/complaint-management/forwarded",
            [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00001,00003,00004,00013,00016,00039,00043,00044,00051,00052,00055,00056,00057,00058")]

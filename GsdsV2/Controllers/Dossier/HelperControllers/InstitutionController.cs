@@ -36,7 +36,6 @@ namespace GsdsV2.Controllers.Dossier.HelperControllers
                 .Select(i => new 
                 { 
                     i.Complaints
-
                 }).ToListAsync();
 
             return TypedResults.Ok(complaints);
