@@ -29,6 +29,17 @@ namespace GsdsV2.Controllers.Dossier.HelperControllers
             }
         }
 
+        // GET all the members from a given role
+        public static async Task<IResult> GetRoleMembers(string roleId, GsdsDb db)
+        {
+            var complainers = await db.ManagerRoles.Where(r => r.Id == roleId).
+                Select(r => new
+                {
+                    r.Users
+                }).ToListAsync();
+            return TypedResults.Ok(complainers);
+        }
+
         // get the complaints corresponding to a certain role
         public static async Task<IResult> GetComplaintsByRole(string roleId, GsdsDb db)
         {

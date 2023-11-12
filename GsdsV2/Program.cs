@@ -493,6 +493,11 @@ public class Program
         (string roleId, GsdsDb db) => ManagerRolesController.GetComplaintsByRole(roleId, db)
             ).WithTags("ManagerRoles");
 
+        appRoutes.MapGet("/roles/{roleId}/members",
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00001,00003,00004,00013,00016,00039,00043,00044,00051,00052,00055,00056,00057,00058")]
+        (string roleId, GsdsDb db) => ManagerRolesController.GetRoleMembers(roleId, db)
+            ).WithTags("ManagerRoles");
+
         appRoutes.MapGet("/roles/{roleId}/complainers",
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00001,00003,00004,00013,00016,00039,00043,00044,00051,00052,00055,00056,00057,00058")]
         (string roleId, GsdsDb db) => ManagerRolesController.GetComplainersByRole(roleId, db)
