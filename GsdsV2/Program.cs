@@ -251,6 +251,13 @@ public class Program
             [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00001,00003,00004,00013,00016,00039,00043,00044,00051,00052,00055,00056,00057,00058")]
         (ComplaintDto complaint, ClaimsPrincipal user, IEmailService emailService, GsdsDb db) => ComplaintController.createComplaint(complaint, user, emailService, db)).WithTags("Complaint");
 
+        // ------------ COMPLAINT MEMO
+        appRoutes.MapPost("/complaint-memo/{complaintCode}", [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00001,00003,00004,00013,00016,00039,00043,00044,00051,00055,00056,00057,00058")]
+        (string complaintCode, ComplaintMemoDto dto, ClaimsPrincipal user, GsdsDb db) => ComplaintMemoController.AddComplaintMemo(complaintCode,dto, user, db)).WithTags("Complaint-memo");
+
+        appRoutes.MapGet("/complaint-memo/all/{complaintCode}", [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00001,00003,00004,00013,00016,00039,00043,00044,00051,00055,00056,00057,00058")]
+        (string complaintCode, GsdsDb db) => ComplaintMemoController.GetAllComplaintMemos(complaintCode, db)).WithTags("Complaint-memo");
+
         // -------------- COMPLAINT STATUS
         appRoutes.MapGet("/complaint-status",
         ComplaintStatusController.GetAll).WithTags("ComplaintStatus");

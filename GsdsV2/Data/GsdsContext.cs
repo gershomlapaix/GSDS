@@ -26,6 +26,7 @@ namespace Gsds.Data
         public DbSet<ComplaintAdditionalInfoReply> ComplaintAdditionalInfoReplies { get; set; }
         public DbSet<ComplaintClose> ComplaintClose { get; set; }
         public DbSet<ComplaintStatus> ComplaintStatuses { get; set; }
+        public DbSet<ComplaintMemo> ComplaintMemos { get; set; }
 
         // FOR USERS
         public DbSet<UserSection> UserSections { get; set; }
@@ -77,6 +78,12 @@ namespace Gsds.Data
             .HasOne(_ => _.Complaint)
             .WithOne(a => a.Accused)
             .HasForeignKey<Accused>(p => p.complaintCode);
+
+            // Complaint and memo
+            modelBuilder.Entity<ComplaintMemo>()
+                .HasOne(c => c.Complaint)
+                .WithMany(cm => cm.ComplaintMemo)
+                .HasForeignKey(cm => cm.ComplaintCode);
 
             // Complaint and status
             modelBuilder.Entity<Complaint>()

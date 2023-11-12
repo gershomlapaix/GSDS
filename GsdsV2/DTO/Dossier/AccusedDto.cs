@@ -28,8 +28,8 @@
 
         public string Phone { get; set; }
 
-
         public string PoBox { get; set; }
+
         public string complainerId { get; set; }
     }
 }
