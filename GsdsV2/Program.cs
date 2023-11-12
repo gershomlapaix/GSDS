@@ -521,6 +521,12 @@ public class Program
         (Double institutionId, GsdsDb db) => InstitutionController.GetInstitutionById(institutionId, db)
             ).WithTags("Institution");
 
+        appRoutes.MapGet("/institution/{institutionId}/complaints",
+        InstitutionController.GetAssignedComplaints).WithTags("Institution");
+
+
+        // -------------- EMAIL
+
         appRoutes.MapPost("/email", (EmailDto request, IEmailService emailService) =>
         {
             EmailController.sendEmail(request, emailService);

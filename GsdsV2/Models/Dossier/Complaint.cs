@@ -81,6 +81,9 @@ namespace GsdsV2.Models.Dossier
         [Column("StatLocation")]
         public string? StartOffice { get; set; }
 
+        [Column("INSTITUTION_ID")]
+        public int? institutionId { get; set;} = 0;
+
 
         // NAVIGATION PROPERTIES
         [Column("ID_CATEGORY")]
@@ -109,5 +112,8 @@ namespace GsdsV2.Models.Dossier
         public List<ManagerRoles>? ManagerRoles { get; set; }
         public List<ComplaintRoles> Roles { get; set; }
         public List<ComplaintMemo>? ComplaintMemo { get; set;}
+
+        public List<Institution>? Institutions { get; set; }
+        public List<InstitutionComplaint>? InstitutionCompls { get; set; }
     }
 }

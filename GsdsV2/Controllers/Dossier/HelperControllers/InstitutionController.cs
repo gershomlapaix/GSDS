@@ -28,5 +28,18 @@ namespace GsdsV2.Controllers.Dossier.HelperControllers
                 return TypedResults.NotFound(" Institution Not found");
             }
         }
+
+        // Get all the complaints assigned to an institution
+        public static async Task<IResult> GetAssignedComplaints(float institutionId, GsdsDb db)
+        {
+            var complaints = await db.Institutions.Where(_ => _.Id == institutionId)
+                .Select(i => new 
+                { 
+                    i.Complaints
+
+                }).ToListAsync();
+
+            return TypedResults.Ok(complaints);
+        }
     }
 }

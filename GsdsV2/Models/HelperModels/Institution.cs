@@ -19,15 +19,16 @@ namespace GsdsV2.Models.HelperModels
         public DateTime TransDate { get; set; }
 
         [Column("USERNAME")]
-        public string Username { get; set; }
+        public string? Username { get; set; }
 
         [Column("PASSWORD")]
-        public string Password { get; set; }
+        public string? Password { get; set; }
 
         [Column("EMAIL")]
-        public string Email { get; set; }
+        public string? Email { get; set; }
 
         // Navigation properties
-        public List<ComplaintManagement>? ComplaintsMngt { get; set; }
+        public List<Complaint>? Complaints { get; set; }
+        public List<InstitutionComplaint>? InstitutionsCompls { get; set; }
     }
 }
