@@ -1,6 +1,4 @@
 ﻿using Gsds.Data;
-using Gsds.Models.Dossier;
-using GsdsAuth.Models;
 using GsdsV2.DTO;
 using GsdsV2.DTO.Dossier;
 using GsdsV2.Models.Dossier;

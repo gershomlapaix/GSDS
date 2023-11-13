@@ -26,7 +26,15 @@
 
         public string Phone { get; set; }
 
-
         public string PoBox { get; set; }
+
+        // if deputy's around
+        public decimal IsDeputy { get; set; }
+
+        public string DeputyNames { get; set; }
+
+        public string DeputyPhone { get; set; }
+
+        public string DeputyEmail { get; set; }
     }
 }

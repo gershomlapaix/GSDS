@@ -97,7 +97,7 @@ namespace Gsds.Models.Dossier
         public string? DeputyEmail { get; set; } = string.Empty;
 
         [Column("DEPUTYYESNO")]
-        public decimal? DeputyYesNo { get; set; } = decimal.Zero;
+        public decimal? IsDeputy { get; set; } = decimal.Zero;
 
         [Column("NAMES")]
         public string? TheNames { get; set; }

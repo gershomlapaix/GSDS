@@ -20,7 +20,7 @@ namespace Gsds.Controllers.Auth
         public static async Task<IResult> Login(WebApplicationBuilder builder, UserLogin userLogin, GsdsDb db){
             if (!string.IsNullOrEmpty(userLogin.Username) && !string.IsNullOrEmpty(userLogin.Password)) {
 
-                var foundUser = await db.Users.Where(u => u.Username== userLogin.Username).ToListAsync();
+                var foundUser = await db.Users.Where(u => u.Username== userLogin.Username || u.email == userLogin.Username).ToListAsync();
                 //if (!foundUser.Any())
                 if (foundUser.Count() == 0)
                 {

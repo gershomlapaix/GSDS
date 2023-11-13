@@ -31,7 +31,12 @@ namespace Gsds.Controllers.Dossier
                 Username = user.FindFirst(ClaimTypes.NameIdentifier).Value,
                 FirstName = user.FindFirst(ClaimTypes.GivenName).Value.Split(' ')[0],
                 LastName = user.FindFirst(ClaimTypes.GivenName).Value.Split(' ')[1],
-                RegistrationDate = DateTime.Now
+                RegistrationDate = DateTime.Now,
+                IsDeputy = complainerDto.IsDeputy,
+                DeputyEmail = complainerDto.DeputyEmail,
+                DeputyNames = complainerDto.DeputyNames,
+                DeputyPhone = complainerDto.DeputyPhone
+                
             };
 
             db.Complainers.Add(newComplainer);
@@ -58,10 +63,6 @@ namespace Gsds.Controllers.Dossier
                     c.Email,
                     c.Username,
                     c.Address,
-                    c.DeputyYesNo,
-                    c.DeputyPhone,
-                    c.DeputyEmail,
-                    c.DeputyNames,
                     c.MaritalStatus.MaritalStatusName,
                     c.IdentifierType.TypeName,
                     c.PersonType.PersonTypeName,
@@ -69,6 +70,11 @@ namespace Gsds.Controllers.Dossier
                     c.District.DistrictName,
                     c.Sector.SectorName,
                     c.Cell.CellName,
+                    // FOR DEPUTY
+                    c.IsDeputy,
+                    c.DeputyPhone,
+                    c.DeputyEmail,
+                    c.DeputyNames,
 
                 })
                 .ToListAsync();
