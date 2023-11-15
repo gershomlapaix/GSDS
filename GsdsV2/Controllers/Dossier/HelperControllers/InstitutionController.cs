@@ -2,6 +2,7 @@
 using GsdsV2.Models.HelperModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace GsdsV2.Controllers.Dossier.HelperControllers
 {
@@ -30,9 +31,9 @@ namespace GsdsV2.Controllers.Dossier.HelperControllers
         }
 
         // Get all the complaints assigned to an institution
-        public static async Task<IResult> GetAssignedComplaints(float institutionId, GsdsDb db)
+        public static async Task<IResult> GetAssignedComplaints(string institutionId, ClaimsPrincipal user, GsdsDb db)
         {
-            var complaints = await db.Institutions.Where(_ => _.Id == institutionId)
+            var complaints = await db.Institutions.Where(_ => _.Id == float.Parse(institutionId) && _.RoleId == user.FindFirstValue(ClaimTypes.Role))
                 .Select(i => new 
                 { 
                     i.Id,

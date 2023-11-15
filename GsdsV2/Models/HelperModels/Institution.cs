@@ -12,6 +12,9 @@ namespace GsdsV2.Models.HelperModels
         [Column("INSTITUTION_NAME")]
         public string InstitutionName { get; set; }
 
+        [Column("ID_ROLE")]
+        public string? RoleId { get; set;}
+
         [Column("DESCRIPTION")]
         public string? Description { get; set; }
 

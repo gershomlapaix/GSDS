@@ -67,7 +67,41 @@ namespace Gsds.Controllers.Auth{
 
             emailService.SendEmailAsync(emailRequest);
 
-            return TypedResults.Created($"/api/auth/{userDto.email}", userDto);
+            return TypedResults.Created($"/api/users/{userDto.email}", userDto);
+        }
+
+        public static async Task<IResult> RegisterInstitution(UserDto userDto, ClaimsPrincipal loggedInUser, IEmailService emailService, GsdsDb db)
+        {
+            var newUser = new User()
+            {
+                Username = userDto.Username,
+                Password = System.Text.Encoding.UTF8.GetBytes(userDto.Password),
+                email = userDto.email,
+                FullName = userDto.FullName, // The name for institution
+                Phone = userDto.Phone,
+                // default properties
+                status = 1,
+                GroupId = 2,
+                ID_ROLE = "00111",
+                DepartmentId = "00111",
+                EMPID = "113"
+            };
+
+            db.Users.Add(newUser);
+            await db.SaveChangesAsync();
+
+            var emailRequest = new EmailDto();
+
+            emailRequest.From = loggedInUser.FindFirstValue(ClaimTypes.Email);
+            emailRequest.To = userDto.email;
+            emailRequest.Subject = "Your credentials";
+            emailRequest.Body = $"<div> Hello {userDto.FullName}, <br> Here are your credentials to use in the system. <t> <br>" +
+                $" username: <b>{userDto.Username}</b> <br> password:<b> {userDto.Password}</b> " +
+                $"<br><br> Please keep them. <br><br> Thank you. </div>";
+
+            emailService.SendEmailAsync(emailRequest);
+
+            return TypedResults.Created($"/api/users/{userDto.email}", userDto);
         }
 
         // get logged in user
@@ -81,6 +115,8 @@ namespace Gsds.Controllers.Auth{
 
             return TypedResults.Ok(newUser);
         }
+
+
 
         // get all complaints
         public static async Task<IResult> GetAllUsers(GsdsDb db)
