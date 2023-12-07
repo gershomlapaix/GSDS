@@ -55,6 +55,7 @@ namespace Gsds.Data
         // many to many relational tables
         public DbSet<ComplaintRoles> ComplaintRoles { get; set; }
         public DbSet<InstitutionComplaint> InstitutionComplaints { get; set; }
+        public DbSet<AttachmentDescription> AttachmentDescriptions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -97,6 +98,12 @@ namespace Gsds.Data
             .HasMany(_ => _.ComplaintAttachments)
             .WithOne(a => a.Complaint)
             .HasForeignKey(a => a.ComplaintCode);
+
+            // attachments and descriptions
+            modelBuilder.Entity<ComplaintAttachment>()
+            .HasOne(_ => _.AttachmentDescription)
+            .WithMany(a => a.ComplaintAttachments)
+            .HasForeignKey(a => a.DescriptionId);
 
             // complaint and additional data
             modelBuilder.Entity<Complaint>()

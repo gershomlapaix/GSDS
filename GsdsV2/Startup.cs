@@ -144,9 +144,9 @@ public class Startup{
         // ------------ COMPLAINT
         appRoutes.MapGet("/complaint",
              //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "43")]
-             (GsdsDb db) => ComplaintController.getAllComplaints(db));
+             (GsdsDb db) => ComplaintController.GetAllComplaints(db));
 
-        appRoutes.MapGet("/complaint/{complaintCode}", ComplaintController.getOneComplaint);
+        appRoutes.MapGet("/complaint/{complaintCode}", ComplaintController.GetOneComplaint);
 
         app.Run();
     }

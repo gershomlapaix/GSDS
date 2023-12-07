@@ -231,15 +231,18 @@ public class Program
         // ------------ COMPLAINT
         appRoutes.MapGet("/complaint",
         //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00001,00043, 00052,00012")]
-        (GsdsDb db) => ComplaintController.getAllComplaints(db)).WithTags("Complaint");
+        (GsdsDb db) => ComplaintController.GetAllComplaints(db)).WithTags("Complaint");
+
+        appRoutes.MapGet("/complaint/court-judgement-review",
+        (GsdsDb db) => ComplaintController.GetCJRComplaints(db)).WithTags("Complaint");
 
         appRoutes.MapGet("/complaint/{complaintCode}",
              [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00001,00003,00004,00013,00016,00039,00043,00044,00051,00052,00055,00056,00057,00058,00111")]
-        (string complaintCode, GsdsDb db) => ComplaintController.getOneComplaint(complaintCode, db)).WithTags("Complaint");
+        (string complaintCode, GsdsDb db) => ComplaintController.GetOneComplaint(complaintCode, db)).WithTags("Complaint");
 
         appRoutes.MapGet("/complaint/category/{cmpltCategory}",
              [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00001,00003,00004,00013,00016,00039,00043,00044,00051,00052,00055,00056,00057,00058,00111")]
-        (string cmpltCategory, GsdsDb db) => ComplaintController.getComplaintByCategory(cmpltCategory, db)).WithTags("Complaint");
+        (string cmpltCategory, GsdsDb db) => ComplaintController.GetComplaintByCategory(cmpltCategory, db)).WithTags("Complaint");
 
         appRoutes.MapGet("/complaint/files/{complaintCode}",
              [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00001,00003,00004,00013,00016,00039,00043,00044,00051,00052,00055,00056,00057,00058,00111")]
@@ -331,10 +334,10 @@ public class Program
           ComplaintCloseController.GetComplaintClose(complaintCode, db)).WithTags("ComplaintClose");
 
         // ------------- For files
-        appRoutes.MapPost("/file/upload/{complaintCode}",
+        appRoutes.MapPost("/file/upload/{complaintCode}/description/{descriptionId}",
           [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "00001,00003,00004,00013,00016,00039,00043,00044,00051,00052,00055,00056,00057,00058,00111")]
-        (IFormFileCollection files, string complaintCode, ClaimsPrincipal user, IWebHostEnvironment hostEnvironment, GsdsDb db) =>
-          FileHandlingController.UploadFiles(files, complaintCode, user, hostEnvironment, db)
+        (IFormFileCollection files, string complaintCode, string descriptionId, ClaimsPrincipal user, IWebHostEnvironment hostEnvironment, GsdsDb db) =>
+          FileHandlingController.UploadFiles(files, complaintCode, descriptionId, user, hostEnvironment, db)
         ).WithTags("File");
 
         appRoutes.MapGet("/files",
@@ -564,6 +567,11 @@ public class Program
         appRoutes.MapGet("/gender/{genderId}",
            (string genderId, GsdsDb db) => GenderController.getGenderById(genderId, db)
        ).WithTags("Gender");
+
+        // ----------- For file descriptions
+        appRoutes.MapGet("/file-descriptions",
+          (GsdsDb db) => AttachmentDescriptionController.GetAttachmentDescription(db)
+      ).WithTags("File-Description");
 
         // provide swagger ui
         app.UseSwaggerUI();

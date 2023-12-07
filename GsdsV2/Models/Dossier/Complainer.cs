@@ -77,8 +77,8 @@ namespace Gsds.Models.Dossier
         [Column("FIRSTNME")]
         public string? FirstName { get; set; }
 
-        [Column("ASSIGNED_TO")]
-        public string? RoleIdAssignedTo { get; set;}
+        //[Column("ASSIGNED_TO")]
+        //public string? RoleIdAssignedTo { get; set;}
 
         // ADDITION FIELDS
         [Column("ZIPCODE")]

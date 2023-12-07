@@ -98,10 +98,10 @@ namespace GsdsV2.Models.Dossier
         [Column("ACCUSED_ID_NUMBER")]
         public string? AccusedIdNumber { get; set; }
 
+        [Column("IS_COURT_JUDGEMENT_REVIEW")]
+        public bool? IsCourtJudgementReview { get; set; } = false;
+
         // Navigation properties
-
-
-        //[JsonIgnore]
         public virtual Accused? Accused { get; set; }
         public Province? Province { get; set; }
         public District? District { get; set; }

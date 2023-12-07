@@ -26,9 +26,8 @@ namespace GsdsV2.Controllers.Dossier.HelperControllers
 
 
         // upload the file
-        public static async Task<string> UploadFiles(IFormFileCollection files, string complaintCode, ClaimsPrincipal user, IWebHostEnvironment hostEnvironment, GsdsDb db)
+        public static async Task<string> UploadFiles(IFormFileCollection files, string complaintCode, string descriptionId, ClaimsPrincipal user, IWebHostEnvironment hostEnvironment, GsdsDb db)
         {
-           
             try
             {
                 string path = "";
@@ -54,6 +53,7 @@ namespace GsdsV2.Controllers.Dossier.HelperControllers
                         attachment.FileName = uniqueFileName;
                         attachment.Extension = Path.GetExtension(fileName);
                         attachment.FileType = file.ContentType;
+                        attachment.DescriptionId = descriptionId;
 
                         db.Attachments.Add(attachment);
                         await db.SaveChangesAsync();
@@ -72,7 +72,19 @@ namespace GsdsV2.Controllers.Dossier.HelperControllers
         // get files
         public static async Task<IResult> getFiles(GsdsDb db)
         {
-            return TypedResults.Ok(await db.Attachments.ToArrayAsync());
+            var allAttachments = await db.Attachments
+               .Select(a =>
+               new {
+                   a.Id,
+                   a.ComplaintCode,
+                   a.UploadedBy,
+                   a.FilePath,
+                   a.FileName,
+                   a.FileType,
+                   a.DescriptionId
+               }).ToListAsync();
+
+            return TypedResults.Ok(allAttachments);
         }
 
 

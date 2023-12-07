@@ -35,9 +35,10 @@ namespace GsdsV2.Models.HelperModels
         [Column("CREATED_AT")]
         public DateTime? CreatedAt { get; set; } = DateTime.Now;
 
-        //[Column("DESCRIPTION")]
-        //public string? Description { get; set; }
+        [Column("DESC_ID")]
+        public string? DescriptionId { get; set; }
 
         public Complaint? Complaint { get; set; }
+        public AttachmentDescription? AttachmentDescription { get; set; }
     }
 }

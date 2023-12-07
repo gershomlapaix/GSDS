@@ -24,6 +24,7 @@ namespace GsdsV2.Controllers.Dossier
                 Subject = complaint.Subject,
                 //Attachments = complaint.Attachments,
                 AccusedComment = complaint.AccusedComment,
+                IsCourtJudgementReview = complaint.IsCourtJudgementReview,
                 previousInstitutions = complaint.previousInstitutions,
                 ComplaintOwner = complaint.ComplaintOwner,
                 ProvinceId = complaint.ProvinceId,
@@ -68,7 +69,7 @@ namespace GsdsV2.Controllers.Dossier
 
 
         //Get all complaints
-        public static async Task<IResult> getAllComplaints(GsdsDb db)
+        public static async Task<IResult> GetAllComplaints(GsdsDb db)
         {
             return TypedResults.Ok(
                 await db.Complaints
@@ -92,8 +93,33 @@ namespace GsdsV2.Controllers.Dossier
                 .ToListAsync());
         }
 
+        public static async Task<IResult> GetCJRComplaints(GsdsDb db)
+        {
+            return TypedResults.Ok(
+                await db.Complaints
+                .Where(c => c.IsCourtJudgementReview == true)
+                .Select(c => new {
+                    c.ComplaintCode,
+                    c.ComplainerId,
+                    c.AccusedIdNumber,
+                    c.Subject,
+                    c.complaintDescription,
+                    c.ComplaintOwner,
+                    c.ComplaintStatus.Status,
+                    c.ComplaintStatus.StatusKiny,
+                    c.TransferDate,
+                    c.Accused.Names,
+                    c.Complainer.TheNames,
+                    c.Province.ProvinceName,
+                    c.District.DistrictName,
+                    c.Sector.SectorName,
+                    c.Cell.CellName
+                })
+                .ToListAsync());
+        }
+
         //Get One complaint
-        public static async Task<IResult> getOneComplaint(string complaintCode, GsdsDb db)
+        public static async Task<IResult> GetOneComplaint(string complaintCode, GsdsDb db)
         {
             return TypedResults.Ok(await db.Complaints
                 .Where(c => c.ComplaintCode == complaintCode)
@@ -102,7 +128,7 @@ namespace GsdsV2.Controllers.Dossier
         }
 
         //Get complaint by categoru
-        public static async Task<IResult> getComplaintByCategory(string cmpltCategory, GsdsDb db)
+        public static async Task<IResult> GetComplaintByCategory(string cmpltCategory, GsdsDb db)
         {
             return TypedResults.Ok(await db.Complaints
                 .Where(c => c.ComplaintCategoryId == cmpltCategory)
