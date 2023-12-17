@@ -6,13 +6,16 @@ using GsdsV2.Models.Users;
 using GsdsV2.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Text;
 
 namespace Gsds.Controllers.Auth{
     public class UserController: ControllerBase{
 
         // UserRegister method
-        public static async Task<IResult> UserRegister(UserDto userDto, GsdsDb db){
+        public static async Task<IResult> UserRegister(WebApplicationBuilder builder, UserDto userDto, GsdsDb db){
             var newUser = new User()
             {
                 Username = userDto.Username,
@@ -31,8 +34,28 @@ namespace Gsds.Controllers.Auth{
             db.Users.Add(newUser);
             await db.SaveChangesAsync();
 
-            userDto = new UserDto(newUser);
+            var claims = new[]{
+                            new Claim(ClaimTypes.NameIdentifier, userDto.Username),
+                            new Claim(ClaimTypes.Email, userDto.email),
+                            new Claim(ClaimTypes.GivenName, userDto.FullName),
+                            new Claim(ClaimTypes.Role, "00052")
+                        };
 
+            var token = new JwtSecurityToken(
+                        issuer: builder.Configuration["Jwt:Issuer"],
+                        audience: builder.Configuration["Jwt:Audience"],
+                        claims: claims,
+                        expires: DateTime.Now.AddMinutes(15),
+                        notBefore: DateTime.UtcNow,
+                        signingCredentials: new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:SecretKey"])),
+                        SecurityAlgorithms.HmacSha256)
+                        );
+
+            var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
+            return TypedResults.Ok(tokenString);
+
+
+            userDto = new UserDto(newUser);
             return TypedResults.Created($"/api/auth/{userDto.email}", userDto);
         }
 

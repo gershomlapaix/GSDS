@@ -158,7 +158,7 @@ public class Program
             return TypedResults.Ok(await db.Provinces.Include(p => p.Complaints).ToArrayAsync());
         }).WithTags("Test");
 
-        appRoutes.MapPost("/auth/signup", UserController.UserRegister).WithTags("User");
+        appRoutes.MapPost("/auth/signup", (UserDto user, GsdsDb db) => UserController.UserRegister(builder, user, db)).WithTags("User");
 
         appRoutes.MapPost("/auth/login", (UserLogin user, GsdsDb db) => LoginController.Login(builder, user, db)).WithTags("Auth");
 

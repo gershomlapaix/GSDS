@@ -81,7 +81,8 @@ namespace GsdsV2.Controllers.Dossier.HelperControllers
                    a.FilePath,
                    a.FileName,
                    a.FileType,
-                   a.DescriptionId
+                   a.DescriptionId,
+                   a.AttachmentDescription.Description
                }).ToListAsync();
 
             return TypedResults.Ok(allAttachments);
